@@ -1,0 +1,69 @@
+/* Shared chrome for the 02805 explorables (loaded after ../css/tokens.css).
+   Charts stay in the system sans per the data-viz spec. */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  padding: 14px 16px;
+}
+
+/* one control row above everything it scopes */
+.controls {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px 22px; margin-bottom: 10px;
+}
+.controls label {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text-secondary); white-space: nowrap;
+}
+.controls .val {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary); min-width: 3.5em;
+}
+input[type="range"] { accent-color: var(--accent); width: 130px; }
+
+button {
+  font: inherit; color: var(--text-primary);
+  background: transparent; border: 1px solid var(--baseline);
+  border-radius: 7px; padding: 4px 12px; cursor: pointer;
+}
+button:hover { border-color: var(--accent); color: var(--accent); }
+button.primary { border-color: var(--accent); color: var(--accent); }
+
+.seg { display: inline-flex; border: 1px solid var(--baseline); border-radius: 7px; overflow: hidden; }
+.seg button { border: 0; border-radius: 0; padding: 4px 12px; }
+.seg button.on { background: var(--accent); color: #fff; }
+
+/* panels */
+.panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 640px) { .panels { grid-template-columns: 1fr; } }
+.panel h2 {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-muted); margin: 4px 0 6px;
+}
+canvas.net { width: 100%; height: 300px; display: block; }
+svg.chart { width: 100%; height: 300px; display: block; overflow: visible; }
+
+/* readouts */
+.readout {
+  display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 10px;
+  padding-top: 10px; border-top: 1px solid var(--grid);
+}
+.readout .tile .label { font-size: 12px; color: var(--text-muted); }
+.readout .tile .value { font-size: 19px; font-weight: 600; color: var(--text-primary); }
+
+/* chart chrome (applied from JS via classes) */
+.gridline { stroke: var(--grid); stroke-width: 1; }
+.axisline { stroke: var(--baseline); stroke-width: 1; }
+.ticktext, .axistitle { fill: var(--text-muted); font-size: 11px; }
+.axistitle { font-size: 11.5px; }
+.directlabel { font-size: 11.5px; font-weight: 600; fill: var(--text-secondary); }
+.legend { display: flex; gap: 18px; margin: 2px 0 6px; font-size: 12.5px; color: var(--text-secondary); }
+.legend .key { display: inline-flex; align-items: center; gap: 6px; }
+.legend .swatch { width: 14px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend .swatch.dot { width: 8px; height: 8px; border-radius: 50%; }

@@ -1,0 +1,81 @@
+/* 02805 — shared design tokens (site + explorables).
+   Light is the default; dark follows prefers-color-scheme. */
+
+:root {
+  /* surfaces & ink */
+  --page:           #f9f9f7;
+  --surface-1:      #fcfcfb;
+  --text-primary:   #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted:     #898781;
+  --grid:           #e1e0d9;
+  --baseline:       #c3c2b7;
+  --border:         rgba(11, 11, 11, 0.10);
+
+  /* site accent (violet — never used for data series) */
+  --accent:         #4a3aa7;
+  --accent-wash:    rgba(74, 58, 167, 0.08);
+
+  /* data series (validated categorical slots 1 + 2) */
+  --series-1:       #2a78d6;
+  --series-2:       #1baf7a;
+
+  /* categorical community palette — "muted rainbow" (Sune, 2026-08-26): the
+     full hue wheel, saturation tamed into the legal band; slot order is
+     deliberately non-spectral so confusable hues are never adjacent.
+     Validated 2026-08-26 both modes via the dataviz six-checks; the
+     orange<->green protan pairs sit in the 6-8 band, legal only with
+     secondary encoding (arc grouping + named legend, which we have). */
+  --cat-1: #4477cc;
+  --cat-2: #e07a2f;
+  --cat-3: #3d7d33;
+  --cat-4: #9061c2;
+  --cat-5: #c0392b;
+  --cat-6: #2a9d8f;
+  --cat-7: #c9a227;
+  --series-1-wash:  rgba(42, 120, 214, 0.10);
+  --series-2-wash:  rgba(27, 175, 122, 0.10);
+
+  /* mode badges */
+  --mode-learn:      #4a3aa7;
+  --mode-instrument: #0d5e46;
+  --mode-builder:    #8a4508;
+  --mode-learn-wash:      rgba(74, 58, 167, 0.10);
+  --mode-instrument-wash: rgba(13, 94, 70, 0.10);
+  --mode-builder-wash:    rgba(138, 69, 8, 0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page:           #0d0d0d;
+    --surface-1:      #1a1a19;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255, 255, 255, 0.10);
+
+    --accent:         #9085e9;
+    --accent-wash:    rgba(144, 133, 233, 0.12);
+
+    --series-1:       #3987e5;
+    --series-2:       #199e70;
+    --cat-1: #6b93e0;
+    --cat-2: #d5772e;
+    --cat-3: #3a7830;
+    --cat-4: #9d72cc;
+    --cat-5: #e05a4e;
+    --cat-6: #2aa392;
+    --cat-7: #b58d24;
+    --series-1-wash:  rgba(57, 135, 229, 0.14);
+    --series-2-wash:  rgba(25, 158, 112, 0.14);
+
+    --mode-learn:      #9085e9;
+    --mode-instrument: #34c39a;
+    --mode-builder:    #e89a5b;
+    --mode-learn-wash:      rgba(144, 133, 233, 0.14);
+    --mode-instrument-wash: rgba(52, 195, 154, 0.12);
+    --mode-builder-wash:    rgba(232, 154, 91, 0.12);
+  }
+}

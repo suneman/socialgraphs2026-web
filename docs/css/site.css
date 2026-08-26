@@ -1,0 +1,168 @@
+/* 02805 course site — layout & typography.
+   Faces: Space Grotesk (display) · IBM Plex Sans (body) · IBM Plex Mono (utility). */
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text-primary);
+  font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+/* ---------- shell ---------- */
+
+.wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+.site-nav {
+  display: flex; align-items: baseline; gap: 20px;
+  padding: 20px 24px; max-width: 880px; margin: 0 auto;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 13px;
+}
+.site-nav .brand { color: var(--text-primary); font-weight: 600; text-decoration: none; }
+.site-nav a { color: var(--text-secondary); text-decoration: none; }
+.site-nav a:hover { color: var(--accent); }
+.site-nav .spacer { flex: 1; }
+
+footer {
+  margin-top: 96px; padding: 32px 24px 48px;
+  border-top: 1px solid var(--grid);
+  color: var(--text-muted); font-size: 14px;
+}
+footer .wrap { display: flex; gap: 24px; flex-wrap: wrap; }
+footer a { color: var(--text-secondary); }
+
+/* ---------- type ---------- */
+
+h1, h2, h3 {
+  font-family: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+  line-height: 1.15; letter-spacing: -0.015em;
+}
+h1 { font-size: clamp(2.1rem, 5.5vw, 3.4rem); font-weight: 700; margin: 0.2em 0 0.35em; }
+h2 { font-size: 1.65rem; font-weight: 600; margin: 2.6em 0 0.6em; }
+h3 { font-size: 1.15rem; font-weight: 600; margin: 2em 0 0.5em; }
+
+p, li { color: var(--text-secondary); }
+strong { color: var(--text-primary); }
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+.eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted); margin: 0;
+}
+
+.lede { font-size: 1.2rem; line-height: 1.55; color: var(--text-secondary); max-width: 620px; }
+
+code, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.88em; }
+code { background: var(--surface-1); border: 1px solid var(--grid); border-radius: 4px; padding: 0.08em 0.35em; }
+
+/* ---------- hero (front page) ---------- */
+
+.hero { position: relative; padding: 48px 0 40px; overflow: hidden; }
+.hero canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; opacity: 0.9;
+}
+.hero .wrap { position: relative; z-index: 1; }
+.thesis {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 1.25rem; font-weight: 500; color: var(--text-primary);
+  border-left: 3px solid var(--accent); padding-left: 16px; max-width: 560px;
+}
+
+/* ---------- cards & tables ---------- */
+
+.card-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 24px 0; }
+.card {
+  background: var(--surface-1); border: 1px solid var(--grid); border-radius: 10px;
+  padding: 20px 22px;
+}
+.card h3 { margin-top: 0; }
+.card p { font-size: 15.5px; margin-bottom: 0; }
+
+table.plain {
+  width: 100%; border-collapse: collapse; font-size: 15.5px; margin: 20px 0;
+}
+table.plain th {
+  text-align: left; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-muted); font-weight: 500;
+  border-bottom: 1px solid var(--baseline); padding: 8px 12px 8px 0;
+}
+table.plain td { border-bottom: 1px solid var(--grid); padding: 9px 12px 9px 0; color: var(--text-secondary); vertical-align: top; }
+table.plain td:first-child { white-space: nowrap; }
+
+/* ---------- mode badges ---------- */
+
+.mode {
+  display: inline-block; font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.05em;
+  border-radius: 999px; padding: 2px 10px; vertical-align: 1px; white-space: nowrap;
+}
+.mode.learn      { color: var(--mode-learn);      background: var(--mode-learn-wash); }
+.mode.instrument { color: var(--mode-instrument); background: var(--mode-instrument-wash); }
+.mode.builder    { color: var(--mode-builder);    background: var(--mode-builder-wash); }
+
+/* ---------- week pages ---------- */
+
+.explorable-frame {
+  width: 100%; border: 1px solid var(--grid); border-radius: 10px;
+  background: var(--surface-1); margin: 12px 0 6px;
+}
+.explorable-caption { font-size: 14px; color: var(--text-muted); margin: 4px 0 28px; }
+
+.reading, .exercise {
+  background: var(--surface-1); border: 1px solid var(--grid); border-radius: 10px;
+  padding: 18px 22px; margin: 18px 0;
+}
+.exercise h4 { margin: 0 0 6px; font-size: 1.02rem; font-family: "Space Grotesk", system-ui, sans-serif; }
+.exercise p, .exercise li { font-size: 15.5px; }
+.exercise ol, .exercise ul { padding-left: 22px; }
+
+.on-the-test, .callout {
+  border-left: 3px solid var(--accent); background: var(--accent-wash);
+  border-radius: 0 10px 10px 0; padding: 16px 22px; margin: 28px 0;
+}
+.on-the-test .eyebrow, .callout .eyebrow { color: var(--accent); }
+.on-the-test p, .on-the-test li, .callout p { font-size: 15.5px; }
+.callout p:last-child { margin-bottom: 4px; }
+
+.video-embed { aspect-ratio: 16 / 9; width: 100%; border: 1px solid var(--grid); border-radius: 10px; margin: 12px 0 6px; }
+
+/* ---------- weeks grid (front page) ---------- */
+
+.weeks { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin: 24px 0; }
+.week-card {
+  display: block; text-decoration: none;
+  background: var(--surface-1); border: 1px solid var(--grid); border-radius: 10px;
+  padding: 16px 18px; color: var(--text-secondary);
+}
+.week-card .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px; color: var(--text-muted); display: block; }
+.week-card .title { font-family: "Space Grotesk", system-ui, sans-serif; font-weight: 600; color: var(--text-primary); font-size: 1.02rem; }
+.week-card.live { border-color: var(--accent); }
+.week-card.live:hover { background: var(--accent-wash); }
+.week-card.soon { opacity: 0.62; }
+.week-card .status { font-size: 12.5px; color: var(--text-muted); }
+.week-card.live .status { color: var(--accent); }
+
+/* focus visibility */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
+}
+
+pre {
+  background: var(--surface-1); border: 1px solid var(--grid); border-radius: 10px;
+  padding: 14px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.55;
+  margin: 16px 0 24px;
+}
+pre code { background: none; border: none; padding: 0; font-size: inherit; }

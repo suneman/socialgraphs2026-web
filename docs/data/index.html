@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Course data · The shared playground — 02805</title>
+<meta name="description" content="Frozen snapshots of the 02805 shared playground dataset: Wikipedia's Marvel superheroes, released in stages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="../index.html">02805</a>
+  <a href="../the-new-way.html">The new way</a>
+  <a href="../index.html#weeks">Weeks</a>
+  <a href="../index.html#assessment">Assessment</a>
+  <span class="spacer"></span>
+  <a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Textbook ↗</a>
+</nav>
+
+<main class="wrap">
+
+  <p class="eyebrow">Course data</p>
+  <h1>The shared playground</h1>
+  <p class="lede">One dataset, all semester: the 303 characters in Wikipedia's
+    <a href="https://en.wikipedia.org/wiki/Category:Marvel_Comics_superheroes" target="_blank"
+    rel="noopener">Category:Marvel Comics superheroes</a> — first the network of links
+    between their pages, later the pages themselves. Released in frozen stages that follow the
+    syllabus, so every group computes on identical data while Wikipedia moves on.</p>
+
+  <h2>Releases</h2>
+  <table class="plain">
+    <thead><tr><th>Files</th><th>Arrives</th><th>What</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="week1_edges.tsv">week1_edges.tsv</a><br>
+            <a href="week1_nodes.tsv">week1_nodes.tsv</a></td>
+        <td>week 1 · out now</td>
+        <td>The unweighted directed network: an edge A&nbsp;→&nbsp;B wherever A's article
+            links to B's. 303 nodes, 1,784 edges. The node file carries names, Wikidata
+            ids, URLs and one-line blurbs — no degrees, no statistics: computing those
+            is your job.</td>
+      </tr>
+      <tr><td>weighted edition</td><td>~week 3</td><td>the same edges, plus how often each link is repeated</td></tr>
+      <tr><td>bipartite edition</td><td>~week 4</td><td>pages × people</td></tr>
+      <tr><td>raw text</td><td>week 5</td><td>full wiki-source per page, for the language half — served
+          from DTU storage (too big for this site); the download link appears here at release</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Loading it</h2>
+  <p>Both files are tab-separated with <code>#</code> comment headers; node ids are
+    Wikipedia page titles with underscores. One thing to know: <strong>17 of the 303
+    characters have no link in either direction</strong>, so if you build the graph from
+    the edge list alone you get 286 nodes and silently lose the isolates — and the isolates
+    are part of the story. Add every node first:</p>
+  <pre><code>import pandas as pd, networkx as nx
+
+nodes = pd.read_csv("week1_nodes.tsv", sep="\t", comment="#",
+                    quoting=3)  # QUOTE_NONE: TSVs never quote, but blurbs may contain "quotes"
+edges = pd.read_csv("week1_edges.tsv", sep="\t", comment="#",
+                    names=["source", "target"])
+
+G = nx.DiGraph()
+G.add_nodes_from(nodes.node_id)
+G.add_edges_from(edges.itertuples(index=False))
+# G: 303 nodes, 1784 edges</code></pre>
+
+  <h2>Where it comes from</h2>
+  <p>The snapshot was built 26 August 2026 from the live English Wikipedia, and two
+    decisions in the pipeline are worth knowing about, because they are exactly the kind
+    of decision §3 of week 1 is on about:</p>
+  <ul>
+    <li><strong>Edges come from the article text, not from Wikipedia's link index.</strong>
+      The index counts links contributed by shared navigation templates — every Avenger
+      carries the same team navbox, which would make whole rosters mutually adjacent by
+      templating artefact, not because anyone's article mentions anyone. Here an edge
+      means the running text of A's article actually links B.</li>
+    <li><strong>Redirects are resolved on both ends</strong>, so
+      <code>[[Spidey]]</code> and <code>[[Spider-Man]]</code> are one node, and a link
+      to any alias still lands on the character.</li>
+  </ul>
+  <p>Could you have made those choices differently? Yes — and you would have gotten a
+    different network. That is the point of week 1, and when your project crawls a domain
+    of its own, the choices are yours.</p>
+
+  <p><a href="../index.html#weeks">← All weeks</a></p>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>02805 · Technical University of Denmark</span>
+    <span>Sune Lehmann · <a href="mailto:sljo@dtu.dk">sljo@dtu.dk</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
