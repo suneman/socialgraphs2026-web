@@ -86,7 +86,7 @@ if (typeof module !== "undefined") module.exports = RD;
   const $ = (id) => document.getElementById(id);
   const svgNode = $("chart");
 
-  let degMode = "und", axMode = "lin", binMode = "raw";
+  let degMode = "in", axMode = "lin", binMode = "raw";
   let nodes, edges, degs;
 
   function draw() {

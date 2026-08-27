@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
 </head>
 <body>
 
@@ -75,8 +76,8 @@
   <p>Flipped classroom: before class you catch up on last week; in class you work the exercises in your 3-person group. Weeks 1–4 are the networks half, weeks 5–7 the language half, week 8 is where they meet. Every week ends with a <strong>Go nuts with your LLM</strong> exercise. It's a free-form, agent-powered analysis on a shared dataset, published on your group's own site, with a weekly winner. Weeks 9–13 are the project period.</p>
 
   <div class="weeks">
-    <a class="week-card soon" href="#"><span class="num">WEEK 1</span>
-      <span class="title">Networks &amp; the new way of working</span><br><span class="status">coming</span></a>
+    <a class="week-card live" href="weeks/week1.html"><span class="num">WEEK 1</span>
+      <span class="title">Networks</span><br><span class="status">● live</span></a>
     <a class="week-card soon" href="#"><span class="num">WEEK 2</span>
       <span class="title">Models &amp; null models</span><br><span class="status">coming</span></a>
     <a class="week-card soon" href="#"><span class="num">WEEK 3</span>
@@ -129,7 +130,7 @@
   <table class="plain">
     <tr><th></th><th></th></tr>
     <tr><td>Schedule</td><td>13 Wednesdays from 09:00, 2 Sep – 2 Dec 2026 (no teaching 14 Oct, autumn break). Building 303A: Auditorium 43 (main), Auditorium 44, Classroom 46.</td></tr>
-    <tr><td>Groups</td><td>3 people, formed in week 1, kept all semester. Split the writing — but everyone must be able to solve everything.</td></tr>
+    <tr><td>Groups</td><td>3 people (smaller is OK, larger is not), formed over the first sessions, kept all semester. Split the work — but everyone must be able to solve everything.</td></tr>
     <tr><td>Stack</td><td>Python, Jupyter, NetworkX — plus whatever agentic tools you work best with.</td></tr>
     <tr><td>Hand-ins</td><td>Via DTU Learn. Details on each week's page.</td></tr>
   </table>
@@ -146,5 +147,12 @@
 
 <script src="vendor/d3.v7.min.js"></script>
 <script src="js/hero-network.js"></script>
+<script defer src="vendor/katex/katex.min.js"></script>
+<script defer src="vendor/katex/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters: [
+    {left: '$$', right: '$$', display: true},
+    {left: '$', right: '$', display: false},
+    {left: '\\[', right: '\\]', display: true},
+    {left: '\\(', right: '\\)', display: false}], throwOnError: false});"></script>
 </body>
 </html>
