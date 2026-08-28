@@ -57,22 +57,32 @@
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, W, H);
     ctx.translate(W / 2, H / 2);
-    const spread = Math.min(W, H) / 190;
+    // zoom to fit: the layout's footprint grows with N, so scale so that the
+    // 96th-percentile radius lands on the frame edge (stragglers are clamped)
+    const fitR = Math.min(W, H) / 2 - 10;
+    const rs = simNodes.map((d) => Math.hypot(d.x || 0, d.y || 0)).sort((a, b) => a - b);
+    const ref = rs[Math.floor(rs.length * 0.96)] || 1;
+    const spread = Math.min(fitR / ref, Math.min(W, H) / 150);
     ctx.scale(spread, spread);
+    const clampR = fitR / spread;
+    const P = simNodes.map((d) => {
+      const r = Math.hypot(d.x || 0, d.y || 0);
+      return r > clampR ? [(d.x * clampR) / r, (d.y * clampR) / r] : [d.x || 0, d.y || 0];
+    });
 
     ctx.strokeStyle = VK.cssVar("--baseline");
     ctx.lineWidth = 0.8 / spread;
     ctx.beginPath();
     simLinks.forEach((l) => {
-      ctx.moveTo(l.source.x, l.source.y);
-      ctx.lineTo(l.target.x, l.target.y);
+      ctx.moveTo(P[l.source.index][0], P[l.source.index][1]);
+      ctx.lineTo(P[l.target.index][0], P[l.target.index][1]);
     });
     ctx.stroke();
 
-    const r = N > 250 ? 1.7 : 2.4;
-    simNodes.forEach((d, i) => {
+    const r = (N > 250 ? 2.6 : 3.4) / spread; // constant on screen
+    P.forEach(([x, y], i) => {
       ctx.beginPath();
-      ctx.arc(d.x, d.y, r, 0, 2 * Math.PI);
+      ctx.arc(x, y, r, 0, 2 * Math.PI);
       ctx.fillStyle = gccSet.has(i) ? c.s1 : c.muted;
       ctx.fill();
     });

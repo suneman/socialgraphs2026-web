@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable · Documents as vectors</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <span class="seg" id="view-seg">
+    <button data-view="row" class="on">read a row</button>
+    <button data-view="col">read a column</button>
+  </span>
+  <label id="pick-label">Document
+    <select id="pick"></select>
+  </label>
+</div>
+
+<div class="stacked-panels">
+  <div class="panel">
+    <h2>Three tiny documents</h2>
+    <div id="docs"></div>
+    <p class="note">Tokenization here is lowercase alphabetic words only. Order is discarded when we build the matrix.</p>
+  </div>
+  <div class="panel">
+    <h2>Document-term matrix</h2>
+    <div class="matrix-wrap" id="matrix"></div>
+    <div class="small-label" id="vector-label">Document vector</div>
+    <div class="vector-line" id="vector"></div>
+  </div>
+</div>
+
+<div class="readout">
+  <div class="tile"><div class="label">Documents</div><div class="value" id="r-docs">3</div></div>
+  <div class="tile"><div class="label">Vocabulary size</div><div class="value" id="r-vocab">–</div></div>
+  <div class="tile"><div class="label">Information discarded</div><div class="value">word order</div></div>
+</div>
+
+<script src="document-vectors.js"></script>
+</body>
+</html>

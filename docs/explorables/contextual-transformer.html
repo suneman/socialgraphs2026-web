@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; Contextual representations and BERT-style classification</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="meaning-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <span class="seg" id="mode">
+    <button data-mode="bank" class="on">static vs contextual</button>
+    <button data-mode="bert">BERT-style classifier</button>
+  </span>
+</div>
+
+<div id="bank-view">
+  <div class="controls">
+    <label>Sentence
+      <select id="bank-sentence">
+        <option value="finance">I went to the bank to deposit money</option>
+        <option value="river">I sat on the river bank near the water</option>
+      </select>
+    </label>
+  </div>
+  <div class="text-panels">
+    <div class="panel">
+      <h2>Context around bank</h2>
+      <div class="token-row" id="bank-tokens"></div>
+      <div id="attention"></div>
+      <p class="note">The weights are illustrative. They show the idea that a token representation can mix information from different surrounding tokens.</p>
+    </div>
+    <div class="panel">
+      <h2>Representation</h2>
+      <svg id="embed" class="embedding" viewBox="0 0 430 300" aria-label="Static and contextual vectors for bank"></svg>
+      <div class="formula" id="vector-text"></div>
+    </div>
+  </div>
+</div>
+
+<div id="bert-view" hidden>
+  <div class="controls">
+    <label>Sentence
+      <select id="sentiment-sentence">
+        <option value="notgood">This album is not good</option>
+        <option value="great">This album is genuinely great</option>
+      </select>
+    </label>
+  </div>
+  <div class="token-row" id="bert-tokens"></div>
+  <div class="pipeline" id="pipeline"></div>
+  <p class="note">Conceptual BERT-style pipeline. Real models learn contextual representations and classifier weights from data. The values shown here are schematic rather than model outputs.</p>
+</div>
+
+<script src="contextual-transformer.js"></script>
+</body>
+</html>

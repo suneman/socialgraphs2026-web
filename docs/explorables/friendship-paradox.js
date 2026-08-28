@@ -12,12 +12,28 @@
   const $ = (id) => document.getElementById(id);
 
   let kind = "ba";
-  let g, degs, positions = [];
+  let g, degs, names = null, positions = [];
   let youDegs = [], friendDegs = [];
   let highlight = null; // {you, friend}
+  let marvel = null;    // cached {graph, names} once loaded
+
+  const CAP = () => (kind === "marvel" ? 40 : 30);
 
   function build() {
-    g = kind === "ba" ? GL.ba(N, 2) : GL.er(N, 4);
+    names = null;
+    if (kind === "marvel") {
+      if (!marvel) {
+        MV.load().then((data) => {
+          const n = data.gcc.nodes.length;
+          marvel = { graph: MV.toGraph(n, data.gcc.undirected), names: data.gcc.nodes.map((d) => d.name) };
+          if (kind === "marvel") build();
+        });
+        return;
+      }
+      g = marvel.graph; names = marvel.names;
+    } else {
+      g = kind === "ba" ? GL.ba(N, 2) : GL.er(N, 4);
+    }
     degs = GL.degrees(g);
     layout();
     resetTally();
@@ -126,8 +142,9 @@
       ctx.strokeStyle = accent;
       ctx.lineWidth = 1.6 / spread;
       ctx.beginPath(); ctx.moveTo(xy, yy); ctx.lineTo(xf, yf); ctx.stroke();
-      mark(highlight.you, `person, k=${degs[highlight.you]}`);
-      mark(highlight.friend, `friend, k=${degs[highlight.friend]}`);
+      const who = (i) => (names ? names[i].replace(/ \(.*\)$/, "") : null);
+      mark(highlight.you, names ? `you: ${who(highlight.you)}, k=${degs[highlight.you]}` : `person, k=${degs[highlight.you]}`);
+      mark(highlight.friend, names ? `friend: ${who(highlight.friend)}, k=${degs[highlight.friend]}` : `friend, k=${degs[highlight.friend]}`);
     }
     ctx.restore();
   }
@@ -137,22 +154,22 @@
   function drawChart() {
     const c = VK.chart($("chart"));
     const colors = VK.colors();
-    const CAP = 30;
+    const cap = CAP();
     const total = youDegs.length || 1;
 
     const binify = (arr) => {
-      const bins = new Array(CAP + 1).fill(0);
-      arr.forEach((k) => bins[Math.min(k, CAP)]++);
+      const bins = new Array(cap + 1).fill(0);
+      arr.forEach((k) => bins[Math.min(k, cap)]++);
       return bins.map((v, k) => [k, v / total]);
     };
     const youB = binify(youDegs), frB = binify(friendDegs);
     const yMax = Math.max(0.1, d3.max(youB.concat(frB), (d) => d[1]) * 1.15);
 
-    const x = d3.scaleLinear().domain([0, CAP]).range([0, c.w]);
+    const x = d3.scaleLinear().domain([0, cap]).range([0, c.w]);
     const y = d3.scaleLinear().domain([0, yMax]).range([c.h, 0]);
     VK.axes(c, x, y, {
-      xTicks: [0, 10, 20, 30],
-      xFormat: (v) => (v === CAP ? `${CAP}+` : v),
+      xTicks: d3.range(0, cap + 1, 10),
+      xFormat: (v) => (v === cap ? `${cap}+` : v),
       yTicks: y.ticks(4),
       yFormat: d3.format(".0%"),
       xTitle: "degree k of the sampled node", yTitle: "share of samples",
@@ -172,7 +189,9 @@
     const peak = (b) => b.reduce((best, d) => (d[1] > best[1] ? d : best));
     const py = peak(youB), pf = peak(frB);
     VK.directLabel(c, x(py[0]) + 6, y(py[1]) - 6, "random person");
-    VK.directLabel(c, x(pf[0]) + 6, y(pf[1]) - 6, "their friend");
+    // the friend peak can sit in the capped last bin — label to its left then
+    const atCap = pf[0] >= cap - 2;
+    VK.directLabel(c, x(pf[0]) + (atCap ? -8 : 6), Math.max(10, y(pf[1]) - 6), "their friend", atCap ? "end" : "start");
   }
 
   /* --- wiring --- */

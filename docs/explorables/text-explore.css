@@ -1,0 +1,127 @@
+/* Small text-analysis components for week 6 explorables.
+   Colors come only from tokens.css. */
+
+textarea.textbox {
+  width: 100%; min-height: 86px; resize: vertical;
+  border: 1px solid var(--baseline); border-radius: 7px;
+  background: var(--page); color: var(--text-primary);
+  font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  padding: 9px 10px;
+}
+
+.text-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.stacked-panels { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (max-width: 640px) { .text-panels { grid-template-columns: 1fr; } }
+
+.token-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 40px; }
+.token {
+  display: inline-block; padding: 3px 7px; border: 1px solid var(--grid);
+  border-radius: 6px; background: var(--page); color: var(--text-primary);
+  font: 12.5px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.token.target { border-color: var(--accent); background: var(--accent-wash); }
+.token.series1 { border-color: var(--series-1); background: var(--series-1-wash); }
+.token.series2 { border-color: var(--series-2); background: var(--series-2-wash); }
+
+.note { color: var(--text-muted); font-size: 12.5px; line-height: 1.45; margin: 6px 0 0; }
+.small-label {
+  font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--text-muted); margin: 8px 0 5px;
+}
+
+.matrix-wrap { overflow-x: auto; }
+table.matrix { border-collapse: collapse; width: max-content; min-width: 100%; font-size: 12px; }
+table.matrix th, table.matrix td {
+  border: 1px solid var(--grid); padding: 5px 8px; text-align: center;
+  color: var(--text-secondary); min-width: 48px;
+}
+table.matrix th { color: var(--text-muted); font-weight: 600; background: var(--page); }
+table.matrix th:first-child, table.matrix td:first-child { text-align: left; min-width: 108px; }
+table.matrix tr.active td { background: var(--series-1-wash); color: var(--text-primary); }
+table.matrix td.active-col, table.matrix th.active-col { background: var(--series-2-wash); color: var(--text-primary); }
+
+.context-list { display: grid; gap: 5px; }
+.context-item {
+  display: grid; grid-template-columns: minmax(70px, 1fr) auto minmax(70px, 1fr);
+  gap: 8px; align-items: center; padding: 5px 8px;
+  border-bottom: 1px solid var(--grid); color: var(--text-secondary);
+  font: 12.5px/1.35 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.context-item .middle { color: var(--accent); font-weight: 600; }
+.context-item .left { text-align: right; }
+
+.bar-list { display: grid; gap: 7px; }
+.bar-row { display: grid; grid-template-columns: 90px 1fr 48px; gap: 8px; align-items: center; }
+.bar-row .word { overflow: hidden; text-overflow: ellipsis; color: var(--text-secondary); }
+.bar { height: 8px; border-radius: 5px; background: var(--grid); overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--series-1); border-radius: 5px; }
+.bar-row .num { text-align: right; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+.ngram-grid { display: grid; gap: 7px; margin-top: 8px; }
+.ngram { display: flex; gap: 4px; align-items: center; }
+.ngram .idx { width: 26px; color: var(--text-muted); font-size: 11px; }
+.ngram .token { background: var(--series-1-wash); border-color: var(--series-1); }
+
+.vector-line {
+  padding: 8px 10px; border: 1px solid var(--grid); border-radius: 7px;
+  background: var(--page); color: var(--text-primary);
+  font: 12.5px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow-x: auto; white-space: nowrap;
+}
+
+.word-axis {
+  display: grid; grid-template-columns: 92px 1fr; align-items: center;
+  gap: 10px; margin: 8px 0;
+}
+.word-axis .axis-line { position: relative; height: 2px; background: var(--grid); }
+.word-axis .axis-line::after {
+  content: ""; position: absolute; right: 0; top: -3px; width: 8px; height: 8px;
+  border-radius: 50%; background: var(--series-1);
+}
+.prob-choice {
+  display: grid; grid-template-columns: 100px 1fr 52px; gap: 9px;
+  align-items: center; margin: 7px 0;
+}
+.prob-choice .pbar { height: 10px; background: var(--grid); border-radius: 6px; overflow: hidden; }
+.prob-choice .pbar span { display: block; height: 100%; background: var(--series-1); }
+.prob-choice .pct { text-align: right; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+.inline-check { display: inline-flex; align-items: center; gap: 5px; color: var(--text-secondary); }
+input[type="checkbox"] { accent-color: var(--accent); }
+select {
+  font: inherit; color: var(--text-primary); background: var(--page);
+  border: 1px solid var(--baseline); border-radius: 7px; padding: 4px 8px;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Week 6 tokenizer: keep tokenization fixed, then show preprocessing as a second view. */
+.control-label { margin: 0 4px 0 0; }
+.token-stage { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+.token-code-box {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  padding: 11px 12px;
+  border: 1px solid var(--grid);
+  border-radius: 7px;
+  background: var(--page);
+  color: var(--text-primary);
+  font: 13px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.token-code-box.compact { min-height: 44px; }
+.code-token { cursor: help; border-bottom: 1px dotted var(--text-muted); }
+.code-token.punct-token { color: var(--series-2); }
+.code-token.stop-token { background: var(--accent-wash); }
+.sentence-readout { color: var(--text-muted); font-size: 12.5px; margin: 10px 0 0; }
+
+/* Week 6 V6 tokenizer: old chip-based layout with spaCy-style behavior. */
+.token-row .token { cursor: help; }
+.token-row .token.punct-token-chip { border-style: dashed; }
+.token-row .token.stop-token-chip { background: var(--accent-wash); }
+.token-help { margin-top: 10px; }

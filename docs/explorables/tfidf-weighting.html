@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Explorable · TF-IDF weighting</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="explore.css">
+  <link rel="stylesheet" href="text-explore.css">
+  <link rel="stylesheet" href="document-vector-explore.css">
+</head>
+<body>
+  <div class="explainer-topnote">This explorable uses the same three teaching documents as the text. Start with <code>the guitar</code> to see the failure mode of raw counts, then switch to <code>punk guitar</code> to see how IDF preserves the informative word and sharpens the ranking.</div>
+
+  <div class="controls tfidf-top-controls">
+    <span class="seg" id="query-seg" aria-label="Query choice">
+      <button type="button" data-query="stress">query: the guitar</button>
+      <button type="button" data-query="focus" class="on">query: punk guitar</button>
+    </span>
+    <span class="seg" id="stage-seg" aria-label="Weighting stage">
+      <button type="button" data-stage="count">counts</button>
+      <button type="button" data-stage="tf">TF</button>
+      <button type="button" data-stage="tfidf" class="on">TF-IDF</button>
+    </span>
+  </div>
+
+  <div class="query-strip">
+    <span class="query-label">Active query</span>
+    <code id="query-code">punk guitar</code>
+    <span class="query-hint" id="query-hint"></span>
+  </div>
+
+  <div class="idf-strip" id="idf-strip" aria-label="Document frequency and inverse document frequency"></div>
+
+  <div class="tfidf-compare-layout">
+    <div>
+      <div class="tfidf-docs" id="doc-rows" aria-label="Term weights in the teaching documents"></div>
+      <p class="stage-note" id="stage-note"></p>
+    </div>
+    <div class="tfidf-side">
+      <div class="progress-panel">
+        <div class="panel-kicker">Score progression</div>
+        <div class="panel-title">How the same query changes across the three representations</div>
+        <div id="progress-table"></div>
+      </div>
+      <div class="takeaway-panel" id="takeaway"></div>
+    </div>
+  </div>
+
+  <script src="tfidf-weighting.js"></script>
+</body>
+</html>

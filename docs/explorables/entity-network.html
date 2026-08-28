@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; Entity co-occurrence network</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="text-panels">
+  <div class="panel">
+    <h2>Synthetic text snippets</h2>
+    <div class="doc-list" id="docs"></div>
+    <p class="note">An edge means two named entities occur in the same selected snippet. Change the selection and the network changes.</p>
+  </div>
+  <div class="panel">
+    <h2>Entity co-occurrence network</h2>
+    <svg id="network" class="entity-net" viewBox="0 0 520 390" aria-label="Network built from co-occurring named entities"></svg>
+    <div class="legend">
+      <span class="key"><span class="swatch dot" style="background:var(--series-1)"></span>PERSON</span>
+      <span class="key"><span class="swatch dot" style="background:var(--series-2)"></span>ORG</span>
+      <span class="key"><span class="swatch dot" style="background:var(--accent)"></span>GPE</span>
+    </div>
+  </div>
+</div>
+
+<script src="entity-network.js"></script>
+</body>
+</html>

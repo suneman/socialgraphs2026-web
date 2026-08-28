@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable · Similar words from shared contexts</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <label>Target
+    <select id="target"></select>
+  </label>
+</div>
+
+<div class="text-panels">
+  <div class="panel">
+    <h2>Exact left + right contexts</h2>
+    <div class="context-list" id="contexts"></div>
+    <p class="note">This mirrors the core idea behind NLTK's default ContextIndex: a context is the immediately preceding and following word.</p>
+  </div>
+  <div class="panel">
+    <h2>Other words sharing those contexts</h2>
+    <div class="bar-list" id="candidates"></div>
+    <p class="note">The score is the number of distinct target contexts shared by the candidate. Shared usage is not the same as synonymy.</p>
+  </div>
+</div>
+
+<div class="readout">
+  <div class="tile"><div class="label">Target</div><div class="value" id="r-target">–</div></div>
+  <div class="tile"><div class="label">Distinct contexts</div><div class="value" id="r-contexts">–</div></div>
+  <div class="tile"><div class="label">Best match</div><div class="value" id="r-best">–</div></div>
+</div>
+
+<script src="context-similarity.js"></script>
+</body>
+</html>

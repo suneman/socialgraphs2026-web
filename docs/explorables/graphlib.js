@@ -99,7 +99,70 @@ const GL = (() => {
     return s.graph;
   }
 
+  // Erdős–Rényi G(n, m): exactly m distinct links, uniformly at random
+  function gnm(n, m, rnd = Math.random) {
+    const g = empty(n);
+    const seen = new Set();
+    const cap = (n * (n - 1)) / 2;
+    while (g.edges.length < Math.min(m, cap)) {
+      const a = Math.floor(rnd() * n), b = Math.floor(rnd() * n);
+      if (a === b) continue;
+      const key = a < b ? a * 100000 + b : b * 100000 + a;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      addEdge(g, a, b);
+    }
+    return g;
+  }
+
+  function clone(g) {
+    return { n: g.n, edges: g.edges.map((e) => e.slice()), adj: g.adj.map((a) => a.slice()) };
+  }
+
+  /* --- shuffling --- */
+
+  // Degree-preserving randomization, in place: pick two links a–b and c–d,
+  // rewire to a–d and c–b (random orientation); reject self-loops and
+  // duplicates. Counts only successful swaps toward nswap. The degree of
+  // every node is untouched; everything else is scrambled. Returns the
+  // number of swaps performed.
+  function doubleEdgeSwap(g, nswap, rnd = Math.random) {
+    const E = g.edges, m = E.length;
+    if (m < 2) return 0;
+    const drop = (u, v) => { const a = g.adj[u], i = a.indexOf(v); a[i] = a[a.length - 1]; a.pop(); };
+    let done = 0, tries = 0, maxTries = 100 * nswap;
+    while (done < nswap && tries++ < maxTries) {
+      const i = Math.floor(rnd() * m), j = Math.floor(rnd() * m);
+      if (i === j) continue;
+      let [a, b] = E[i], [c, d] = E[j];
+      if (rnd() < 0.5) [c, d] = [d, c];
+      if (a === d || c === b || a === c || b === d) continue;
+      if (hasEdge(g, a, d) || hasEdge(g, c, b)) continue;
+      drop(a, b); drop(b, a); drop(c, d); drop(d, c);
+      g.adj[a].push(d); g.adj[d].push(a); g.adj[c].push(b); g.adj[b].push(c);
+      E[i] = [a, d]; E[j] = [c, b];
+      done++;
+    }
+    return done;
+  }
+
   /* --- metrics --- */
+
+  // number of triangles in the graph
+  function triangles(g) {
+    let t = 0;
+    const sets = g.adj.map((a) => new Set(a));
+    for (const [a, b] of g.edges)
+      for (const w of g.adj[a]) if (w !== b && sets[b].has(w)) t++;
+    return t / 3; // each triangle seen once per edge
+  }
+
+  // global clustering: 3 × triangles / connected triples
+  function transitivity(g) {
+    let triples = 0;
+    for (const a of g.adj) triples += (a.length * (a.length - 1)) / 2;
+    return triples ? (3 * triangles(g)) / triples : 0;
+  }
 
   function degrees(g) {
     return g.adj.map((a) => a.length);
@@ -197,8 +260,8 @@ const GL = (() => {
 
   return {
     empty, addEdge, hasEdge,
-    er, ringLattice, wattsStrogatz, baStepper, ba,
-    degrees, components, gcc, localClustering, avgClustering,
+    er, gnm, clone, ringLattice, wattsStrogatz, baStepper, ba, doubleEdgeSwap,
+    degrees, components, gcc, localClustering, avgClustering, triangles, transitivity,
     bfsDistances, avgPathLength, ccdf, erGiantFraction, mean,
   };
 })();

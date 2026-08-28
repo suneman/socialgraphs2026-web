@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; From counts to language models</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="arc" id="arc"></div>
+<div class="arc-detail">
+  <h3 id="title"></h3>
+  <p><span class="arc-field">Representation</span> <span id="representation"></span></p>
+  <p><span class="arc-field">What it buys us</span> <span id="gain"></span></p>
+  <p><span class="arc-field">What is still missing</span> <span id="limit"></span></p>
+  <div id="next-token" hidden>
+    <p class="note">Illustrative next-token distribution for: <code>The network community is</code></p>
+    <div class="next-token-list" id="token-list"></div>
+  </div>
+</div>
+
+<script src="nlp-arc.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; Lexicon sentiment</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <label>Example
+    <select id="example">
+      <option value="0">This album is wonderful</option>
+      <option value="1">This album is not good</option>
+      <option value="2">I just love being stuck in traffic</option>
+      <option value="3">The concert was terrible</option>
+    </select>
+  </label>
+  <label><input type="checkbox" id="negation"> simple negation rule</label>
+</div>
+
+<div class="text-panels">
+  <div class="panel">
+    <h2>Text</h2>
+    <textarea id="text" rows="4" spellcheck="false"></textarea>
+    <div class="token-row" id="tokens"></div>
+    <p class="note">Toy teaching lexicon. Real resources such as LabMT contain many more scored words.</p>
+  </div>
+  <div class="panel">
+    <h2>Lookup and aggregate</h2>
+    <div id="scores"></div>
+    <div class="sentiment-meter"><span class="mid"></span><span class="fill" id="meter"></span></div>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">score</div><div class="v" id="score">0.00</div></div>
+      <div class="metric"><div class="k">matched words</div><div class="v" id="matched">0</div></div>
+      <div class="metric"><div class="k">label</div><div class="v" id="label">neutral</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="sentiment-lexicon.js"></script>
+</body>
+</html>

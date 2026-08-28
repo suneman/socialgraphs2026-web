@@ -86,8 +86,20 @@ if (typeof module !== "undefined") module.exports = RD;
   const $ = (id) => document.getElementById(id);
   const svgNode = $("chart");
 
-  let degMode = "in", axMode = "lin", binMode = "raw";
+  // poisson-vs-marvel.html reuses this file with different defaults + a
+  // reference-curve control; window.RD_DEFAULTS carries them.
+  const D = Object.assign({ deg: "in", ax: "lin", bin: "raw", ref: "none" }, window.RD_DEFAULTS || {});
+  let degMode = D.deg, axMode = D.ax, binMode = D.bin, refMode = D.ref;
   let nodes, edges, degs;
+
+  // Poisson P(k) with the data's mean degree, as [k+1, p] pairs
+  function poissonRef(ks, maxU) {
+    const lam = RD.mean(ks);
+    const out = [];
+    let p = Math.exp(-lam);
+    for (let k = 0; k < maxU; k++) { out.push([k + 1, p]); p *= lam / (k + 1); }
+    return out;
+  }
 
   function draw() {
     if (!degs) return;
@@ -129,10 +141,21 @@ if (typeof module !== "undefined") module.exports = RD;
       for (const [k, p] of binned) VK.marker(c, x(k), y(p), col.s1, 5);
     }
 
-    $("legend").innerHTML = binMode === "raw"
+    let legend = binMode === "raw"
       ? '<span class="key"><span class="swatch dot" style="background: var(--series-1)"></span>raw P(k)</span>'
       : '<span class="key"><span class="swatch dot" style="background: var(--text-muted)"></span>raw P(k)</span>' +
         '<span class="key"><span class="swatch" style="background: var(--series-1)"></span>binned (mixed)</span>';
+    if (refMode === "poisson") {
+      const floor = y.domain()[0];
+      const ref = poissonRef(ks, maxU).filter(([, p]) => p >= floor);
+      if (ref.length > 1) {
+        VK.line(c, ref, x, y, col.s2);
+        const last = ref[ref.length - 1];
+        VK.directLabel(c, x(last[0]) + 6, y(last[1]) + 4, `Poisson, ⟨k⟩ = ${RD.mean(ks).toFixed(1)}`);
+      }
+      legend += '<span class="key"><span class="swatch" style="background: var(--series-2)"></span>random network with the same ⟨k⟩ (Poisson)</span>';
+    }
+    $("legend").innerHTML = legend;
 
     const iso = ks.filter((k) => k === 0).length;
     $("r-n").textContent = nodes.length;
@@ -146,8 +169,10 @@ if (typeof module !== "undefined") module.exports = RD;
     $("top").innerHTML = byDeg.map(([n, k]) => `<li>${n} — <strong>${k}</strong></li>`).join("");
   }
 
-  function segWire(segId, set) {
+  function segWire(segId, set, current) {
     const seg = $(segId);
+    if (!seg) return;
+    seg.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x.dataset.v === current));
     seg.addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b) return;
@@ -156,9 +181,10 @@ if (typeof module !== "undefined") module.exports = RD;
       draw();
     });
   }
-  segWire("deg-seg", (v) => (degMode = v));
-  segWire("ax-seg", (v) => (axMode = v));
-  segWire("bin-seg", (v) => (binMode = v));
+  segWire("deg-seg", (v) => (degMode = v), degMode);
+  segWire("ax-seg", (v) => (axMode = v), axMode);
+  segWire("bin-seg", (v) => (binMode = v), binMode);
+  segWire("ref-seg", (v) => (refMode = v), refMode);
 
   Promise.all([
     fetch("../data/week1_edges.tsv").then((r) => r.text()),

@@ -1,5 +1,9 @@
 /* Rich get richer — watch a Barabási–Albert network grow node by node,
-   while its degree distribution develops a heavy tail on log–log axes. */
+   while its degree distribution develops a heavy tail on log–log axes.
+   Two experiments bolted on: kill the preference (uniform attachment, same
+   growth) or kill the growth (all nodes present from the start, links added
+   preferentially) — and a first-mover view that tracks an early and a late
+   node's degree over time. */
 
 "use strict";
 
@@ -9,9 +13,71 @@
   const ctx = canvas.getContext("2d");
   const $ = (id) => document.getElementById(id);
 
-  let m = 2;
+  let m = 2, mode = "pa", view = "ccdf";
   let stepper, simNodes, simLinks, newest = -1;
   let playing = false, lastAdd = 0;
+  let steps = 0, track = [];          // first-mover: [{t, early, late}]
+  const EARLY = 5, LATE = 125;
+
+  // Uniform attachment: same growth as BA, but the newcomer picks m
+  // existing nodes uniformly at random — no preference at all.
+  function uniformStepper(m) {
+    const g = GL.empty(0);
+    const seed = m + 1;
+    for (let i = 0; i < seed; i++) { g.adj.push([]); g.n++; }
+    for (let i = 0; i < seed; i++) for (let j = i + 1; j < seed; j++) GL.addEdge(g, i, j);
+    return {
+      graph: g,
+      addNode() {
+        const id = g.n;
+        g.adj.push([]); g.n++;
+        const chosen = new Set();
+        while (chosen.size < Math.min(m, id)) chosen.add(Math.floor(Math.random() * id));
+        chosen.forEach((t) => GL.addEdge(g, id, t));
+        return id;
+      },
+    };
+  }
+
+  // No growth: all N_MAX nodes exist from the start; each step a random node
+  // makes m links, choosing targets with probability ∝ (k + 1) — preference
+  // without arrivals (Barabási's "model B"). Returns the node that linked.
+  function staticStepper(m) {
+    const g = GL.empty(N_MAX);
+    return {
+      graph: g,
+      addNode() {
+        const u = Math.floor(Math.random() * N_MAX);
+        const degs = GL.degrees(g);
+        let total = 0;
+        for (let i = 0; i < N_MAX; i++) if (i !== u && !GL.hasEdge(g, u, i)) total += degs[i] + 1;
+        let made = 0, guard = 0;
+        while (made < m && guard++ < 50 && total > 0) {
+          let r = Math.random() * total, pick = -1;
+          for (let i = 0; i < N_MAX; i++) {
+            if (i === u || GL.hasEdge(g, u, i)) continue;
+            r -= degs[i] + 1;
+            if (r <= 0) { pick = i; break; }
+          }
+          if (pick < 0) break;
+          GL.addEdge(g, u, pick);
+          total -= degs[pick] + 1;
+          made++;
+        }
+        return u;
+      },
+    };
+  }
+
+  function makeStepper() {
+    return mode === "pa" ? GL.baStepper(m) : mode === "uniform" ? uniformStepper(m) : staticStepper(m);
+  }
+
+  function recordTrack() {
+    const g = stepper.graph;
+    const t = mode === "static" ? steps : g.n;
+    track.push({ t, early: g.adj[EARLY] ? g.adj[EARLY].length : NaN, late: g.adj[LATE] ? g.adj[LATE].length : NaN });
+  }
 
   const sim = d3.forceSimulation()
     .force("charge", d3.forceManyBody().strength(-16))
@@ -21,23 +87,32 @@
     .on("tick", drawNet);
 
   function reset() {
-    stepper = GL.baStepper(m);
+    stepper = makeStepper();
     const g = stepper.graph;
-    simNodes = d3.range(g.n).map((i) => ({ index: i }));
+    simNodes = d3.range(g.n).map((i) => ({ index: i, x: 80 * (Math.random() - 0.5), y: 80 * (Math.random() - 0.5) }));
     simLinks = g.edges.map(([a, b]) => ({ source: a, target: b }));
-    newest = -1;
+    newest = -1; steps = 0; track = [];
     // pre-grow a little so both panels have something to say on load
-    for (let i = 0; i < 40; i++) {
+    const pre = mode === "static" ? 0 : 40;
+    for (let i = 0; i < pre; i++) {
       const before = g.edges.length;
       const id = stepper.addNode();
       simNodes.push({ index: id, x: 12 * (Math.random() - 0.5), y: 12 * (Math.random() - 0.5) });
       for (let e = before; e < g.edges.length; e++)
         simLinks.push({ source: g.edges[e][0], target: g.edges[e][1] });
+      recordTrack();
     }
+    $("net-title").textContent = mode === "pa" ? "Preferential attachment — newest node in color"
+      : mode === "uniform" ? "Uniform attachment (growth, no preference) — newest node in color"
+      : "No growth — all nodes present, links added with preference; latest linker in color";
+    $("l-n").textContent = mode === "static" ? "Steps (of 250)" : "Nodes";
+    $("play").textContent = "▶ Grow";
     syncSim();
     updateStats();
     drawChart();
   }
+
+  function done() { return mode === "static" ? steps >= N_MAX : stepper.graph.n >= N_MAX; }
 
   function syncSim() {
     sim.nodes(simNodes);
@@ -47,15 +122,19 @@
 
   function addNode() {
     const g = stepper.graph;
-    if (g.n >= N_MAX) { setPlaying(false); return; }
+    if (done()) { setPlaying(false); return; }
     const before = g.edges.length;
     const id = stepper.addNode();
-    // drop the new node near an attachment target so it flies in naturally
-    const anchor = simNodes[g.edges[before][1]] || { x: 0, y: 0 };
-    simNodes.push({ index: id, x: anchor.x + 8 * (Math.random() - 0.5), y: anchor.y + 8 * (Math.random() - 0.5) });
+    steps++;
+    if (mode !== "static") {
+      // drop the new node near an attachment target so it flies in naturally
+      const anchor = simNodes[g.edges[before][1]] || { x: 0, y: 0 };
+      simNodes.push({ index: id, x: anchor.x + 8 * (Math.random() - 0.5), y: anchor.y + 8 * (Math.random() - 0.5) });
+    }
     for (let e = before; e < g.edges.length; e++)
       simLinks.push({ source: g.edges[e][0], target: g.edges[e][1] });
     newest = id;
+    recordTrack();
     syncSim();
     updateStats();
     drawChart();
@@ -64,7 +143,7 @@
   function updateStats() {
     const g = stepper.graph;
     const degs = GL.degrees(g);
-    $("r-n").textContent = g.n;
+    $("r-n").textContent = mode === "static" ? steps : g.n;
     $("r-m").textContent = g.edges.length;
     $("r-hub").textContent = `k = ${d3.max(degs)}`;
     $("r-med").textContent = `k = ${d3.median(degs)}`;
@@ -116,6 +195,10 @@
   /* --- chart panel --- */
 
   function drawChart() {
+    if (view === "track") { drawTrack(); return; }
+    $("chart-title").textContent = "Degree distribution (CCDF, log–log)";
+    $("legend").innerHTML = '<span class="key"><span class="swatch dot" style="background: var(--series-1)"></span>P(K ≥ k) for this network</span>' +
+      '<span class="key"><span class="swatch" style="background: var(--baseline)"></span>k⁻² guide (what γ = 3 predicts)</span>';
     const c = VK.chart($("chart"));
     const colors = VK.colors();
     const degs = GL.degrees(stepper.graph);
@@ -143,10 +226,34 @@
     pts.forEach((d) => VK.marker(c, x(d.k), y(d.p), colors.s1, 4));
   }
 
+  // first-mover view: degree of an early and a late node as the network grows
+  function drawTrack() {
+    $("chart-title").textContent = mode === "static" ? "Two nodes' degree over the steps" : "Two nodes' degree as the network grows";
+    $("legend").innerHTML = `<span class="key"><span class="swatch" style="background: var(--series-1)"></span>node #${EARLY} (${mode === "static" ? "a random node" : "arrived early"})</span>` +
+      `<span class="key"><span class="swatch" style="background: var(--series-2)"></span>node #${LATE} (${mode === "static" ? "another random node" : "arrived late"})</span>`;
+    const c = VK.chart($("chart"));
+    const colors = VK.colors();
+    const early = track.filter((d) => !Number.isNaN(d.early)).map((d) => [d.t, d.early]);
+    const late = track.filter((d) => !Number.isNaN(d.late)).map((d) => [d.t, d.late]);
+    const yMax = Math.max(6, d3.max(early.concat(late), (d) => d[1]) || 0) * 1.15;
+    const x = d3.scaleLinear().domain([0, N_MAX]).range([0, c.w]);
+    const y = d3.scaleLinear().domain([0, yMax]).range([c.h, 0]);
+    VK.axes(c, x, y, {
+      xTicks: [0, 50, 100, 150, 200, 250], yTicks: y.ticks(5),
+      xTitle: mode === "static" ? "step" : "network size n", yTitle: "degree",
+    });
+    if (early.length > 1) VK.line(c, early, x, y, colors.s1);
+    if (late.length > 1) VK.line(c, late, x, y, colors.s2);
+    if (early.length) VK.directLabel(c, x(early[early.length - 1][0]) + 6, y(early[early.length - 1][1]) + 4, `#${EARLY}`);
+    if (late.length) VK.directLabel(c, x(late[late.length - 1][0]) + 6, y(late[late.length - 1][1]) + 4, `#${LATE}`);
+    if (mode !== "static" && !late.length)
+      VK.directLabel(c, x(LATE), c.h - 8, `node #${LATE} arrives here →`, "end").attr("font-weight", 400);
+  }
+
   /* --- play loop --- */
 
   function setPlaying(on) {
-    playing = on && stepper.graph.n < N_MAX;
+    playing = on && !done();
     $("play").textContent = playing ? "⏸ Pause" : "▶ Grow";
     if (playing) requestAnimationFrame(loop);
   }
@@ -155,7 +262,7 @@
     if (!playing) return;
     const interval = 620 - 60 * +$("speed").value; // speed 1 → slow, 10 → fast
     if (t - lastAdd > interval) { addNode(); lastAdd = t; }
-    if (stepper.graph.n >= N_MAX) setPlaying(false);
+    if (done()) setPlaying(false);
     else requestAnimationFrame(loop);
   }
 
@@ -167,6 +274,20 @@
       b.classList.add("on");
       m = +b.dataset.m;
       reset();
+    }));
+  document.querySelectorAll("#mode-seg button").forEach((b) =>
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#mode-seg button").forEach((x) => x.classList.remove("on"));
+      b.classList.add("on");
+      mode = b.dataset.v;
+      setPlaying(false); reset();
+    }));
+  document.querySelectorAll("#view-seg button").forEach((b) =>
+    b.addEventListener("click", () => {
+      document.querySelectorAll("#view-seg button").forEach((x) => x.classList.remove("on"));
+      b.classList.add("on");
+      view = b.dataset.v;
+      drawChart();
     }));
   $("play").addEventListener("click", () => setPlaying(!playing));
   $("step").addEventListener("click", () => { for (let i = 0; i < 10; i++) addNode(); });

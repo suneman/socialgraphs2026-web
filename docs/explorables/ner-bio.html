@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; Named entity recognition and BIO tags</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <label>Synthetic example
+    <select id="example">
+      <option value="swift">Taylor Swift met Spotify staff in Copenhagen in 2026.</option>
+      <option value="maya">Maya Chen joined Aurora Records in Berlin.</option>
+      <option value="summit">The summit starts on 14 May in Lisbon.</option>
+    </select>
+  </label>
+  <span class="seg" id="tag-mode">
+    <button data-mode="entity" class="on">entity labels</button>
+    <button data-mode="bio">BIO tags</button>
+  </span>
+</div>
+
+<div class="text-panels">
+  <div class="panel">
+    <h2>One prediction per token</h2>
+    <div class="token-row" id="tokens"></div>
+    <div class="legend">
+      <span class="key"><span class="swatch dot" style="background:var(--series-1)"></span>PERSON</span>
+      <span class="key"><span class="swatch dot" style="background:var(--series-2)"></span>ORG</span>
+      <span class="key"><span class="swatch dot" style="background:var(--accent)"></span>GPE</span>
+      <span class="key"><span class="swatch dot" style="background:var(--baseline)"></span>DATE</span>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Structured output</h2>
+    <table class="ner-table">
+      <thead><tr><th>span</th><th>type</th><th>tokens</th></tr></thead>
+      <tbody id="entities"></tbody>
+    </table>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">tokens</div><div class="v" id="n-tokens">0</div></div>
+      <div class="metric"><div class="k">entities</div><div class="v" id="n-entities">0</div></div>
+      <div class="metric"><div class="k">output level</div><div class="v">token/span</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="ner-bio.js"></script>
+</body>
+</html>

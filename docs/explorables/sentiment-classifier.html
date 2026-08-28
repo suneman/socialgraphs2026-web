@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable &middot; TF-IDF sentiment classifier</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="text-explore.css">
+<link rel="stylesheet" href="meaning-explore.css">
+<link rel="stylesheet" href="prediction-explore.css">
+</head>
+<body>
+
+<div class="controls">
+  <label>Test sentence
+    <select id="query-choice">
+      <option>This album has great songs</option>
+      <option>This album is not good</option>
+      <option>I love being stuck in traffic</option>
+      <option>The sound was awful and boring</option>
+    </select>
+  </label>
+</div>
+
+<div class="text-panels">
+  <div class="panel">
+    <h2>Labelled training texts</h2>
+    <div class="doc-list" id="training"></div>
+    <p class="note">The model below is genuinely fit in your browser to this tiny teaching set. It uses TF-IDF unigram features and logistic regression.</p>
+  </div>
+  <div class="panel">
+    <h2>Features become a prediction</h2>
+    <div class="formula" id="query"></div>
+    <div class="feature-list" id="features"></div>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">P(positive)</div><div class="v" id="prob">0.50</div></div>
+      <div class="metric"><div class="k">prediction</div><div class="v" id="prediction">positive</div></div>
+      <div class="metric"><div class="k">features used</div><div class="v" id="used">0</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="sentiment-classifier.js"></script>
+</body>
+</html>
