@@ -105,28 +105,28 @@
 
   <h2>3 · Your toolbox</h2>
 
-  <p>A key finding in all of didactics (the theory of how people learn) is that <em>active learning</em> is better. You need to do stuff yourself, not just sit and passively watch/read. That's why I created the adjacency matrix explorable.</p>
+  <p>Now for a detour. It's time to take a break from the networks for a bit and mix it up. So we'll be talking about how to work with the networks inside your computer. Why, you might ask? Well, a key finding in all of didactics (the theory of how people learn) is that <em>active learning</em> is best. You need to do stuff yourself, not just sit and passively watch/read. (That's why I created the adjacency matrix explorable.)</p>
 
-  <p>But we can do better than that. You need to get closer to the code. Like a real engineer. So I've set up the course with quick dips into Jupyter notebooks. You get to use an agent so it doesn't take so long — and so you don't have to manually type lots of code. But there's still a lot of value in seeing what's actually going on behind the beautifully designed explorables.</p>
+  <p>But we can do better than explorables. You need to get closer to the code. Like a real engineer. So I've set up the course with quick dips into Jupyter notebooks. You get to use a coding agent, so getting your hands dirty shouldn't take long. But there's still a lot of value in seeing what's actually going on behind the beautifully designed explorables.</p>
 
   <p>You need two things running before the rest of this page makes sense, and getting them running is this week's first builder exercise. You will need:</p>
 
-  <p><strong>Python + Jupyter + NetworkX.</strong> Notebooks are your workspace — the course material lives on this site, but your analyses, exercise answers and project experiments should take place in notebooks you keep. Any recent Python 3 works; install <code>jupyterlab</code> and <code>networkx</code> however you prefer. Your agent can help you (see next paragraph).</p>
+  <p><strong>Python + Jupyter + NetworkX.</strong> Notebooks are your workspace. Your analyses, exercise answers and project experiments should take place in notebooks you keep in a dedicated folder on your computer. Any recent Python 3 works; install <code>jupyterlab</code> and <code>networkx</code> however you prefer. Your agent can help you (see next paragraph).</p>
 
-  <p><strong>An agentic coding tool.</strong> Any of the ones listed in the <a href="../the-new-way.html#agents">agents box on the read-this-first page</a> is fine; if in doubt, a terminal agent. Just pick one and start playing. In 🚀 exercises we assume you have one; the difference between a strong group and a struggling one is not whether they use an agent, it is how they instruct it and whether they can read what it wrote and catch it being wrong. (If the mode labels are new to you, you skipped the <a href="../the-new-way.html">read-this-first page</a>. Go back and read it. It's great!)</p>
+  <p><strong>An agentic coding tool.</strong> Any of the ones listed in the <a href="../the-new-way.html#agents">agents box on the read-this-first page</a> is fine; if in doubt, a terminal agent. Just pick one and start playing. In 🚀 exercises we assume you have one.</p>
 
-  <p>So let's start a habit that I hope will run through the whole course. I plan to have lots of explorables on these pages to activate those brains of yours. But they're always code in disguise — a matrix, a graph, a plot, a slider. The explorable lets you play with an idea; rebuilding it in your own notebook is how you find out whether you really understand it, and it is exactly the kind of thing an agent will set up quickly, enabling you to start understanding the steps. So from here on, when a section hands you an explorable, expect the exercise to hand you the keyboard.</p>
+  <p>So let's start a habit that I hope will run through the whole course. There will be lots of explorables on these pages to activate those brains of yours. But there is always underlying code. A matrix, a graph, a plot, etc. An explorable lets you play with an idea, but <em>rebuilding it in your own notebook</em> will empower you and give you much more of a sense that YOU are in charge. Whenever there's an important explorable, there'll be an associated coding exercise.</p>
 
-  <p>Exercises appear where the story needs them, starting here. Do them in your group, in a notebook (except where the paper says paper), and mind the mode labels — 🧠 exercises are the ones Midterm 1 is built from.</p>
+  <p>Exercises appear where the story needs them, starting here. Do them in your group or by yourself, but always in a notebook (except where the paper says paper), and keep an eye on the "mode" labels. The 🧠 exercises are the ones I will use for the test.</p>
 
   <div class="exercise" id="toolbox">
     <h4>1.1 — Toolbox shakedown <span class="mode builder">🚀 Builder</span></h4>
-    <p>Get the machinery running — with your agent doing the boring parts and you checking its work.</p>
+    <p>Get the machinery running.</p>
     <ol>
     <li>Install Python 3, JupyterLab and NetworkX. Set up your agentic coding tool and confirm it can create and edit a notebook for you.</li>
     <li>Have your agent build a notebook that loads Zachary's Karate Club network (built into NetworkX), draws it, and reports the number of nodes, the number of edges, and the five highest-degree nodes.</li>
     <li>Now the part that matters: <em>read the generated code</em> and verify one claim by hand. Pick a node, count its edges in the drawing, and check the machine agrees. In three sentences: what did the agent do well, and what would you not have caught if it were wrong?</li>
-    <li>Rebuild your own version of Part 2's adjacency-matrix explorable as code. Write an $n \times n$ matrix by hand (you decide $n$), type it in as a <code>numpy</code> array, turn it into a directed NetworkX graph (<code>nx.from_numpy_array</code>), draw it, and print the row sums and column sums next to NetworkX's own <code>in_degree</code> and <code>out_degree</code>. Hopefully they agree. Then symmetrize the matrix ($A + A^{\mathsf T}$, clipped to 1), build an undirected graph from it, and draw again: the arrowheads should be gone. Finally, plant a weight, an isolate and a self-loop in the matrix and check that each shows up in the drawing exactly where Part 2 says it should.</li>
+    <li>Create your own version of Part 2's adjacency-matrix explorable as code. Write an $n \times n$ matrix by hand (you decide $n$), type it in as a <code>numpy</code> array, turn it into a directed NetworkX graph (<code>nx.from_numpy_array</code>), draw it, and print the row sums and column sums next to NetworkX's own <code>in_degree</code> and <code>out_degree</code>. Hopefully they agree. Then symmetrize the matrix ($A + A^{\mathsf T}$, clipped to 1), build an undirected graph from it, and draw again: the arrowheads should be gone. Finally, plant a weight, an isolate and a self-loop in the matrix and check that each shows up in the drawing exactly where Part 2 says it should.</li>
   </ol>
   </div>
 
