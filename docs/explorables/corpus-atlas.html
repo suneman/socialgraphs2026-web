@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable · Marvel corpus atlas</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="meaning-explore.css">
+<link rel="stylesheet" href="week7-explore.css">
+</head>
+<body>
+<div class="controls">
+  <span class="seg" id="projection">
+    <button data-projection="svd" class="on">SVD map</button>
+    <button data-projection="tsne">t-SNE map</button>
+  </span>
+  <label>Colour
+    <select id="colour">
+      <option value="none">none</option>
+      <option value="community">network community</option>
+      <option value="cluster">description cluster</option>
+    </select>
+  </label>
+  <label style="flex:1;min-width:210px">Find
+    <input id="search" class="query-box" type="search" placeholder="Spider-Man, Hulk, Wolverine…">
+  </label>
+  <button id="reset">reset view</button>
+</div>
+<div id="legend" class="legend-inline"></div>
+
+<div class="atlas-layout">
+  <div class="atlas-stage">
+    <svg id="atlas" class="atlas-svg" viewBox="0 0 560 500" role="img" aria-label="Map of 303 Marvel character descriptions"></svg>
+    <div class="tooltip wide" id="tip"></div>
+    <div class="atlas-note">scroll to zoom · drag to pan · click a point</div>
+  </div>
+  <div class="atlas-side">
+    <div class="detail-card" id="detail">
+      <div class="mini-k">selected document</div>
+      <div class="detail-name" id="detail-name">Choose a point</div>
+      <p class="detail-desc" id="detail-desc">The map is a projection. Click any character to compare neighbours in the original high-dimensional preview space with neighbours in the two-dimensional drawing.</p>
+      <div class="detail-meta" id="detail-meta"></div>
+      <div class="mini-k">nearest in original preview space</div>
+      <ul class="neighbour-list" id="high-neighbours"></ul>
+      <div class="mini-k" style="margin-top:9px">nearest in this 2D map</div>
+      <ul class="neighbour-list" id="map-neighbours"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="compare-strip">
+  <h2>Two partitions of the same 303 nodes</h2>
+  <div class="note">Rows are description clusters; columns are the seven largest network communities. A dark cell means many characters land in both groups.</div>
+  <div class="heat-wrap" style="margin-top:8px">
+    <div class="heat-terms" id="cluster-terms"></div>
+    <div id="heatmap"></div>
+  </div>
+</div>
+
+<script src="../vendor/d3.v7.min.js"></script>
+<script src="corpus-atlas.js"></script>
+</body>
+</html>

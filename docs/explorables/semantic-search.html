@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable · Sparse and dense search</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="week7-explore.css">
+</head>
+<body>
+<div class="controls">
+  <label style="flex:1;min-width:260px">Query
+    <input id="query" class="query-box" value="mutant superhero">
+  </label>
+  <button class="primary" id="run">search</button>
+  <span class="seg" id="presets">
+    <button data-q="spider woman">spider woman</button>
+    <button data-q="captain america">captain america</button>
+    <button data-q="venom">venom</button>
+  </span>
+</div>
+
+<div class="search-layout">
+  <section class="search-pane">
+    <h2>Sparse retrieval</h2>
+    <div class="sub">TF-IDF query vector · exact vocabulary overlap matters</div>
+    <div class="result-list" id="sparse-results"></div>
+  </section>
+  <section class="search-pane">
+    <h2>Dense preview</h2>
+    <div class="sub">40D SVD of TF-IDF · a local stand-in for the dense encoder you will use in the notebook</div>
+    <div class="result-list" id="dense-results"></div>
+  </section>
+</div>
+
+<div class="pipeline-mini">
+  <span class="step">query</span><span class="arrow">→</span><span class="step">vector</span><span class="arrow">→</span><span class="step">similarity</span><span class="arrow">→</span><span class="step">ranked documents</span>
+</div>
+<div class="note" style="margin-top:8px">The demo uses the 303 short descriptions that ship with Week 1. The raw Wikipedia pages stay on DTU storage. In the exercise, use those pages and replace the dense SVD preview with a pretrained text encoder.</div>
+<script src="semantic-search.js"></script>
+</body>
+</html>

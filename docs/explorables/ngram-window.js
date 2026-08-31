@@ -2,7 +2,7 @@
 
 (function () {
   const $ = (id) => document.getElementById(id);
-  const initial = "more is said than done and more is learned by doing";
+  const initial = "New York City is a city in the state of New York";
   let n = 2;
 
   function tokenize(s) { return s.toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu) || []; }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Explorable · Word frequency in the Marvel descriptions</title>
+<title>Explorable · An idealized Zipf curve</title>
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="explore.css">
 <link rel="stylesheet" href="text-explore.css">
@@ -15,6 +15,8 @@
     <button data-scale="linear" class="on">linear axes</button>
     <button data-scale="log">log-log axes</button>
   </span>
+  <label>Exponent s <input type="range" id="s" min="0.7" max="1.3" step="0.02" value="1.00">
+    <span class="val" id="s-val">1.00</span></label>
 </div>
 
 <div class="panels">
@@ -23,21 +25,20 @@
     <svg class="chart" id="chart"></svg>
   </div>
   <div class="panel">
-    <h2>Most frequent tokens</h2>
+    <h2>What rank means</h2>
     <div class="bar-list" id="topwords"></div>
-    <p class="note">These are real counts from the short descriptions of all 303 characters in the Week 1 node file. The full Wikipedia pages stay on DTU storage, so use those in your notebook.</p>
+    <p class="note">The labels are familiar English examples; the frequencies are generated from an idealized Zipf distribution, f(r) ∝ 1/r<sup>s</sup>.</p>
   </div>
 </div>
 
 <div class="readout">
-  <div class="tile"><div class="label">Tokens</div><div class="value" id="r-tokens">–</div></div>
-  <div class="tile"><div class="label">Types</div><div class="value" id="r-types">–</div></div>
-  <div class="tile"><div class="label">Types seen once</div><div class="value" id="r-hapax">–</div></div>
-  <div class="tile"><div class="label">Current axes</div><div class="value" id="r-scale">linear</div></div>
+  <div class="tile"><div class="label">Rank 1 / rank 10</div><div class="value" id="r-ratio">–</div></div>
+  <div class="tile"><div class="label">Ideal Zipf exponent</div><div class="value">≈ 1</div></div>
+  <div class="tile"><div class="label">Plot to inspect</div><div class="value" id="r-scale">linear</div></div>
 </div>
 
 <script src="../vendor/d3.v7.min.js"></script>
 <script src="vizkit.js"></script>
-<script src="zipf-language.js"></script>
+<script src="zipf-idealized.js"></script>
 </body>
 </html>

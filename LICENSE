@@ -1,3 +1,21 @@
+02805 Social Graphs & Interactions — course site
+Copyright (c) 2025-2026 Sune Lehmann
+
+Two licences apply:
+
+1. COURSE MATERIALS — all page content (text, exercises, figures, data
+   descriptions, and the pages generated from content/):
+   Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0).
+   https://creativecommons.org/licenses/by-sa/4.0/
+   You may share and adapt the materials for any purpose, including
+   commercially, provided you give appropriate credit and distribute
+   derivatives under the same licence.
+
+2. CODE — the build tooling (generate.py, build.sh, publish.sh), the site
+   JavaScript, and the explorables: MIT License, reproduced below.
+
+---
+
 MIT License
 
 Copyright (c) 2025 Sune Lehmann

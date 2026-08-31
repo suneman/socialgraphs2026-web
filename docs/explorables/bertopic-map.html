@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explorable · BERTopic-style intertopic map</title>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="explore.css">
+<link rel="stylesheet" href="meaning-explore.css">
+<link rel="stylesheet" href="week7-explore.css">
+</head>
+<body>
+<div class="controls">
+  <span class="seg" id="topic-projection">
+    <button data-projection="svd" class="on">SVD map</button>
+    <button data-projection="tsne">t-SNE map</button>
+  </span>
+  <label>Colour
+    <select id="topic-colour">
+      <option value="macro">larger topic cluster</option>
+      <option value="none">none</option>
+    </select>
+  </label>
+  <label style="flex:1;min-width:220px">Find a character
+    <input id="topic-search" class="query-box" type="search" placeholder="Spider-Man, Hulk, Wolverine…">
+  </label>
+</div>
+<div class="topic-preview-note">Local preview: the site uses the short Week 1 descriptions so it can ship without the raw pages or a model download. Some topics will therefore be rough. In your notebook, run BERTopic on the raw Marvel pages and pretrained embeddings.</div>
+
+<div class="topic-layout">
+  <div class="topic-stage">
+    <svg id="topic-map" class="topic-svg" viewBox="0 0 560 500" role="img" aria-label="Intertopic distance map"></svg>
+    <div class="tooltip wide" id="topic-tip"></div>
+    <div class="atlas-note">circle size = documents in topic · click a topic</div>
+  </div>
+  <aside class="topic-side">
+    <div class="detail-card">
+      <div class="mini-k">selected topic</div>
+      <div class="detail-name" id="topic-name">Choose a topic</div>
+      <div class="topic-count" id="topic-count"></div>
+      <div class="mini-k" style="margin-top:10px">representative words</div>
+      <div class="topic-terms" id="topic-terms"></div>
+      <div class="mini-k" style="margin-top:12px">representative documents</div>
+      <ul class="topic-docs" id="topic-docs"></ul>
+      <div class="mini-k" style="margin-top:12px">nearest topics in original preview space</div>
+      <ul class="neighbour-list" id="topic-neighbours"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="pipeline-mini topic-pipeline">
+  <span class="step">documents</span><span class="arrow">→</span>
+  <span class="step">contextual embeddings</span><span class="arrow">→</span>
+  <span class="step">clusters</span><span class="arrow">→</span>
+  <span class="step">topic words</span><span class="arrow">→</span>
+  <span class="step">2D topic map</span>
+</div>
+
+<script src="../vendor/d3.v7.min.js"></script>
+<script src="bertopic-map.js"></script>
+</body>
+</html>
