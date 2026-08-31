@@ -120,6 +120,16 @@
   </ol>
   </div>
 
+  <div class="exercise">
+    <h4>1.2 — Calibrate your tool <span class="mode instrument">🔬 Tool</span></h4>
+    <p>Your first taste of the new skill that runs through the whole course: never trust a measurement you haven't checked.</p>
+    <ol>
+    <li>Ask your favorite LLM ten specific, factual questions about the domain of the network you chose in 1.1.2 — dates, names, numbers, who-connects-to-whom.</li>
+    <li>Grade every answer against a source you trust. Report the score as a fraction, and classify the failures: plainly wrong, subtly wrong, or confidently unverifiable?</li>
+    <li>One paragraph: given that error profile, what would you let this tool do unsupervised, and what would you always verify? Keep the paragraph. This is a mini practice run for your project's <code>AI_METHODS.md</code>.</li>
+  </ol>
+  </div>
+
   <h2>4 · Your toolbox</h2>
 
   <p>Now for a detour. It's time to take a break from the networks for a bit and mix it up. So we'll be talking about how to work with the networks inside your computer. Why, you might ask? Well, a key finding in all of didactics (the theory of how people learn) is that <em>active learning</em> is best. You need to do stuff yourself, not just sit and passively watch/read. (That's why I created the adjacency matrix explorable.)</p>
@@ -135,7 +145,7 @@
   <p>So let's start a habit that I hope will run through the whole course. There will be lots of explorables on these pages to activate those brains of yours. But there is always underlying code. A matrix, a graph, a plot, etc. An explorable lets you play with an idea, but <em>rebuilding it in your own notebook</em> will empower you and give you much more of a sense that YOU are in charge. Whenever there's an important explorable, there'll be an associated coding exercise.</p>
 
   <div class="exercise" id="toolbox">
-    <h4>1.2 — Toolbox shakedown <span class="mode builder">🚀 Builder</span></h4>
+    <h4>1.3 — Toolbox shakedown <span class="mode builder">🚀 Builder</span></h4>
     <p>Get the machinery running.</p>
     <ol>
     <li>Install Python 3, JupyterLab and NetworkX. Set up your agentic coding tool and confirm it can create and edit a notebook for you.</li>
@@ -156,7 +166,7 @@
 
   <p>On ordinary (linear) axes that tail is not easy to see. Those extreme counts are still rare. But if you plot your degree distribution on <strong>log–log axes</strong>, then you can see those extremely connected nodes clearly. Whether that tail is "a power law" is a discussion we'll get into next week; this week your job is smaller and more important: <em>make the two plots, and learn to read them</em>. In network science we love distributions.</p>
 
-  <p>So let's learn how to plot distributions. Nowadays, there's no need to actually make the plots. Your coding agent can write the matplotlib lines. But you need to learn to read the plots and decide whether to believe the answer (exercise 1.5 is about that). What stays human is <em>reading the shapes</em>.</p>
+  <p>So let's learn how to plot distributions. Nowadays, there's no need to actually make the plots. Your coding agent can write the matplotlib lines. But you need to learn to read the plots and decide whether to believe the answer (exercise 1.6 is about that). What stays human is <em>reading the shapes</em>.</p>
 
   <p>That is what we will be training here, first in an explorable with two clean mathematical specimens, then on the real thing:</p>
 
@@ -186,7 +196,7 @@
   <p class="explorable-caption">Switch in- to out-degree and watch the leaderboard change characters entirely; then go log–log and turn on binning to see the tail through the noise. Both axis modes plot $k+1$, so the zero-degree characters survive the log axis instead of silently vanishing.</p>
 
   <div class="exercise">
-    <h4>1.3 — Reading the Marvel degree distributions <span class="mode learn">🧠 Learn</span></h4>
+    <h4>1.4 — Reading the Marvel degree distributions <span class="mode learn">🧠 Learn</span></h4>
     <p>Play with the explorable until you can answer these in your own words. It is fine to discuss your answers with a chatbot afterwards. But try to figure them out yourself first — that is the whole point of Part 0. Your weak human brain needs the exercise!</p>
     <ol>
     <li><strong>Only the in-degree looks like a power law.</strong> On log–log axes the in-degree tail stretches all the way to Spider-Man at $k = 106$; the out-degree tail dies almost four times earlier — the highest out-degree is Betsy Braddock's, at 28. Why? Think about <em>who creates</em> each kind of edge. An in-link is conferred by someone else: a different article's editors deciding this character matters. An out-link is authored: someone has to sit down and write it into this page. Which of the two has a ceiling, and which can keep growing? (Week 2 has a model of exactly that mechanism.) So what does a node's in-degree <em>mean</em> in this network, and what does its out-degree mean?</li>
@@ -199,7 +209,7 @@
   <p>Ok. I'm dropping in two extra network science vocabulary items so you have them. A <strong>path</strong> is a sequence of edges from one node to another; the <strong>distance</strong> between two nodes is the length of the shortest path; and a <strong>connected component</strong> is a set of nodes that can all reach each other via a path (it's a bit more complicated for directed graphs, check the book for that). Many real networks have a single <strong>giant component</strong> connecting nearly every node, plus a few scattered islands — just like the superheroes do. The deeper theory of paths (and the famous "six degrees") arrives in week 3.</p>
 
   <div class="exercise">
-    <h4>1.4 — Pen and paper warm-up <span class="mode learn">🧠 Learn</span></h4>
+    <h4>1.5 — Pen and paper warm-up <span class="mode learn">🧠 Learn</span></h4>
     <p>No notebook for this one — do it on paper. It's practice for the test.</p>
     <ol>
     <li>Take the edge list $A \leftrightarrow B$, $A \leftrightarrow C$, $A \leftrightarrow D$, $B \leftrightarrow C$, $C \leftrightarrow D$, $D \leftrightarrow E$, $E \leftrightarrow F$. Draw the network. Write down every node's degree. How many edges does the network have, and what does the sum of your degrees have to do with that number? Compute the average degree and the density.</li>
@@ -211,8 +221,8 @@
   </div>
 
   <div class="exercise">
-    <h4>1.5 — The distribution, as code <span class="mode builder">🚀 Builder</span></h4>
-    <p>Now rebuild the two explorables above in a notebook — the agent writes the plotting, you decide what to plot and check every number against what the page shows.</p>
+    <h4>1.6 — The distribution, as code <span class="mode builder">🚀 Builder</span></h4>
+    <p>Now rebuild the two explorables above in a Jupyter notebook. The idea is that your agent writes the code, you decide what to plot and check every number against what the page shows.</p>
     <ol>
     <li>Load the week-1 snapshot of the Marvel network from the <a href="../data/">course data page</a> — as a <em>directed</em> graph, and with every node added first so the 17 isolates survive (the page shows how). Confirm $n = 303$ and 1,784 directed edges. Then reconcile that with Part 2: collapse the edges to undirected pairs and check you get $m = 1{,}434$ and $\langle k\rangle \approx 9.5$ — and explain, in one sentence, why the two edge counts differ.</li>
     <li>Reproduce the plots from the real-degrees explorable: the in-degree and the out-degree distribution, each on linear and on log–log axes, plotted against $k+1$ so the isolates stay on the log axis (and say so on the axis label). Print each distribution's top five characters and check them against the explorable's leaderboard.</li>
@@ -223,9 +233,11 @@
 
   <h2>6 · Seeing a network</h2>
 
-  <p>Data visualization is a crucial part of network science. Networks are often beautiful. And there's lots to learn about plotting graphs. Today we just get started.</p>
+  <p>Data visualization is a crucial part of network science. Networks are often beautiful. And there's lots to learn about plotting graphs. Today we get started and scratch the surface.</p>
 
-  <p>The first thing I do with a network is to plot it. The force-directed layout (NetworkX's default) pulls connected nodes together and pushes nodes in general apart, and for a few hundred nodes it is genuinely revealing: clusters, hubs and loners jump out. But know what you are looking at. Node positions in a force layout <em>are a good start</em>, to tell you what to look for. But in the end only the connections are data; the node locations depend on a physics simulation (there's an energy function that is optimized). Very large networks are difficult to visualize — maybe you run out of pixels on the screen, or you don't have enough compute to calculate a good layout. If the networks are very dense you'll get a big undifferentiated <em>hairball</em>, so there are many ways visualization can go wrong. For now, let's look at the superheroes and enjoy the many ways we can organize the nodes.</p>
+  <p>The first thing I do with a network is to plot it. The force-directed layout (NetworkX's default) pulls connected nodes together and pushes nodes in general apart, and for a few hundred nodes it is genuinely revealing: clusters, hubs and loners jump out. But know what you are looking at. Node positions in a force layout <em>are a good start</em>. They tell you what to look for. But in the end the node locations depend on a physics simulation (there's an energy function that is optimized) so you always have to be critical. Very large networks are difficult to visualize: maybe you run out of pixels on the screen, or you don't have enough compute to calculate a good layout. And if the networks are very dense you'll get a big undifferentiated <em>hairball</em>. In short, <em>there are many ways network visualization can go wrong</em>.</p>
+
+  <p>For now, let's look at the superheroes and enjoy the many ways we can organize the nodes.</p>
 
   <p>To make the visualizations more fun, I have calculated the network <em>communities</em>. This is something we'll be getting into during week 4. But for now the idea is simply that we can find groups of nodes that are more connected than what we would expect if things were wired up randomly ... kind of like groups of friends in a social network. I've given each community a color and created a visualization that organizes according to community.</p>
 
@@ -235,7 +247,7 @@
   <p class="explorable-caption">Flip between layouts and watch the same 277 characters (the giant component) fly to new homes — the edges never change, only the story the picture tells. Toggle the community colors to see the groups a clustering algorithm finds (week 4 explains how); in the community circle, edges bend toward the center so each cluster's internal chatter hugs the rim. <strong>Then hover a hub</strong> (go find Spider-Man) and watch one neighborhood survive every rearrangement.</p>
 
   <div class="exercise">
-    <h4>1.6 — Reading a network drawing <span class="mode learn">🧠 Learn</span></h4>
+    <h4>1.7 — Reading a network drawing <span class="mode learn">🧠 Learn</span></h4>
     <p>Short questions on the explorable above. This is again the kind of thing we can ask on a test: here is a drawing of a network — what in it is data, what is decoration, and what would a careless reader conclude?</p>
     <ol>
     <li>Flip through <em>force</em>, <em>circle A–Z</em>, <em>circle by degree</em> and <em>random</em>. For each of the following, does it change when the layout changes? The number of nodes; the number of edges; Spider-Man's degree; how far apart two characters sit on the screen; the network distance (Part 5) between the same two characters. Sort the five into <em>data</em> and <em>decoration</em>.</li>
@@ -252,17 +264,7 @@
 
   <p>The aim is to form one in the first session, but if it takes a couple of lectures that's also OK. Especially the 'go nuts' exercises are more fun with friends to brainstorm and discuss alongside.</p>
 
-  <p>There is a single iron rule: <em>everyone must be able to solve everything</em>. The midterms are individual, on paper, and they do not care who in your group understood it.</p>
-
-  <div class="exercise">
-    <h4>1.7 — Calibrate your tool <span class="mode instrument">🔬 Tool</span></h4>
-    <p>Your first taste of the habit that runs through the whole course: never trust a measurement you haven't checked.</p>
-    <ol>
-    <li>Ask your favorite LLM ten specific, factual questions about the domain of the network you chose in 1.1.2 — dates, names, numbers, who-connects-to-whom.</li>
-    <li>Grade every answer against a source you trust. Report the score as a fraction, and classify the failures: plainly wrong, subtly wrong, or confidently unverifiable?</li>
-    <li>One paragraph: given that error profile, what would you let this tool do unsupervised, and what would you always verify? Keep the paragraph. This is a mini practice run for your project's <code>AI_METHODS.md</code>.</li>
-  </ol>
-  </div>
+  <p>There is a single iron rule: <em>everyone must be able to solve everything</em>. The tests are individual, on paper, and they do not care who in your group understood it.</p>
 
   <div class="exercise" id="go-nuts">
     <h4>1.8 — Go nuts with your LLM <span class="mode builder">🚀 Builder</span> · every week, from now on</h4>
@@ -280,7 +282,7 @@
   </div>
 
   <div class="on-the-test">
-    <p class="eyebrow">On Midterm 1</p>
+    <p class="eyebrow">On the first test</p>
     <p>From this week, you should be able to do the following <strong>on paper, closed book</strong>:</p>
     <ul>
     <li>translate a described real-world system into nodes and edges — and defend the choice, or say what a different choice would change;</li>
@@ -296,7 +298,7 @@
 
   <h2 id="goodies">8 · Goodies</h2>
 
-  <p>Everything above is the course. Everything below is for the student who finished the page and wants more. Nothing here is on the midterm, all of it is worth your time, and none of it has to be done this week (in fact many things remain relevant to check out later). Pick what you like.</p>
+  <p>Everything above is the course. Everything below is for the student who finished the page and wants more. Nothing here is on the test, all of it is worth your time, and none of it has to be done this week (in fact many things remain relevant to check out later). Pick what you like.</p>
 
   <div class="callout" id="own-expert">
     <p class="eyebrow">⭐ Build your own network-science expert</p>
