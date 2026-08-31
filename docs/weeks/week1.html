@@ -18,7 +18,7 @@
   <a class="brand" href="../index.html">02805</a>
   <a href="../the-new-way.html">The new way</a>
   <a href="../index.html#weeks">Weeks</a>
-  <a href="../index.html#assessment">Assessment</a>
+  <a href="../index.html#overview">Overview</a>
   <span class="spacer"></span>
   <a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Textbook ↗</a>
 </nav>
@@ -258,17 +258,18 @@
   </ol>
   </div>
 
-  <h2>7 · Groups</h2>
+  <h2>7 · Group Exercise</h2>
 
-  <p>The plan is for you to work in a <strong>3-person group</strong>, formed this week and kept all semester — weekly exercises, both project stages, one shared fate at the demo fair. Smaller groups are OK, but larger groups are not.</p>
-
-  <p>The aim is to form one in the first session, but if it takes a couple of lectures that's also OK. Especially the 'go nuts' exercises are more fun with friends to brainstorm and discuss alongside.</p>
-
-  <p>There is a single iron rule: <em>everyone must be able to solve everything</em>. The tests are individual, on paper, and they do not care who in your group understood it.</p>
+  <p>Time to team up: you'll work in a <strong>3-person group</strong>, formed now and kept all semester (within reason). The rules (and the one iron rule) live on the front page — read <a href="../index.html#groups">Groups</a>. Aim to form yours today; if it takes a couple of sessions, that's OK too — but the exercise below is a lot more fun with friends to brainstorm alongside.</p>
 
   <div class="exercise" id="go-nuts">
     <h4>1.8 — Go nuts with your LLM <span class="mode builder">🚀 Builder</span> · every week, from now on</h4>
-    <p>Every week of this course ends here, so read the rules once. Your group should start a <strong>public website</strong> — a GitHub Pages site your LLM helps you build and style, your personal corner of the internet. Each week you add one post: this week's tools, applied to the <strong>shared playground dataset</strong>, in the free-est possible way. Try something. Make a figure. Write about what you found (or didn't). By December you will have done the "interactive data story" eight times before it counts for anything — and the whole class will have accumulated insight on one dataset.</p>
+    <p>Every week of this course ends this way, so read the rules once.</p>
+    <ol>
+    <li>Your group should start a <strong>public website</strong> — a GitHub Pages site your LLM helps you build and style, your personal corner of the internet.</li>
+    <li>Each week you add one post to the website: use the week's tools to get something fun out of the <strong>shared playground dataset</strong>. Be as free and creative as possible. Go nuts with your friends and an LLM. Try something. Make figures, build. Write about what you found (or didn't).</li>
+  </ol>
+    <p>By December you will have done the "interactive data story" eight times before it counts for anything — and the whole class will have accumulated insight on one dataset.</p>
     <p>The playground: the 303 characters in Wikipedia's <a href="https://en.wikipedia.org/wiki/Category:Marvel_Comics_superheroes" target="_blank" rel="noopener">Category:Marvel Comics superheroes</a> and the links between their pages — a dense, hub-riddled little universe (Spider-Man alone is linked by a third of it), sitting right there in public. This half of the course we mine its structure; from week 5, its text.</p>
     <p>This week — the bootstrap edition:</p>
     <ol>
@@ -277,7 +278,7 @@
     <li>Explore, freely, with this week's ideas and tools: degree distributions (linear and log–log!), in- versus out-degree — who is linked <em>to</em> most, who links out most, and why are those different people? Draw the network. Make art. Go nuts. Find the islands outside the giant component. Or chase something we didn't think of — surprise us.</li>
     <li>Write it up as your first post: what you asked, what you did, one figure or table, what surprised you. (Stretch: re-derive a corner of the dataset yourself with the Wikipedia API — see below — and check the snapshot.)</li>
   </ol>
-    <p><strong>The Wikipedia API, for when you want to go beyond the snapshot.</strong> The course hands you the Marvel network ready-made — but the data comes from somewhere, your go-nuts posts can reach past the frozen snapshot, and your final project will need a cool dataset that could well be a crawl of a domain of its own. Wikipedia serves every page in two forms: the rendered HTML you read in a browser, and the raw wiki-source behind it — internal links sit in the wiki-source as <code>[[Page name]]</code>, which is exactly how the Marvel network's edges were harvested — and the API hands you either one programmatically. The classic video walkthrough is <a href="https://www.youtube.com/watch?v=9l5zOfh0CRo" target="_blank" rel="noopener">here</a> (it is Python-2 era; the ideas hold, your agent speaks the current dialect). One practical note: Wikipedia may answer <code>403</code> unless your request carries a User-Agent header identifying your client.</p>
+    <p><strong>The Wikipedia API, for when you want to go beyond the snapshot.</strong> The course hands you the Marvel network ready-made. But the data comes from somewhere, your go-nuts posts are allowed to reach past the frozen snapshot, and your final project will need a cool dataset that could well be a crawl of a domain of its own. Wikipedia serves every page in two forms: the rendered HTML you read in a browser, and the raw wiki-source behind it — internal links sit in the wiki-source as <code>[[Page name]]</code>, which is exactly how the Marvel network's edges were harvested — and the API hands you either one programmatically. My old-school video walkthrough is <a href="https://www.youtube.com/watch?v=9l5zOfh0CRo" target="_blank" rel="noopener">here</a> (it is Python-2 era; the ideas hold, your agent speaks the current dialect). One practical note: Wikipedia may answer <code>403</code> unless your request carries a User-Agent header identifying your client.</p>
     <p><strong>Then, always:</strong> post your site link in this week's Teams channel by Monday evening · read what other groups made · leave <strong>constructive, friendly criticism</strong> on at least one other group's post (what works, one concrete thing to try). Honing your critical eye on each other's work is half the point. We announce a winner from last week at the start of the next session.</p>
   </div>
 
@@ -288,8 +289,10 @@
     <li>translate a described real-world system into nodes and edges — and defend the choice, or say what a different choice would change;</li>
     <li>classify a network from its description: directed / undirected, weighted / unweighted — and spot when a representation is wrong for the question being asked of it;</li>
     <li>compute, on a ≤6-node example: degrees, in- and out-degrees, edge counts, average degree and density — and use the fact that degrees sum to twice the edge count;</li>
+    <li>reconcile the directed and undirected views of the same network: explain why the directed link count and the undirected pair count differ, why the average in- and out-degree must be equal, and what happens to the isolates if a careless loading drops them;</li>
     <li>write the adjacency matrix of a small network — directed or undirected, weighted or not — and read a matrix back into a drawing; know why undirected means symmetric, and where the degrees hide in the rows and columns;</li>
     <li>sketch or read a degree distribution — including knowing what changes between linear and log–log axes, why heavy tails vanish on the former, and what a heavy in-degree tail next to a short out-degree tail says about how each kind of edge comes to exist;</li>
+    <li>say what binning does to a noisy degree distribution — where the binned curve must sit exactly on the raw data, why the plots show $k+1$ rather than $k$, and at least two ways a careless binning can manufacture a power law that is not there (or destroy one that is);</li>
     <li>use the definitions of path, distance, and connected component on a small example;</li>
     <li>look at a drawing of a network and say what in it is data and what is layout — and name one conclusion the drawing invites that the data does not support;</li>
     <li>read a short network description or figure and identify what is a node property, what is an edge property, and what is a property of the whole network.</li>
