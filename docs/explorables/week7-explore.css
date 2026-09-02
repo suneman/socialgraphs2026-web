@@ -15,10 +15,10 @@
 .detail-meta > div { border-top:1px solid var(--grid); padding-top:6px; }
 .detail-meta .k, .mini-k { color:var(--text-muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; }
 .detail-meta .v { color:var(--text-primary); font-size:13px; margin-top:2px; }
-.neighbour-list { margin:7px 0 0; padding:0; list-style:none; }
-.neighbour-list li { display:grid; grid-template-columns:1fr auto; gap:8px; padding:4px 0; border-bottom:1px solid var(--grid); font-size:11.8px; }
-.neighbour-list button { padding:0; border:0; text-align:left; color:var(--text-secondary); font-size:inherit; }
-.neighbour-list .score { color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.neighbor-list { margin:7px 0 0; padding:0; list-style:none; }
+.neighbor-list li { display:grid; grid-template-columns:1fr auto; gap:8px; padding:4px 0; border-bottom:1px solid var(--grid); font-size:11.8px; }
+.neighbor-list button { padding:0; border:0; text-align:left; color:var(--text-secondary); font-size:inherit; }
+.neighbor-list .score { color:var(--text-muted); font-variant-numeric:tabular-nums; }
 .atlas-note { position:absolute; left:9px; bottom:8px; padding:4px 7px; border-radius:6px; background:color-mix(in srgb, var(--surface-1) 90%, transparent); color:var(--text-muted); font-size:10.5px; pointer-events:none; }
 .legend-inline { display:flex; flex-wrap:wrap; gap:5px 11px; margin:5px 0 8px; font-size:11px; color:var(--text-muted); }
 .legend-inline .key { display:flex; align-items:center; gap:5px; }

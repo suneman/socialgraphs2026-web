@@ -8,7 +8,7 @@
   const root = svg.append("g");
   const tip = $("tip");
   let projection = "svd";
-  let colour = "none";
+  let color = "none";
   let selected = null;
 
   const palette = ["var(--cat-1)","var(--cat-2)","var(--cat-3)","var(--cat-4)","var(--cat-5)","var(--cat-6)","var(--cat-7)"];
@@ -29,8 +29,8 @@
   svg.call(zoom);
 
   function fill(d) {
-    if (colour === "community") return d.community < 7 ? palette[d.community] : "var(--text-muted)";
-    if (colour === "cluster") return palette[d.textCluster % 7];
+    if (color === "community") return d.community < 7 ? palette[d.community] : "var(--text-muted)";
+    if (color === "cluster") return palette[d.textCluster % 7];
     return "var(--series-1)";
   }
   function updatePositions(animate=true) {
@@ -40,9 +40,9 @@
     if (selected) renderDetail(selected);
   }
   function updateLegend() {
-    if (colour === "none") { $("legend").innerHTML = '<span class="key">Every point is one Marvel character page</span>'; return; }
-    const label = colour === "community" ? "network community" : "description cluster";
-    $("legend").innerHTML = palette.map((c,i)=>`<span class="key"><span class="dot" style="background:${c}"></span>${label} ${i+1}</span>`).join("") + (colour === "community" ? '<span class="key"><span class="dot" style="background:var(--text-muted)"></span>small communities</span>' : '');
+    if (color === "none") { $("legend").innerHTML = '<span class="key">Every point is one Marvel character page</span>'; return; }
+    const label = color === "community" ? "network community" : "description cluster";
+    $("legend").innerHTML = palette.map((c,i)=>`<span class="key"><span class="dot" style="background:${c}"></span>${label} ${i+1}</span>`).join("") + (color === "community" ? '<span class="key"><span class="dot" style="background:var(--text-muted)"></span>small communities</span>' : '');
   }
   function showTip(event,d) {
     tip.innerHTML = `<strong>${escapeHtml(d.name)}</strong><br>${escapeHtml(d.description)}<br><span style="color:var(--text-muted)">in ${d.inDegree} · out ${d.outDegree}</span>`;
@@ -55,7 +55,7 @@
     tip.style.left = `${left}px`; tip.style.top = `${top}px`;
   }
   function dist2(a,b) { const A=coord(a),B=coord(b); return (A[0]-B[0])**2+(A[1]-B[1])**2; }
-  function mapNeighbours(d) {
+  function mapNeighbors(d) {
     return nodes.filter(x=>x.i!==d.i).map(x=>({node:x,dist:dist2(d,x)})).sort((a,b)=>a.dist-b.dist).slice(0,6);
   }
   function selectNode(d) {
@@ -70,9 +70,9 @@
     $("detail-name").textContent=d.name;
     $("detail-desc").textContent=d.description;
     $("detail-meta").innerHTML=`<div><div class="k">network community</div><div class="v">${d.community+1}</div></div><div><div class="k">text cluster</div><div class="v">${d.textCluster+1}</div></div><div><div class="k">in-degree</div><div class="v">${d.inDegree}</div></div><div><div class="k">out-degree</div><div class="v">${d.outDegree}</div></div>`;
-    $("high-neighbours").innerHTML=d.nearest.slice(0,5).map(n=>linkButton(nodes[n.i], n.sim.toFixed(2))).join("");
-    $("map-neighbours").innerHTML=mapNeighbours(d).slice(0,5).map(n=>linkButton(n.node, "2D")).join("");
-    document.querySelectorAll(".neighbour-list button").forEach(b=>b.addEventListener("click",()=>selectNode(nodes[+b.dataset.node])));
+    $("high-neighbors").innerHTML=d.nearest.slice(0,5).map(n=>linkButton(nodes[n.i], n.sim.toFixed(2))).join("");
+    $("map-neighbors").innerHTML=mapNeighbors(d).slice(0,5).map(n=>linkButton(n.node, "2D")).join("");
+    document.querySelectorAll(".neighbor-list button").forEach(b=>b.addEventListener("click",()=>selectNode(nodes[+b.dataset.node])));
   }
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
 
@@ -81,7 +81,7 @@
     document.querySelectorAll("#projection button").forEach(x=>x.classList.toggle("on",x===b));
     updatePositions();
   }));
-  $("colour").addEventListener("change",()=>{ colour=$("colour").value; updatePositions(false); });
+  $("color").addEventListener("change",()=>{ color=$("color").value; updatePositions(false); });
   $("reset").addEventListener("click",()=>svg.transition().duration(300).call(zoom.transform,d3.zoomIdentity));
   $("search").addEventListener("input",()=>{
     const q=$("search").value.trim().toLowerCase();

@@ -15,8 +15,8 @@
     <button data-projection="svd" class="on">SVD map</button>
     <button data-projection="tsne">t-SNE map</button>
   </span>
-  <label>Colour
-    <select id="colour">
+  <label>Color
+    <select id="color">
       <option value="none">none</option>
       <option value="community">network community</option>
       <option value="cluster">description cluster</option>
@@ -39,12 +39,12 @@
     <div class="detail-card" id="detail">
       <div class="mini-k">selected document</div>
       <div class="detail-name" id="detail-name">Choose a point</div>
-      <p class="detail-desc" id="detail-desc">The map is a projection. Click any character to compare neighbours in the original high-dimensional preview space with neighbours in the two-dimensional drawing.</p>
+      <p class="detail-desc" id="detail-desc">The map is a projection. Click any character to compare neighbors in the original high-dimensional preview space with neighbors in the two-dimensional drawing.</p>
       <div class="detail-meta" id="detail-meta"></div>
       <div class="mini-k">nearest in original preview space</div>
-      <ul class="neighbour-list" id="high-neighbours"></ul>
+      <ul class="neighbor-list" id="high-neighbors"></ul>
       <div class="mini-k" style="margin-top:9px">nearest in this 2D map</div>
-      <ul class="neighbour-list" id="map-neighbours"></ul>
+      <ul class="neighbor-list" id="map-neighbors"></ul>
     </div>
   </div>
 </div>

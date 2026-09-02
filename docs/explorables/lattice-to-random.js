@@ -1,7 +1,7 @@
 /* How few shortcuts it takes. A ring lattice (N = 60, k = 4) on the left,
    the same lattice plus S random shortcuts on the right; every node is
-   coloured by its BFS distance from a start node, so the "rings" of
-   distance are visible: on the lattice they crawl around the ring, with a
+   colored by its BFS distance from a start node (same viridis ramp as
+   ring-lattice.js), so the "rings" of distance are visible: on the lattice they crawl around the ring, with a
    handful of shortcuts they collapse. Shortcuts come from one fixed random
    list (seeded), so the slider is monotone — shortcut 7 is always the same
    link. Distances exact via graphlib.bfsDistances. */
@@ -46,11 +46,13 @@
     }
   }
 
-  // ordinal ramp for distance: accent for the start, then series-1 fading to the grid tone
+  // distance ramp, identical to ring-lattice.js: accent for the start, then viridis
+  // (near = deep blue, far = yellow) clipped to [0.12, 0.92] so neither extreme
+  // vanishes on its surface
   function rampColor(d, dMax) {
     if (d === 0) return VK.cssVar("--accent");
     const t = dMax > 1 ? (d - 1) / (dMax - 1) : 0;
-    return d3.interpolateRgb(VK.cssVar("--series-1"), VK.cssVar("--grid"))(0.85 * t);
+    return d3.interpolateViridis(0.12 + 0.80 * t);
   }
 
   function drawOne(which, g, dist, dMax) {
@@ -76,7 +78,9 @@
       const [x, y] = pos(i);
       ctx.beginPath(); ctx.arc(x, y, i === src ? 7 : 5, 0, 2 * Math.PI);
       ctx.fillStyle = rampColor(dist[i], dMax); ctx.fill();
-      if (i === src) { ctx.strokeStyle = VK.cssVar("--accent"); ctx.lineWidth = 2; ctx.stroke(); }
+      ctx.lineWidth = i === src ? 2 : 1;
+      ctx.strokeStyle = i === src ? VK.cssVar("--surface-1") : VK.cssVar("--text-muted");
+      ctx.stroke();
     }
     ctx.restore();
   }
@@ -95,13 +99,16 @@
     drawOne(0, lattice, d0, dMax);
     drawOne(1, g1, d1, dMax);
     $("legend").innerHTML = legendHTML(dMax);
-    $("legend1").innerHTML = "";
     $("title1").textContent = `Same lattice + ${S} shortcut${S === 1 ? "" : "s"}`;
     const mean = (d) => GL.mean(d.filter((v, i) => i !== src));
     $("r-d0").textContent = mean(d0).toFixed(2);
     $("r-m0").textContent = `${Math.max(...d0)} steps`;
     $("r-c0").textContent = GL.avgClustering(lattice).toFixed(3);
-    $("r-d1").textContent = mean(d1).toFixed(2);
+    const d1txt = mean(d1).toFixed(2), d1el = $("r-d1");
+    if (d1el.textContent !== d1txt) {        // bump the highlighted number whenever it changes
+      d1el.textContent = d1txt;
+      d1el.classList.remove("bump"); void d1el.offsetWidth; d1el.classList.add("bump");
+    }
     $("r-m1").textContent = `${Math.max(...d1)} steps`;
     $("r-c1").textContent = GL.avgClustering(g1).toFixed(3);
   }

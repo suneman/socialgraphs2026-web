@@ -12,7 +12,7 @@
   // Static teaching values in the normal Hugging Face pipeline output format.
   // Students run the actual model in the notebook and record the exact scores there.
   const contextual={
-    good:{label:"POSITIVE",score:0.999,notes:["good is interpreted in the full sentence","the model was fine-tuned on labelled movie-review sentiment"]},
+    good:{label:"POSITIVE",score:0.999,notes:["good is interpreted in the full sentence","the model was fine-tuned on labeled movie-review sentiment"]},
     notgood:{label:"NEGATIVE",score:0.998,notes:["not changes the context around good","the sequence representation can use the negation cue"]},
     traffic:{label:"POSITIVE",score:0.944,notes:["love is a strong positive cue","sarcasm can still fool a contextual model, so inspect disagreements"]},
     terrible:{label:"POSITIVE",score:0.918,notes:["terrible and wonderful pull in different directions","the final label compresses a mixed sentence into one class"]}

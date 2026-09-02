@@ -149,7 +149,7 @@ if (typeof module !== "undefined") module.exports = ST;
       drawNet();
       if (f < FRAMES) anim = requestAnimationFrame(step);
       else {
-        $("net-sub").innerHTML = `Shuffled: <b>${totalU.toLocaleString("en-US")}</b> degree-preserving swaps. Same degrees, different neighbours.`;
+        $("net-sub").innerHTML = `Shuffled: <b>${totalU.toLocaleString("en-US")}</b> degree-preserving swaps. Same degrees, different neighbors.`;
         record(u, d);
         busy = false;
       }

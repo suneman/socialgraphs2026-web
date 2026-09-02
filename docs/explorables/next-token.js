@@ -52,11 +52,11 @@
     blue: {
       prompt: "The clear daytime sky looks",
       transitions: {
-        __start__: [["blue", .58], ["bright", .22], ["clear", .12], ["grey", .08]],
+        __start__: [["blue", .58], ["bright", .22], ["clear", .12], ["gray", .08]],
         blue: [["and", .40], ["today", .34], [".", .26]],
         bright: [["and", .40], ["today", .34], [".", .26]],
         clear: [["today", .42], [".", .58]],
-        grey: [["today", .50], [".", .50]],
+        gray: [["today", .50], [".", .50]],
         and: [["calm", .52], ["cloudless", .48]],
         calm: [[".", 1]], cloudless: [[".", 1]], today: [[".", 1]],
       },
