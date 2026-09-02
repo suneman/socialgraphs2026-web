@@ -166,3 +166,41 @@ pre {
   margin: 16px 0 24px;
 }
 pre code { background: none; border: none; padding: 0; font-size: inherit; }
+
+/* ---------- floating page TOC (wide screens only) ---------- */
+
+h2 { scroll-margin-top: 24px; }
+
+.page-toc {
+  display: none; position: fixed; top: 110px;
+  left: calc(50% + 452px); width: 184px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px;
+  max-height: calc(100vh - 150px); overflow-y: auto;
+}
+@media (min-width: 1310px) { .page-toc { display: block; } }
+.page-toc .toc-title {
+  font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-muted); margin: 0 0 10px;
+}
+.page-toc ol { list-style: none; margin: 0; padding: 0; }
+.page-toc li { margin: 0 0 8px; line-height: 1.4; }
+.page-toc a { color: var(--text-muted); text-decoration: none; display: block; }
+.page-toc a:hover { color: var(--text-secondary); }
+.page-toc a.active { color: var(--accent); }
+
+/* ---------- essentials band ---------- */
+
+.band-essentials {
+  margin: 72px calc(50% - 50vw) 72px; padding: 2px calc(50vw - 50%) 40px;
+  background: var(--essentials-bg);
+  border-top: 1px solid var(--grid); border-bottom: 1px solid var(--grid);
+}
+.band-essentials p, .band-essentials li,
+.band-essentials dt, .band-essentials dd {
+  font-family: "IBM Plex Serif", Georgia, serif;
+}
+.band-essentials h2 { margin-top: 1.8em; }
+
+dl.defs { margin: 24px 0 8px; }
+dl.defs dt { font-weight: 600; color: var(--text-primary); }
+dl.defs dd { margin: 2px 0 14px; color: var(--text-secondary); font-size: 15.5px; }

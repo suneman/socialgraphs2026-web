@@ -8,7 +8,7 @@
 <meta name="description" content="Why 02805 was rebuilt for the age of agentic AI: understanding on paper, ambition in silicon.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="vendor/katex/katex.min.css">
@@ -26,6 +26,17 @@
   <a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Textbook ↗</a>
 </nav>
 
+<nav class="page-toc" aria-label="On this page">
+  <p class="toc-title">On this page</p>
+  <ol>
+    <li><a href="#what-changed">1 · What changed</a></li>
+    <li><a href="#the-split">2 · The split</a></li>
+    <li><a href="#the-three-modes">3 · The three modes</a></li>
+    <li><a href="#the-skill-underneath">4 · The skill underneath</a></li>
+    <li><a href="#practical">5 · The practical elements</a></li>
+  </ol>
+</nav>
+
 <main class="wrap">
 
   <p class="eyebrow">02805 · Read this first</p>
@@ -37,7 +48,7 @@
 
   <p class="explorable-caption">Hear it from me, a quick personal intro. And enjoy the AI generated 80's disco goodness of the video thumbnail! Direct proof that AI can be used for terrible things as well 😅</p>
 
-  <h2>1 · What changed</h2>
+  <h2 id="what-changed">1 · What changed</h2>
 
   <p>In 2025 this course graded the students on two take-home assignments and a project. Around mid-way last semester, I started taking agentic coding seriously and sat down with the best agentic tools and tried to see how well they would do on the assignments. For someone trying to build a great course for students, it was a bit disheartening. Most of the pipeline, from scraping the data through computing the statistics and creating the plots to finishing the assignments, could be more or less one-shot by a machine. Not "helped along". Solved. Gulp.</p>
 
@@ -47,7 +58,7 @@
 
   <p>Of course I chose the second option, and I have to say, I've had a blast coming up with this new thing.</p>
 
-  <h2>2 · The split</h2>
+  <h2 id="the-split">2 · The split</h2>
 
   <p class="thesis">We use paper to ensure understanding.<br>We use agents to explore the world.</p>
 
@@ -57,7 +68,7 @@
 
   <p><strong>For everything else, use your favorite machine friend.</strong> The weekly exercises, the go-nuts posts, the project: use every tool you have, and expect us to raise the bar accordingly. Each group's project crawls its own live Wikipedia domain. Deliverables are interactive, public, real. The goal is that the finished projects should look like things no student could have shipped in a semester five years ago. Because with your new tools, you can.</p>
 
-  <h2>3 · The three modes</h2>
+  <h2 id="the-three-modes">3 · The three modes</h2>
 
   <p>Every exercise in this course has a label, so you can see what the point is:</p>
 
@@ -67,7 +78,7 @@
     <li><span class="mode instrument">🔬 Tool</span> — <strong>the LLM is a tool.</strong> You use a model to measure something: label sentiment, extract entities, classify pages. A measurement tool you haven't calibrated doesn't tell you anything. So in this mode the deliverable is never just the measurement, it is the validation: ground-truth samples you labeled yourself, agreement statistics, an error analysis.</li>
   </ul>
 
-  <h2>4 · The skill underneath</h2>
+  <h2 id="the-skill-underneath">4 · The skill underneath</h2>
 
   <p>Notice what the 🔬 mode is really teaching. The new scientific skill isn't prompting. It is <strong>knowing when to trust the machine</strong>. An LLM that labels your data is a tool, like a thermometer or a survey: sometimes accurate, sometimes biased, always confident. Scientists have a hundred years of habits for exactly this situation: sample, compare against ground truth, quantify agreement, report the error. I aim to make you practice those habits until they are reflexes, and your project repo will contain an <code>AI_METHODS.md</code> documenting every place a model touched your results and how you checked it. When I or the TAs ask you about something, "the model said so" is not a method.</p>
 
@@ -99,6 +110,7 @@
   </div>
 </footer>
 
+<script defer src="js/toc.js"></script>
 <script defer src="vendor/katex/katex.min.js"></script>
 <script defer src="vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body, {delimiters: [

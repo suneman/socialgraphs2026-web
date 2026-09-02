@@ -7,7 +7,7 @@
 <title>Week 1 · Networks — 02805</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="../css/site.css">
 <link rel="stylesheet" href="../vendor/katex/katex.min.css">
@@ -21,6 +21,22 @@
   <a href="../index.html#overview">Overview</a>
   <span class="spacer"></span>
   <a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Textbook ↗</a>
+</nav>
+
+<nav class="page-toc" aria-label="On this page">
+  <p class="toc-title">On this page</p>
+  <ol>
+    <li><a href="#how-to-read-watch-work-in-the-age-of-ai">0 · How to read/watch/work in the age of AI</a></li>
+    <li><a href="#why-networks">1 · Why networks?</a></li>
+    <li><a href="#nodes-edges-and-all-that">2 · Nodes, edges, and all that</a></li>
+    <li><a href="#choosing-the-representation">3 · Choosing the representation</a></li>
+    <li><a href="#your-toolbox">4 · Your toolbox</a></li>
+    <li><a href="#degree-distributions">5 · Degree distributions</a></li>
+    <li><a href="#seeing-a-network">6 · Seeing a network</a></li>
+    <li><a href="#group-exercise">7 · Group Exercise</a></li>
+    <li><a href="#essentials">Essentials</a></li>
+    <li><a href="#goodies">Goodies</a></li>
+  </ol>
 </nav>
 
 <main class="wrap">
@@ -38,7 +54,7 @@
   </ul>
   </div>
 
-  <h2>0 · How to read/watch/work in the age of AI</h2>
+  <h2 id="how-to-read-watch-work-in-the-age-of-ai">0 · How to read/watch/work in the age of AI</h2>
 
   <p>Ok. I had hoped you could get started on networks by now, but I need to underscore one thing. <em>This page (incl. the videos) is the primary information in the course</em>. You should try to read everything I've put here, try to play with all the explorables. Then there are links out. We have a textbook, there is plenty of other outside material (cool videos from the internet, links to websites, etc). All that is for when you want to dig deeper. So while the page <em>is</em> the course in a deep way, it's also not trying to give you all the information in the way a traditional textbook might. I want this website to be the starting point. A trusted place to initiate your own adventures. So I hope I'll give you enough information to want to dig deeper.</p>
 
@@ -48,7 +64,7 @@
 
   <p>And always keep in mind: Being at university is about <em>you upgrading your human brain</em>. Learning. Getting smarter. That's why you're here. If you don't learn you're wasting your time.</p>
 
-  <h2>1 · Why networks?</h2>
+  <h2 id="why-networks">1 · Why networks?</h2>
 
   <p>Here is the key idea in the course: for many real-world systems, the <em>pattern of connections</em> can give us a deeper understanding of how the system works and changes than if we simply look at the individual parts. Who infects whom, which idea spreads, why some Wikipedia pages are famous and most are invisible, how a blackout cascades across a continent. We can't get any of that one component at a time. But if we start from the network, we can begin to see the patterns that shape those processes. And we can find patterns that reveal similarities between systems that we thought wouldn't be related at all.</p>
 
@@ -63,7 +79,7 @@
 
   <p>And we (the scientists) kept finding the <em>same</em> structural patterns. That quest for 'universality' (more on that next week), the physicists' belief that something deep and structural ties distant systems together, is the reason network science exists as a field, and the reason a single course can be about friendship, Wikipedia, epidemics and power grids at once. (The textbook's own version of this origin story (Chapter 1, Introduction), and its case that networks are <em>the</em> way into complexity, and complexity the great scientific problem of our time, can be found in the <a href="#goodies">Goodies</a> at the bottom of the page.)</p>
 
-  <h2>2 · Nodes, edges, and all that</h2>
+  <h2 id="nodes-edges-and-all-that">2 · Nodes, edges, and all that</h2>
 
   <p>Ok. Now let's define the key terms. A network is a set of <strong>nodes</strong> (we also sometimes call them vertices, actors, sites) and a set of <strong>edges</strong> (links, ties, connections) between pairs of them. Sometimes the nodes and edges encode more information. Here are the key classes:</p>
 
@@ -103,7 +119,7 @@
 
   <p><strong>Note</strong>: Don't skip playing with the explorable. Try to clear it, then decide where you want a link to appear, how you want it to look (directed, undirected, weighted, etc.) and see if you can make it happen. I promise you you'll get a better sense of the adjacency matrix if you do.</p>
 
-  <h2>3 · Choosing the representation</h2>
+  <h2 id="choosing-the-representation">3 · Choosing the representation</h2>
 
   <p>So we've just been talking about nodes, edges and about how networks are a great way to represent real world systems. <strong>But</strong> there's one thing I swept under the rug in saying so. Before we even have a network to think about, someone decides <em>what a node is and what an edge is</em>. And that decision determines every conclusion downstream. And it's not always clear what the right network is. Consider "the network of science." Model it as papers citing papers: nodes live forever, edges point backward in time, and the hubs are classic scientific papers. Model it as scientists co-authoring papers as a team: nodes are active for some period, edges are mutual, and the hubs are sociable lab heads. Same underlying reality, two networks that disagree about almost every question you could ask: who matters, what spreads, what a community is. Neither representation is wrong. Each is a way of representing the same system, but designed to answer different questions.</p>
 
@@ -130,7 +146,7 @@
   </ol>
   </div>
 
-  <h2>4 · Your toolbox</h2>
+  <h2 id="your-toolbox">4 · Your toolbox</h2>
 
   <p>Now for a detour. It's time to take a break from the networks for a bit and mix it up. So we'll be talking about how to work with the networks inside your computer. Why, you might ask? Well, a key finding in all of didactics (the theory of how people learn) is that <em>active learning</em> is best. You need to do stuff yourself, not just sit and passively watch/read. (That's why I created the adjacency matrix explorable.)</p>
 
@@ -155,7 +171,7 @@
   </ol>
   </div>
 
-  <h2>5 · Degree distributions</h2>
+  <h2 id="degree-distributions">5 · Degree distributions</h2>
 
   <div class="reading">
     <p class="eyebrow">Read</p>
@@ -231,7 +247,7 @@
   </ol>
   </div>
 
-  <h2>6 · Seeing a network</h2>
+  <h2 id="seeing-a-network">6 · Seeing a network</h2>
 
   <p>Data visualization is a crucial part of network science. Networks are often beautiful. And there's lots to learn about plotting graphs. Today we get started and scratch the surface.</p>
 
@@ -258,7 +274,7 @@
   </ol>
   </div>
 
-  <h2>7 · Group Exercise</h2>
+  <h2 id="group-exercise">7 · Group Exercise</h2>
 
   <p>Time to team up: you'll work in a <strong>3-person group</strong>, formed now and kept all semester (within reason). The rules (and the one iron rule) live on the front page — read <a href="../index.html#groups">Groups</a>. Aim to form yours today; if it takes a couple of sessions, that's OK too — but the exercise below is a lot more fun with friends to brainstorm alongside.</p>
 
@@ -282,6 +298,43 @@
     <p><strong>Then, always:</strong> post your site link in this week's Teams channel by Monday evening · read what other groups made · leave <strong>constructive, friendly criticism</strong> on at least one other group's post (what works, one concrete thing to try). Honing your critical eye on each other's work is half the point. We announce a winner from last week at the start of the next session.</p>
   </div>
 
+  <section class="band band-essentials">
+
+  <h2 id="essentials" class="essentials">Essentials</h2>
+
+  <p>This is the 🧠 Learn core of the week, in one place: the definitions you must know cold, and what you should be able to do with them on paper. If a term below feels shaky, the section that teaches it is one click up the page — and if you can do everything here with a pen, you are ready for this week's share of Midterm 1.</p>
+
+  <dl class="defs">
+    <dt>Network</dt>
+    <dd><strong>nodes</strong> (the objects) connected by <strong>edges</strong> (their relationships). We write $n$ for the number of nodes and $m$ for the number of edges.</dd>
+    <dt>Directed · undirected</dt>
+    <dd>directed edges point — $A \to B$ says nothing about $B \to A$; undirected edges simply connect the pair. Wikipedia links are directed.</dd>
+    <dt>Weighted · unweighted</dt>
+    <dd>a weighted edge carries a number (intensity, capacity, a count); an unweighted edge just exists.</dd>
+    <dt>Simple network</dt>
+    <dd>at most one edge per pair of nodes, no self-loops. The default in this course — and in most of network science.</dd>
+    <dt>Degree $k_i$</dt>
+    <dd>the number of edges connected to node $i$; directed networks split it into <strong>in-degree</strong> and <strong>out-degree</strong>. Summing all degrees gives exactly $2m$, because every edge has two ends.</dd>
+    <dt>Average degree</dt>
+    <dd>$\langle k\rangle = 2m/n$.</dd>
+    <dt>Density</dt>
+    <dd>the fraction of possible edges that actually exist: $2m/[n(n-1)]$. Real networks are almost always <strong>sparse</strong> — the interesting structure lives in <em>which</em> few edges made the cut.</dd>
+    <dt>Edge list</dt>
+    <dd>the network written down as a list of its edges, one pair at a time.</dd>
+    <dt>Adjacency matrix</dt>
+    <dd>one row and one column per node; entry $a_{ij}$ records the edge from $i$ to $j$ (its weight, or $1$/$0$). Undirected $\Leftrightarrow$ symmetric: $a_{ij} = a_{ji}$.</dd>
+    <dt>Path · distance</dt>
+    <dd>a path is a sequence of edges leading from one node to another; the distance between two nodes is the length of the <em>shortest</em> path between them.</dd>
+    <dt>Connected component</dt>
+    <dd>a set of nodes that can all reach each other. An <strong>isolate</strong> is a node with no edges at all; the <strong>giant component</strong> is the one component that holds most of the network.</dd>
+    <dt>Degree distribution</dt>
+    <dd>for each value of $k$, how many nodes have exactly $k$ connections. The single most revealing portrait of a network.</dd>
+    <dt>Heavy tail</dt>
+    <dd>extreme degrees are far more common than a bell curve would allow. Nearly invisible on linear axes — plot on <strong>log–log axes</strong> to see it.</dd>
+    <dt>Binning</dt>
+    <dd>averaging a noisy distribution over ranges of $k$ that widen as $k$ grows. Done right, the binned curve sits <em>exactly on</em> the raw data where the data is dense; our plots show $k+1$ so the degree-0 nodes survive the log axis.</dd>
+  </dl>
+
   <div class="on-the-test">
     <p class="eyebrow">On the first test</p>
     <p>From this week, you should be able to do the following <strong>on paper, closed book</strong>:</p>
@@ -299,7 +352,9 @@
   </ul>
   </div>
 
-  <h2 id="goodies">8 · Goodies</h2>
+  </section>
+
+  <h2 id="goodies">Goodies</h2>
 
   <p>Everything above is the course. Everything below is for the student who finished the page and wants more. Nothing here is on the test, all of it is worth your time, and none of it has to be done this week (in fact many things remain relevant to check out later). Pick what you like.</p>
 
@@ -346,6 +401,7 @@
   </div>
 </footer>
 
+<script defer src="../js/toc.js"></script>
 <script defer src="../vendor/katex/katex.min.js"></script>
 <script defer src="../vendor/katex/contrib/auto-render.min.js"
   onload="renderMathInElement(document.body, {delimiters: [
