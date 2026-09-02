@@ -191,16 +191,27 @@ h2 { scroll-margin-top: 24px; }
 /* ---------- essentials band ---------- */
 
 .band-essentials {
-  margin: 72px calc(50% - 50vw) 72px; padding: 2px calc(50vw - 50%) 40px;
+  margin: 72px calc(50% - 50vw) 72px; padding: 2px calc(50vw - 50%) 44px;
   background: var(--essentials-bg);
-  border-top: 1px solid var(--grid); border-bottom: 1px solid var(--grid);
 }
 .band-essentials p, .band-essentials li,
 .band-essentials dt, .band-essentials dd {
   font-family: "IBM Plex Serif", Georgia, serif;
 }
-.band-essentials h2 { margin-top: 1.8em; }
+.band-essentials h2 { margin-top: 1.8em; color: var(--essentials-ink); }
+.band-essentials p, .band-essentials li, .band-essentials dd { color: var(--essentials-ink-2); }
+.band-essentials strong { color: var(--essentials-ink); }
+.band-essentials a { color: var(--essentials-accent); }
+.band-essentials .eyebrow { color: var(--essentials-muted); }
+.band-essentials .on-the-test {
+  background: var(--essentials-wash); border-left-color: var(--essentials-accent);
+}
+.band-essentials .on-the-test .eyebrow { color: var(--essentials-accent); }
+.band-essentials code {
+  background: var(--essentials-wash); border-color: var(--essentials-grid);
+  color: var(--essentials-ink);
+}
 
 dl.defs { margin: 24px 0 8px; }
-dl.defs dt { font-weight: 600; color: var(--text-primary); }
-dl.defs dd { margin: 2px 0 14px; color: var(--text-secondary); font-size: 15.5px; }
+dl.defs dt { font-weight: 600; color: var(--essentials-ink); }
+dl.defs dd { margin: 2px 0 14px; font-size: 15.5px; }

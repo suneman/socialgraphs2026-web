@@ -12,8 +12,15 @@
   --baseline:       #c3c2b7;
   --border:         rgba(11, 11, 11, 0.10);
 
-  /* essentials band (warm paper, distinct from --page) */
-  --essentials-bg:  #f2eedf;
+  /* essentials band — inverted deep-blue panel, self-contained (same in
+     both modes: light ink on navy, so no dark override needed) */
+  --essentials-bg:     #1e2547;
+  --essentials-ink:    #eef0f8;
+  --essentials-ink-2:  #c5cbe3;
+  --essentials-muted:  #9099bd;
+  --essentials-accent: #aab5ff;
+  --essentials-wash:   rgba(255, 255, 255, 0.08);
+  --essentials-grid:   rgba(255, 255, 255, 0.16);
 
   /* site accent (violet — never used for data series) */
   --accent:         #4a3aa7;
@@ -58,8 +65,6 @@
     --grid:           #2c2c2a;
     --baseline:       #383835;
     --border:         rgba(255, 255, 255, 0.10);
-
-    --essentials-bg:  #191712;
 
     --accent:         #9085e9;
     --accent-wash:    rgba(144, 133, 233, 0.12);
