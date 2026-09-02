@@ -31,7 +31,6 @@
     <li><a href="#six-degrees-real-networks-have-short-paths">3 · Six degrees: real networks have short paths</a></li>
     <li><a href="#something-is-missing-clustering">4 · Something is missing: clustering</a></li>
     <li><a href="#watts-strogatz-perched-between-order-and-randomness">5 · Watts & Strogatz: perched between order and randomness</a></li>
-    <li><a href="#the-discovery-of-power-laws">6 · The discovery of power laws</a></li>
   </ol>
 </nav>
 
@@ -237,86 +236,9 @@
   </ol>
   </div>
 
-  <h2 id="the-discovery-of-power-laws">6 · The discovery of power laws</h2>
-
-  <div class="reading">
-    <p class="eyebrow">Read</p>
-    <p><a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Network Atlas</a>, Ch.&nbsp;17, section 17.3 <em>Degree Distribution</em> — cumulative advantage, the power law and its exponent. Then Barabási's own telling, which is the story of the field: <a href="https://networksciencebook.com/" target="_blank" rel="noopener"><em>Network Science</em></a> Ch.&nbsp;5 sections 5.1–5.5 (the Barabási–Albert model), and Ch.&nbsp;4 sections 4.1–4.4 if you want the scale-free property from the horse's mouth.</p>
-  </div>
-
-  <p>One year after Watts and Strogatz, the second shock. Both models so far are <em>egalitarian</em>: in a random graph nearly everyone has a degree near the average, and in a Watts–Strogatz network every node has degree close to $\langle k\rangle$ by construction. Then people plotted the degree distribution of the World Wide Web — and later the internet, citation networks, protein interactions, film actors — on log–log axes, and saw a straight line. A <strong>power law</strong>, $P(k) \sim k^{-\gamma}$: no typical scale, a tail so heavy that a few nodes have thousands of times the average degree. <strong>Hubs.</strong> Spider-Man has 106 links in a network whose average is 9.5; the biggest hub a random network could produce is around 19. Neither chance nor shortcuts can make a hub. Where do they come from?</p>
-
-  <iframe class="video-embed" src="https://www.youtube.com/embed/myLgzbXxhOQ"
-    title="Video lecture: the scale-free property and the Barabási–Albert model" loading="lazy" allowfullscreen></iframe>
-
-  <p class="explorable-caption">Sune on power-law degree distributions and the two ingredients — growth and preferential attachment — that produce them.</p>
-
-  <p>The answer Albert-László Barabási and Réka Albert gave in 1999 has two ingredients, and both are missing from everything above. First, real networks <strong>grow</strong>: the web, the citation network, and Wikipedia were not born with all their nodes. Second, newcomers do not link at random: they <strong>prefer</strong> to link to nodes that are already well connected. A new article about a superhero links to Spider-Man because he is already everywhere — and each new link makes him a little more everywhere. That feedback loop is <strong>preferential attachment</strong>: the probability that a newcomer links to node $i$ is proportional to its degree,</p>
-
-  <p>$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}.$$</p>
-
-  <p>Run that for long enough and the degree distribution comes out as a power law with $\gamma = 3$: a straight line on log–log axes. Barabási called such networks <em>scale-free</em>, and the physicists went wild — for a reason that is a story of its own (<a href="#universality">Goodies</a>). Now watch one assemble itself. The explorable below is one machine with five experiments in it, and every control sits in the top row. Do them in this order.</p>
-
-  <ol>
-    <li><strong>Grow it.</strong> Leave the defaults ($m = 2$ links per new node, attachment <em>preferential</em>) and press <em>Grow</em>. Watch both panels at once: hubs emerge on the left while a straight line assembles on log–log axes on the right. When the network reaches 250 nodes, read the <em>biggest hub</em> against the <em>median degree</em> in the readout. That gap is the power law.</li>
-    <li><strong>Watch who becomes a hub.</strong> Press <em>Reset</em>, set $m = 1$, drag <em>speed</em> down and grow slowly (or step with <em>+10</em>). Which nodes turn into hubs? Is it the early ones? Can a latecomer ever catch up?</li>
-    <li><strong>Remove the preference.</strong> Reset, set attachment to <em>uniform</em> (same growth, but newcomers pick their targets at random) and grow again. The straight line never appears: the line bends down and the tail dies early. Compare the biggest hub with step 1.</li>
-    <li><strong>Remove the growth.</strong> Reset, set attachment to <em>no growth</em> (all 250 nodes present from the start; each step a random node adds links with preference) and grow. Do hubs appear? Look at the shape of the right panel: this failure looks different from step 3. Which ingredient made the hubs? Both are needed, and you have now seen what each failure looks like.</li>
-    <li><strong>First-mover advantage.</strong> Reset, back to <em>preferential</em>, and switch the right panel to <em>first-mover</em>: it tracks node #5 and node #125 as the network grows. The early node's line pulls away and never comes back. Arriving first is worth more than anything you do afterwards. Run the same view under <em>uniform</em> attachment: the early node still wins (it had more time), but by how much less?</li>
-  </ol>
-
-  <iframe class="explorable-frame" src="../explorables/ba-growth.html" height="600"
-    title="Explorable: Barabási–Albert growth" loading="lazy"></iframe>
-
-  <p class="explorable-caption">One explorable, five experiments: grow, watch who becomes a hub, remove the preference, remove the growth, then the first-mover view. Work them in that order. The question to carry out of step 4 is which ingredient made the hubs.</p>
-
-  <p>Remember last week's puzzle about the Marvel network — only the <em>in</em>-degree looked like a power law; the out-degree tail died at 28? You now have the mechanism. In-links are <em>conferred</em>: every editor of every other page decides whether this character is worth linking to, and the already-famous get chosen more — preferential attachment, with no ceiling. Out-links are <em>authored</em>: someone has to write them into one page, and pages have a natural length. Growth and preference on the in-side, effort and a budget on the out-side. Two mechanisms, two distributions. You separated the two ingredients by hand in steps 3 and 4 above; exercise 2.5 makes you build the mechanism itself.</p>
-
-  <div class="exercise">
-    <h4>2.5 — Build preferential attachment from scratch <span class="mode learn">🧠 Learn</span></h4>
-    <p>No AI for this one. The mechanism is the point, and it shows up on paper. It is also, honestly, one of the most satisfying twenty lines of code in the course — generations of students have been surprised at how little it takes.</p>
-    <ol>
-    <li>Start with a single link between two nodes. Add a node and connect it to one existing node chosen <em>in proportion to its degree</em>. Repeat until you have 100 nodes. The trick for degree-proportional sampling: keep a flat list of all edge endpoints (every edge contributes both its nodes), and pick uniformly from that list — a node appears in the list exactly as many times as its degree. If you understand why that works, you understand preferential attachment. Draw the network.</li>
-    <li>Keep going to $n = 5{,}000$. Report the maximum and minimum degree. Plot the degree distribution on linear and on log–log axes, binned the way week 1 taught you (and, if you have read ahead in this page, as a CCDF too). Your log–log plot should be a straight line with slope around $-3$; if it is not, your sampling is not proportional to degree.</li>
-    <li>Now the experiment. Grow a second 5,000-node network with the same rule <em>except that the newcomer picks an existing node uniformly at random</em> (in earlier years of the course this was called "the Sune network"). Plot both distributions on the same log–log axes. Growth or preferential attachment — which ingredient makes the hubs? Three sentences.</li>
-    <li>Finally, generate a random network with the same $n$ and $m$ as the uniform-growth network, and compare those two: degree distributions on one plot, and the number of connected components. They have identical $n$, $m$ and no preference — so why are they different? (Hint: one of them was <em>grown</em>.)</li>
-  </ol>
-  </div>
-
-  <p><strong>The fight we promised: is it actually a power law?</strong> Last week I told you that whether the Marvel in-degree tail "is a power law" is a fight we pick this week. Here it is, in short. A straight-ish line on a log–log plot is <em>evidence of a heavy tail</em> — that much is robust and important. It is <strong>not</strong> evidence of a power law specifically: a log-normal distribution, or a power law with an exponential cut-off, produces a line that looks just as straight to the eye over a decade or two, and binning (as you learned) can flatter a tail. The distinction matters because $\gamma$ is a claim about <em>mechanism</em>.</p>
-
-  <p>The honest tool needs no bins at all: the <strong>complementary cumulative distribution</strong>, $P(K \geq k)$, the fraction of nodes with degree <em>at least</em> $k$. It uses every data point, it is monotone by construction (no jagged tail), and for a power law it is itself a power law with exponent $\gamma - 1$ — so it stays straight on log–log axes while a log-normal curves down. (You have already seen one: the right-hand panel of the BA explorable above is a CCDF, which is why its tail is a clean staircase and not a scatter of lonely dots.) If you ever want to <em>fit</em> an exponent — and the field fitted them wrong, by the hundred, for a decade — the CCDF is where to start, and <a href="#clauset">the Goodies</a> tell you how to finish. For now the takeaway is this: <em>heavy tails are everywhere and matter enormously; the specific claim "it is a power law with exponent $\gamma$" needs a fit, a test and an alternative — not a ruler on a log–log plot.</em></p>
-
-  <iframe class="explorable-frame" src="../explorables/ccdf-live.html" height="520"
-    title="Explorable: is it a power law?" loading="lazy"></iframe>
-
-  <p class="explorable-caption">The same distribution drawn three ways. Start on the CCDF with the power-law reference and tilt $\gamma$ until the line fits the data. Now switch the reference to <strong>log-normal</strong>: it fits about as well. Which is right? Then flip to <em>raw P(k)</em> and see what the tail looks like without the cumulative — that scatter is what people were fitting straight lines to for a decade.</p>
-
-  <div class="exercise">
-    <h4>2.6 — Is it a power law? <span class="mode learn">🧠 Learn</span> + <span class="mode instrument">🔬 Tool</span></h4>
-    <ol>
-    <li>🧠 Compute the CCDF of the Marvel <em>in</em>-degree (from the week-1 snapshot; your agent can write the three lines) and plot it on log–log axes next to the binned $P(k)$ from week 1. Which is easier to read in the tail, and why does the CCDF need no binning at all? Read a rough slope off the CCDF and convert it to a $\gamma$.</li>
-    <li>🧠 Overlay the CCDF of your 5,000-node BA network from 2.5 and of a same-size random network. Which does Marvel resemble — and in which range of $k$ does it <em>stop</em> resembling BA? (There are 303 nodes. Say something about what that does to the tail.)</li>
-    <li>🔬 Ask your favorite LLM, in a fresh chat: <em>"Here is a degree distribution [paste your CCDF values]. Is this network scale-free?"</em> Then ask it <em>"How would you test that properly?"</em> Grade both answers against what you have just read: did it demand a fit and an alternative, or did it eyeball a straight line? Did it confuse "heavy-tailed" with "power law"? Keep the best wrong sentence — spot-the-flaw items on the midterm are written in exactly this voice.</li>
-    <li>🧠 In one paragraph: what is the <em>robust</em> claim you can make about the Marvel in-degree distribution, what is the claim you cannot make on this evidence, and what would it take to make it?</li>
-  </ol>
-  </div>
-
-  <div class="exercise">
-    <h4>2.7 — Models by hand <span class="mode learn">🧠 Learn</span></h4>
-    <p>Pen and paper, the whole thing. Every item here is a midterm archetype.</p>
-    <ol>
-    <li>Current degrees in a growing network: A: 5, B: 3, C: 1, D: 1. A newcomer makes <em>one</em> preferential-attachment link. Probability it goes to A? To D? Now the newcomer makes $m = 2$ links (to two different nodes, first one preferentially, then again among the rest): probability that A gets one of them?</li>
-    <li>After that newcomer has attached to A, the <em>next</em> newcomer arrives. Has A's chance of being chosen gone up or down, and by how much? Write one sentence connecting this to the phrase "rich get richer."</li>
-    <li>Here are three degree distributions described in words. Name the model each one came from (random / Watts–Strogatz / Barabási–Albert / lattice) and say what would give it away on a plot: (a) every node has degree exactly 4; (b) a hump around 8, nothing above 20, and a bell shape on linear axes; (c) most nodes have degree 2 or 3, a few have 200.</li>
-    <li>You double $\langle k\rangle$ in a random network, keeping $n$. What happens to $C$? To the average distance? To the giant component? Now double $n$ keeping $\langle k\rangle$ fixed: same three questions. Then, for Watts–Strogatz, what happens to $C$ and $\langle d\rangle$ as $p$ goes from 0.001 to 0.01 — and which of the two moves first?</li>
-    <li>Fill in a 3 × 3 table: rows = random / Watts–Strogatz / Barabási–Albert; columns = clustering, distances, hubs. In each cell: does the model get the real world right or wrong, and what ingredient is responsible? This table <em>is</em> Parts 2–5.</li>
-  </ol>
-  </div>
-
   <div class="callout">
     <p class="eyebrow">The rest of this page</p>
-    <p>Parts 7 and 8 (shuffling as a statistical test, and the friendship paradox), the Essentials, and the Goodies are still being written and appear here in the next few days.</p>
+    <p>Parts 6 to 8 (power laws, shuffling as a statistical test, and the friendship paradox), the Essentials, and the Goodies are still being written and appear here in the next few days.</p>
   </div>
 
 </main>
