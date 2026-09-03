@@ -31,6 +31,7 @@
     <li><a href="#six-degrees-real-networks-have-short-paths">3 · Six degrees: real networks have short paths</a></li>
     <li><a href="#something-is-missing-clustering">4 · Something is missing: clustering</a></li>
     <li><a href="#watts-strogatz-perched-between-order-and-randomness">5 · Watts & Strogatz: perched between order and randomness</a></li>
+    <li><a href="#the-discovery-of-power-laws">6 · The discovery of power laws</a></li>
   </ol>
 </nav>
 
@@ -236,9 +237,61 @@
   </ol>
   </div>
 
+  <h2 id="the-discovery-of-power-laws">6 · The discovery of power laws</h2>
+
+  <p>Remember how I talked about how degree distributions spawned 1000 papers last week? Well, now I'll explain how and why.</p>
+
+  <p>Not long after Watts and Strogatz, Hungarian researcher (and my former advisor and mentor) László Barabási found a deep flaw in the beautiful image that their <em>small world</em> model had conjured up. And it has to do with degree distributions.</p>
+
+  <p>The WS model assumes that the degree distribution of real-world networks is roughly Poissonian. In his book about complex networks (<em>Small Worlds</em>, great book), Watts regrets this mistake:</p>
+
+  <p>"<em>We didn't check</em>! We were so convinced that non-normal degree distributions weren't relevant that we never thought to look at which networks actually had normal degree distributions and which did not. We had the data sitting there staring at us for almost two years, and it would have taken all of half an hour to check it, but we never did."</p>
+
+  <p>Both models we have considered so far have narrow distributions of node degree: in a random graph nearly everyone has a degree near the average, and in a Watts–Strogatz network every node has degree close to $\langle k\rangle$ by construction.</p>
+
+  <p>When Barabási and the scientists that followed his discovery plotted the degree distribution of the World Wide Web, the internet, citation networks, protein interactions, film actors, etc. on log–log axes, they found an (approximately) straight line.</p>
+
+  <p>That's our old friend the <strong>power law</strong>, $P(k) \sim k^{-\gamma}$. The heavy tails are a sign of <strong>hubs</strong>, highly connected nodes that result in all kinds of interesting network properties (incl. short paths). In our example Marvel network, Spider-Man has 106 links in a network whose average is 9.5; the biggest hub a corresponding random network could produce is around 19.</p>
+
+  <iframe class="video-embed" src="https://www.youtube.com/embed/myLgzbXxhOQ"
+    title="Video lecture: the scale-free property and the Barabási–Albert model" loading="lazy" allowfullscreen></iframe>
+
+  <p class="explorable-caption">Sune on power-law degree distributions and the two ingredients — growth and preferential attachment — that produce them.</p>
+
+  <p>And Barabási and Albert's 1999 paper didn't just discover power laws, they also came up with an explanation of why they might be everywhere. Their model was based on two ingredients.</p>
+
+  <p>First, real networks <strong>grow</strong>: the web, the citation network, and Wikipedia were not born with all their nodes. They start small and gradually grow bigger as ever more nodes are added.</p>
+
+  <p>Second, newcomers do not connect to the existing nodes at random. They <strong>preferentially attach</strong> to nodes that are already well connected. In a citation network, you cite the papers you know about, and you know about the most cited papers, so they aggregate more and more citations and become even more well known. Meanwhile the unknown papers remain unknown. Barabási and Albert called that mechanism <em>preferential attachment</em>. And they formalized it like this: The probability that a newcomer links to node $i$ is proportional to its degree,</p>
+
+  <p>$$\Pi(k_i) = \frac{k_i}{\sum_j k_j}.$$</p>
+
+  <p>Those two ingredients are enough. Run that model and the degree distribution comes out as a power law with $\gamma = 3$: a straight line on log–log axes.</p>
+
+  <p>Barabási called networks with power-law degree distributions <em>scale-free</em>, and with this amazing piece of PR, a whole lot of physicists went wild. It's too complicated to explain everything here, but power laws connect to deep results in statistical physics; you can get the full story here (<a href="#universality">Goodies</a>).</p>
+
+  <p>Now see the model in action. The explorable below is complicated. It's a big machine with five experiments in it (incl. controls in the top row). I recommend you do them in this order.</p>
+
+  <ol>
+    <li><strong>Grow it.</strong> Leave the defaults ($m = 2$ links per new node, attachment <em>preferential</em>) and press <em>Grow</em>. Watch both panels at once: hubs emerge on the left while a straight line assembles on log–log axes on the right. When the network reaches 250 nodes, read the <em>biggest hub</em> against the <em>median degree</em> in the readout. That gap is the power law.</li>
+    <li><strong>Watch who becomes a hub.</strong> Press <em>Reset</em>, set $m = 1$, drag <em>speed</em> down and grow slowly (or step with <em>+10</em>). Which nodes turn into hubs? Is it the early ones? Can a latecomer ever catch up?</li>
+    <li><strong>Remove the preference.</strong> Reset, set attachment to <em>uniform</em> (same growth, but newcomers pick their targets at random) and grow again. The straight line never appears: the line bends down and the tail dies early. Compare the biggest hub with step 1.</li>
+    <li><strong>Remove the growth.</strong> Reset, set attachment to <em>no growth</em> (all 250 nodes present from the start; each step a random node adds links with preference) and grow. Do hubs appear? Look at the shape of the right panel: this failure looks different from step 3. Which ingredient made the hubs? Both are needed, and you have now seen what each failure looks like.</li>
+    <li><strong>First-mover advantage.</strong> Reset, back to <em>preferential</em>, and switch the right panel to <em>first-mover</em>: it tracks node #5 and node #125 as the network grows. The early node's line pulls away and never comes back. Arriving first is worth more than anything you do afterwards. Run the same view under <em>uniform</em> attachment: the early node still wins (it had more time), but by how much less?</li>
+  </ol>
+
+  <iframe class="explorable-frame" src="../explorables/ba-growth.html" height="600"
+    title="Explorable: Barabási–Albert growth" loading="lazy"></iframe>
+
+  <p class="explorable-caption">One explorable, five experiments: grow, watch who becomes a hub, remove the preference, remove the growth, then the first-mover view. Work them in that order. The question to carry out of step 4 is which ingredient made the hubs. It's a complex explorable. See the main text above for a guided tour and to make the most of it.</p>
+
+  <p>Remember last week's discussion about the Marvel network, now we can return with more knowledge. We found that only the <em>in</em>-degree looked like a power law. The out-degree tail died at 28.</p>
+
+  <p>Preferential attachment gives you the mechanism. In-links exactly fit the preferential attachment idea. Every wiki editor of every other page decides whether this character is worth linking to, and the already-famous get chosen ever more. Out-links are authored. There's no preferential attachment mechanism. Someone has to write each page, and pages have a natural length. Growth and preference on the incoming links, effort and a budget on the outgoing side. Two different mechanisms, two different distributions.</p>
+
   <div class="callout">
     <p class="eyebrow">The rest of this page</p>
-    <p>Parts 6 to 8 (power laws, shuffling as a statistical test, and the friendship paradox), the Essentials, and the Goodies are still being written and appear here in the next few days.</p>
+    <p>The rest is still being written and will appear here in the next few days.</p>
   </div>
 
 </main>
