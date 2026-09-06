@@ -48,10 +48,10 @@
   <div class="reading">
     <p class="eyebrow">Before class</p>
     <ul>
-    <li><strong>Bring</strong> — the same as last week: laptop, Python + Jupyter + NetworkX, your agentic coding tool. We meet Wednesday <strong>09:00</strong> in Auditorium 43 — a short pep-talk, the go-nuts winner from week 1, then you work this page top to bottom with me and the TAs around.</li>
-    <li><strong>This week's story in one line</strong> — the field began by asking whether a simple model could capture the essence of a network; each model fails in an instructive way; and the last idea on the page, <em>shuffling</em>, turns the whole enterprise into a statistical test you will use in every analysis from now on.</li>
+    <li><strong>Bring</strong>. The same as last week: laptop, Python + Jupyter + NetworkX, your agentic coding tool. We meet Wednesday <strong>09:00</strong> in Auditorium 43 — a short pep-talk, the go-nuts winner from week 1, then you work this page top to bottom with me and the TAs around.</li>
+    <li><strong>This week's story in one line</strong>. Network Science began by asking whether a simple model could capture the essence of a network; each model fails in an instructive way; and the last idea on the page, <em>shuffling</em>, turns the whole enterprise into a statistical test you will use in every analysis from now on.</li>
     <li><strong>We start with a pep-talk by me</strong>. There's a lot more admin to tell you about, so we'll get into that.</li>
-    <li><strong>The page is long, and that is on purpose.</strong> Three models, one big idea, four explorables, and the first exercises that look exactly like the first test. Start at the top.</li>
+    <li><strong>The page is long, and that is on purpose</strong>. Three models, one big idea, four explorables, and the first exercises that look exactly like the first test. Start at the top.</li>
   </ul>
   </div>
 
@@ -456,7 +456,7 @@
 
   <p>Now that we have a null model with an arbitrary degree distribution, there's a cool thing we can test.</p>
 
-  <p>You might sometimes feel like <em>your friends have more friends than you do</em>. And in a world of heavy-tailed degree distributions it's likely true!</p>
+  <p>You might sometimes feel like <em>your friends have more friends than you do</em>. And in a world of heavy-tailed degree distributions it's likely true! This is called <a href="https://en.wikipedia.org/wiki/Friendship_paradox" target="_blank" rel="noopener">the friendship paradox</a>.</p>
 
   <p>The intuition is that you're likely to have a hub as your neighbor. And hubs have so many connections that they bias the average when we calculate the average-number-of-neighbor-friends.</p>
 
@@ -464,14 +464,12 @@
 
   <p>In the Marvel network, a random character has on average about 10 links; a random <em>neighbor</em> of a random character has about 25. In three out of four samples, the friend is at least as connected as the person.</p>
 
-  <p>We can also test by simply calculating the number. And we can phrase it as a null-model question. As you will see below, this time the degree-preserving shuffle does <em>not</em> kill the effect. Only a null that removes the hubs shrinks it — and even that one, as you will see, does not kill it entirely.</p>
+  <p>We can also test by simply calculating the number. And we can phrase it as a null-model question. As you will see below, this time the degree-preserving shuffle does <em>not</em> kill the effect. Only a null that removes the hubs shrinks the effect. But even the random network, as you will see, does not kill the friendship paradox entirely.</p>
 
   <iframe class="explorable-frame" src="../explorables/friendship-paradox.html" height="500"
     title="Explorable: the friendship paradox" loading="lazy"></iframe>
 
-  <p class="explorable-caption">Sample 1,000 on the scale-free network and note the two curves — then switch to the random network and ask what changed, and why. The effect doesn't vanish on the random network. Why not? (Hint: even a Poisson has a variance.)</p>
-
-  <p class="explorable-caption">Now press <strong>Marvel</strong> in the explorable above and sample one person at a time: the labels name them. Notice who keeps turning up as "friend" — and how rarely they turn up as "you."</p>
+  <p class="explorable-caption">Sample 1,000 on the scale-free network and note the two curves, then switch to the random network and ask what changed, and why. The effect doesn't vanish on the random network. Why not? (Hint: even a Poisson has a variance.) Now press <strong>Marvel</strong> in the explorable above and sample one person at a time: the labels name them. Notice who keeps turning up as "friend" ... and how rarely they turn up as "you."</p>
 
   <div class="exercise">
     <h4>2.9 — The friendship paradox as a null-model exercise <span class="mode learn">🧠 Learn</span> + <span class="mode instrument">🔬 Tool</span></h4>
