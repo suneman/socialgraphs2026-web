@@ -12,7 +12,7 @@
   const $ = (id) => document.getElementById(id);
 
   let kind = "ba";
-  let g, degs, names = null, positions = [];
+  let g, degs, names = null, positions = [], gccNodes = [];
   let youDegs = [], friendDegs = [];
   let highlight = null; // {you, friend}
   let marvel = null;    // cached {graph, names} once loaded
@@ -35,6 +35,7 @@
       g = kind === "ba" ? GL.ba(N, 2) : GL.er(N, 4);
     }
     degs = GL.degrees(g);
+    gccNodes = GL.gcc(g);
     layout();
     resetTally();
   }
@@ -97,8 +98,17 @@
     ctx.save();
     ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, W, H);
-    ctx.translate(W / 2, H / 2);
-    const spread = Math.min(W, H) / 230;
+    // fit the settled layout's bounding box into the canvas (the extent depends
+    // on the network: ER spreads wider than BA, Marvel wider still)
+    // Fit the giant component's full extent (BA and Marvel are one component, so
+    // that is the whole network); ER's isolates and dyads drift to the rim and may
+    // sit just outside — they never get sampled as a friend anyway.
+    const pad = 12;
+    const body = gccNodes.map((i) => positions[i]);
+    const x0 = d3.min(body, (p) => p[0]), x1 = d3.max(body, (p) => p[0]);
+    const y0 = d3.min(body, (p) => p[1]), y1 = d3.max(body, (p) => p[1]);
+    const spread = Math.min((W - 2 * pad) / Math.max(1, x1 - x0), (H - 2 * pad) / Math.max(1, y1 - y0));
+    ctx.translate(W / 2 - spread * (x0 + x1) / 2, H / 2 - spread * (y0 + y1) / 2);
     ctx.scale(spread, spread);
 
     ctx.strokeStyle = VK.cssVar("--grid");
@@ -112,7 +122,7 @@
 
     const muted = VK.cssVar("--text-muted");
     positions.forEach(([x, y], i) => {
-      const r = 1.4 + 3.6 * Math.sqrt(degs[i] / maxDeg);
+      const r = (1.8 + 4.7 * Math.sqrt(degs[i] / maxDeg)) / spread;
       ctx.beginPath();
       ctx.arc(x, y, r, 0, 2 * Math.PI);
       ctx.fillStyle = muted;
@@ -126,16 +136,16 @@
       const mark = (i, label) => {
         const [x, y] = positions[i];
         ctx.beginPath();
-        ctx.arc(x, y, 7, 0, 2 * Math.PI);
+        ctx.arc(x, y, 9 / spread, 0, 2 * Math.PI);
         ctx.strokeStyle = accent;
         ctx.lineWidth = 2 / spread;
         ctx.stroke();
         ctx.font = `600 ${12 / spread}px system-ui`;
         const tw = ctx.measureText(label).width;
         ctx.fillStyle = surface;
-        ctx.fillRect(x + 9, y - 12 / spread, tw + 6, 15 / spread);
+        ctx.fillRect(x + 9 / spread, y - 12 / spread, tw + 6 / spread, 15 / spread);
         ctx.fillStyle = ink;
-        ctx.fillText(label, x + 12, y);
+        ctx.fillText(label, x + 12 / spread, y);
       };
       const [xy, yy] = positions[highlight.you];
       const [xf, yf] = positions[highlight.friend];

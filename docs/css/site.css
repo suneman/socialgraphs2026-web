@@ -138,6 +138,8 @@ table.plain td:first-child { white-space: nowrap; }
 .callout p:last-child { margin-bottom: 4px; }
 
 .video-embed { aspect-ratio: 16 / 9; width: 100%; border: 1px solid var(--grid); border-radius: 10px; margin: 12px 0 6px; }
+.figure { margin: 12px 0 6px; }
+.figure img { display: block; width: 100%; border: 1px solid var(--grid); border-radius: 10px; }
 
 /* ---------- weeks grid (front page) ---------- */
 
