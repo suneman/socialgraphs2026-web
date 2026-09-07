@@ -8,6 +8,7 @@
 "use strict";
 
 // Pure helpers, node-requirable for the verification protocol.
+if (typeof module !== "undefined" && typeof CM === "undefined") global.CM = require("./community.js");
 const LY = (() => {
   function parseEdges(text) {
     return text.split("\n")
@@ -68,88 +69,11 @@ const LY = (() => {
     return best.sort((a, b) => a - b);
   }
 
-  /* Louvain community detection, deterministic (fixed ascending node order,
-     ties broken toward the lowest community id). Unweighted input; weighted
-     internally after aggregation. */
-  function louvain(n, edges) {
-    function oneLevel(g) {
-      const k = new Array(g.n).fill(0);
-      const adjW = Array.from({ length: g.n }, () => new Map());
-      let m2 = 0;
-      for (const [a, b, w] of g.links) {
-        k[a] += w; k[b] += w; m2 += 2 * w;
-        adjW[a].set(b, (adjW[a].get(b) || 0) + w);
-        adjW[b].set(a, (adjW[b].get(a) || 0) + w);
-      }
-      for (let i = 0; i < g.n; i++) { k[i] += 2 * g.self[i]; m2 += 2 * g.self[i]; }
-
-      const comm = Array.from({ length: g.n }, (_, i) => i);
-      const tot = k.slice();
-      let moved = true, improved = false;
-      while (moved) {
-        moved = false;
-        for (let i = 0; i < g.n; i++) {
-          const ci = comm[i];
-          const wTo = new Map();
-          for (const [j, w] of adjW[i]) wTo.set(comm[j], (wTo.get(comm[j]) || 0) + w);
-          tot[ci] -= k[i];
-          let bestC = ci, bestGain = (wTo.get(ci) || 0) - (tot[ci] * k[i]) / m2;
-          const cands = [...wTo.keys()].sort((a, b) => a - b);
-          for (const c of cands) {
-            const gain = wTo.get(c) - (tot[c] * k[i]) / m2;
-            if (gain > bestGain + 1e-12) { bestGain = gain; bestC = c; }
-          }
-          tot[bestC] += k[i];
-          if (bestC !== ci) { comm[i] = bestC; moved = true; improved = true; }
-        }
-      }
-      return { comm, improved };
-    }
-
-    function aggregate(g, comm) {
-      const ids = [...new Set(comm)].sort((a, b) => a - b);
-      const remap = new Map(ids.map((c, i) => [c, i]));
-      const self = new Array(ids.length).fill(0);
-      const linkW = new Map();
-      for (let i = 0; i < g.n; i++) self[remap.get(comm[i])] += g.self[i];
-      for (const [a, b, w] of g.links) {
-        const ca = remap.get(comm[a]), cb = remap.get(comm[b]);
-        if (ca === cb) { self[ca] += w; continue; }
-        const key = ca < cb ? ca * 100000 + cb : cb * 100000 + ca;
-        linkW.set(key, (linkW.get(key) || 0) + w);
-      }
-      const links = [...linkW.entries()].map(([key, w]) => [Math.floor(key / 100000), key % 100000, w]);
-      return { g: { n: ids.length, links, self }, remap: comm.map((c) => remap.get(c)) };
-    }
-
-    let g = { n, links: edges.map(([a, b]) => [a, b, 1]), self: new Array(n).fill(0) };
-    let assign = Array.from({ length: n }, (_, i) => i);
-    for (let level = 0; level < 20; level++) {
-      const { comm, improved } = oneLevel(g);
-      const { g: g2, remap } = aggregate(g, comm);
-      assign = assign.map((c) => remap[c]);
-      if (!improved || g2.n === g.n) break;
-      g = g2;
-    }
-    // renumber by size, largest first (stable → deterministic colors)
-    const size = new Map();
-    for (const c of assign) size.set(c, (size.get(c) || 0) + 1);
-    const order = [...size.keys()].sort((a, b) => size.get(b) - size.get(a) || a - b);
-    const rank = new Map(order.map((c, i) => [c, i]));
-    return assign.map((c) => rank.get(c));
-  }
-
-  // Newman modularity of a partition on an unweighted undirected graph
-  function modularity(n, edges, comm) {
-    const m = edges.length;
-    const deg = degreesFrom(n, edges);
-    const inW = new Map(), totD = new Map();
-    for (const [a, b] of edges) if (comm[a] === comm[b]) inW.set(comm[a], (inW.get(comm[a]) || 0) + 1);
-    for (let i = 0; i < n; i++) totD.set(comm[i], (totD.get(comm[i]) || 0) + deg[i]);
-    let q = 0;
-    for (const c of totD.keys()) q += (inW.get(c) || 0) / m - Math.pow(totD.get(c) / (2 * m), 2);
-    return q;
-  }
+  /* Louvain + modularity live in community.js (CM) since 2026-09-06 — one
+     implementation shared with louvain-steps and backbone. Kept on LY so the
+     week-1 verification scripts still work. */
+  const louvain = (n, edges) => CM.louvain(n, edges);
+  const modularity = (n, edges, comm) => CM.modularity(n, edges, comm);
 
   // deterministic LCG so "random" is the same picture for everyone
   function lcg(seed) {

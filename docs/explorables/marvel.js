@@ -85,6 +85,44 @@ const MV = (() => {
     return g;
   }
 
+  /* Weighted edition (week 4, added 2026-09-06): docs/data/week4_edges_weighted.tsv
+     carries the same directed edges with a weight = how many times A's article
+     links to B's. Both directions are summed into one undirected weight. The
+     undirected edge SET is identical to week 1's, so the giant component and
+     its node indexing are exactly those of build()/load() — community colors
+     computed on the unweighted network line up node for node.
+     Returns build()'s object plus gcc.weighted = [[a, b, w], …] aligned with
+     gcc.undirected, and gcc.strength = [s_i]. */
+  function buildWeighted(weightedEdgeText, nodeText) {
+    const rows = weightedEdgeText.split("\n")
+      .filter((l) => l && !l.startsWith("#"))
+      .map((l) => l.split("\t"))
+      .filter((f) => f.length >= 3 && f[0] !== "source");
+    const d = build(weightedEdgeText, nodeText);
+    const idx = new Map(d.nodes.map((n, i) => [n.id, i]));
+    const wsum = new Map();
+    for (const [s, t, w] of rows) {
+      const a = idx.get(s), b = idx.get(t);
+      if (a === undefined || b === undefined || a === b) continue;
+      const ku = key(a, b);
+      wsum.set(ku, (wsum.get(ku) || 0) + (parseInt(w, 10) || 0));
+    }
+    // the GCC nodes in original indexing, to look weights up by original pair
+    const keep = giantComponent(d.nodes.length, d.undirected);
+    d.gcc.weighted = d.gcc.undirected.map(([a, b]) => [a, b, wsum.get(key(keep[a], keep[b])) || 0]);
+    const strength = new Array(d.gcc.nodes.length).fill(0);
+    for (const [a, b, w] of d.gcc.weighted) { strength[a] += w; strength[b] += w; }
+    d.gcc.strength = strength;
+    return d;
+  }
+
+  function loadWeighted() {
+    return Promise.all([
+      fetch("../data/week4_edges_weighted.tsv").then((r) => r.text()),
+      fetch("../data/week1_nodes.tsv").then((r) => r.text()),
+    ]).then(([et, nt]) => buildWeighted(et, nt));
+  }
+
   // Browser entry point: fetch the frozen week-1 snapshot
   function load() {
     return Promise.all([
@@ -99,6 +137,6 @@ const MV = (() => {
     return () => ((s = (1664525 * s + 1013904223) >>> 0) / 4294967296);
   }
 
-  return { parseEdges, parseNodes, indexEdges, giantComponent, build, toGraph, load, lcg };
+  return { parseEdges, parseNodes, indexEdges, giantComponent, build, buildWeighted, toGraph, load, loadWeighted, lcg };
 })();
 if (typeof module !== "undefined") module.exports = MV;

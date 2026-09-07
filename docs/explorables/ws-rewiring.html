@@ -10,7 +10,7 @@
 <body>
 
 <div class="controls">
-  <label>rewiring p <input type="range" id="logp" min="-4" max="0" step="0.05" value="-2">
+  <label>rewiring q <input type="range" id="logp" min="-4" max="0" step="0.05" value="-2">
     <span class="val" id="p-val">0.010</span></label>
   <button id="resample">Resample</button>
   <span id="progress" style="color: var(--text-muted)"></span>
@@ -24,8 +24,8 @@
   <div class="panel">
     <h2>Clustering and distance vs rewiring</h2>
     <div class="legend">
-      <span class="key"><span class="swatch" style="background: var(--series-2)"></span>C(p) / C(0) — clustering</span>
-      <span class="key"><span class="swatch" style="background: var(--series-1)"></span>L(p) / L(0) — mean distance</span>
+      <span class="key"><span class="swatch" style="background: var(--series-2)"></span>C(q) / C(0) — clustering</span>
+      <span class="key"><span class="swatch" style="background: var(--series-1)"></span>L(q) / L(0) — mean distance</span>
     </div>
     <svg class="chart" id="chart"></svg>
   </div>

@@ -43,7 +43,7 @@
 
   <p class="eyebrow">Week 2 of 8 · Networks half</p>
   <h1>Models & null models</h1>
-  <p class="lede">Last week you measured a network. This week walk in the footsteps of the founders of the field. They were all physicists obsessed with models of the world. They were focused on the question: "Can a simple mechanism capture the essence of a real network?" I'll go through three famous attempts, each missing something the next one supplied. And at the end we'll talk about a different kind of model ... the null model. A kind of "trick" that turns a model into a test: shuffle the real network (in a specific way), and see what survives.</p>
+  <p class="lede">Last week you measured your first network. This week we walk in the footsteps of the founders of the field. They were all physicists obsessed with models of the world and focused on the question: "Can a simple mechanism capture the essence of a real network?" I'll go through three famous attempts, each missing something the next one supplied. And at the end we'll talk about a different kind of model ... the null model. A kind of "trick" that turns a model into a test. You shuffle the real network (in a specific way), and see what survives.</p>
 
   <div class="reading">
     <p class="eyebrow">Before class</p>
@@ -57,22 +57,19 @@
 
   <h2 id="why-models-at-all">1 · Why models at all?</h2>
 
-  <p>Here is how network science thought about the world when it began. You see a complicated system. You ask: <em>is there a simple mechanism that captures its essence?</em> That is how physicists think, and the ideal is the laws of physics. Newtonian mechanics, Theory of Relativity, Electromagnetism, etc. Simple laws and not a description of every detail. We try to find a model with two or three ingredients that, when you run it, produces something that looks like the real thing. If it does, you have understood something. If it doesn't, the way it fails might tell you what ingredient you are missing.</p>
+  <p>Here is how network scientists thought about the world when the field began. You see a complicated system. You ask: <em>is there a simple mechanism that captures its essence?</em> That is basically how physicists think, and the ideal is the laws of physics. Newtonian mechanics, Theory of Relativity, Electromagnetism, etc. Simple laws, not a description of every detail. Similarly here. We try to find a model with two or three ingredients that, when you run it, produces something that looks like real networks. If it works, you have understood something. If it doesn't, the way it fails might tell you what ingredient you are missing.</p>
 
-  <p>That is the plan for today. We start with the simplest possible network, compare it to the real one, notice what is missing, add an ingredient, and repeat. Every one of the three models we meet (the random graph, the small world, the scale-free network) is one step in that loop, and network science's early history is literally that loop run three times over forty years. At the end we explore a central tool, even in the eyes of modern network science. The network null models give us a way of deciding, for <em>any</em> measurement on <em>any</em> network, whether it is interesting or just what chance would give you.</p>
+  <p>So that's the plan for today. We start with the simplest possible network, compare it to the real one, notice what is missing, add an ingredient, and repeat. Every one of the three models we meet (the random graph, the small world, the scale-free network) is one step in that loop, and network science's early history is literally that loop run three times over forty years.</p>
+
+  <p>At the end we explore a central tool, even in the eyes of modern network science. The network null models give us a way of deciding, for <em>any</em> measurement on <em>any</em> network, whether it is interesting or just what chance would give you.</p>
 
   <h2 id="the-random-graph-networks-with-almost-no-data">2 · The random graph: networks with (almost) no data</h2>
 
-  <div class="reading">
-    <p class="eyebrow">Read</p>
-    <p><a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Network Atlas</a>, Ch.&nbsp;16 on <em>Random Graphs</em> is nice. It tells you how to build them (16.1), about degree distribution (16.2), giant components (16.3), path lengths and clustering (16.4–16.5). It's a short chapter, all of it matters, so definitely worth your time in between those Tiktok videos and Insta-stories (or whatever it is you kids do nowadays).</p>
-  </div>
+  <p>In 1959 the world didn't yet have large network datasets. All genius mathematician Paul Erdős and his buddy Alfréd Rényi had was mathematics. With their big flopping brains, they asked a question that needed no data at all: what does a network look like if it is wired entirely by chance?</p>
 
-  <p>In 1959 the world didn't yet have large network datasets. What genius mathematician Paul Erdős and his buddy Alfréd Rényi had was mathematics. With their big brains, they asked a question that needed no data at all: what does a network look like if it is wired entirely by chance?</p>
+  <p>Start from $n$ nodes and, for every one of the $n(n-1)/2$ possible pairs, flip the same biased coin: heads with probability $p$, and heads means a link. That's it. That is the <strong>Erdős–Rényi random network</strong> model (aka. the ER model), and for forty years it was essentially the only network model there was.</p>
 
-  <p>Take $n$ nodes and, for every one of the $n(n-1)/2$ possible pairs, flip the same biased coin: heads with probability $p$, and heads means a link. That's it. That is the <strong>Erdős–Rényi random network</strong> model (aka. the ER model), and for forty years it was, essentially, the only network model there was.</p>
-
-  <p>Two things made it irresistible. It is simple enough that you can calculate almost everything about it with pen and paper, and it is deep enough that those calculations produced some of the most beautiful results in twentieth-century mathematics.</p>
+  <p>It had two properties that made it irresistible. It is simple enough that you can calculate almost everything about it with pen and paper, and it is deep enough that those calculations produced some of the most beautiful results in twentieth-century mathematics.</p>
 
   <p>And by the time real networks finally arrived, random graphs were still where everyone's intuitions came from. Start with a short video of me on the topic, then let's get into it.</p>
 
@@ -84,21 +81,28 @@
   <p>Everything below follows from the $p$, and all of it is pen-and-paper material:</p>
 
   <ul>
-    <li><strong>Expected number of links.</strong> Every pair is connected with probability $p$, so on average we have $\langle m\rangle = p \cdot n(n-1)/2$ edges. You can reverse this idea, so to build a random network that matches a real one you simply invert the equation. In the case of the Marvel network (303 nodes, 1,434 links) $p = 0.031$. Maybe you remember that number, it's its density! And that is a general result. In a random network, <em>density and $p$ are the same number.</em></li>
+    <li><strong>Expected number of links.</strong> Every pair is connected with probability $p$, so on average we have $\langle m\rangle = p \cdot n(n-1)/2$ edges. You can reverse this idea, thus to build a random network that matches a real one you simply invert the equation. In the case of the Marvel network (303 nodes, 1,434 links) we need to connect them with $p = 0.031$ to create the corresponding random network. And maybe you remember that number, it's its density. And that is a general result. In a random network, <em>density and $p$ are the same number.</em></li>
     <li><strong>Average degree.</strong> Each node connects to each of the $n-1$ other nodes with probability $p$, so $\langle k\rangle = p(n-1)$.</li>
-    <li><strong>Degree distribution.</strong> A node's degree is the number of heads in $n-1$ coin flips with a biased coin. That's a binomial. For large sparse networks that's a <strong>Poisson</strong> distribution with mean $\langle k\rangle$. <em>And</em>, when $\langle k\rangle$ itself is large, that is the <em>normal distribution</em>. No matter how you look at it, that distribution is <em>short-tailed</em>: nearly everyone has a degree close to the average. The most connected node in a Marvel-sized random network has $k \approx 19$; the real Spider-Man has degree 106. More on this below. (And the derivation, and the limits of all this, can be found in the <a href="#er-math">Goodies</a>.)</li>
-    <li><strong>Distances.</strong> Paths in a random network are short, growing only like $\log n$: a random Marvel has an average distance of 2.8 hops. Remember this number — Part 3 is about it.</li>
-    <li><strong>Clustering.</strong> Two of your neighbors are linked with the same probability as any other pair — $p$. In a sparse network that is nearly zero. Remember this one too, that's what we discuss in Part 4.</li>
+    <li><strong>Degree distribution.</strong> A node's degree is the number of heads in $n-1$ coin flips with a biased coin. That process results in a <em>binomial</em> degree distribution. For large sparse networks the binomial is well approximated by a <strong>Poisson</strong> distribution with mean $\langle k\rangle$. <em>And</em>, when $\langle k\rangle$ itself is large, that in turn is well approximated by the <em>normal distribution</em>. No matter how you model it, the degree distribution of a random network has short tails: the variance is low and nearly everyone has a degree close to the average. The most connected node in a Marvel-sized random network has $k \approx 19$, while the real Spider-Man has degree 106. More on this below. (And the derivation + the limits of all this can be found in the <a href="#er-math">Goodies</a>.)</li>
+    <li><strong>Distances.</strong> Paths in a random network are short, growing only like $\log n$: a random Marvel has an average distance of 2.8 hops. Remember this number, we get back to path length in Part 3.</li>
+    <li><strong>Clustering.</strong> Two of your neighbors are linked with the same probability as any other pair: $p$. So in a sparse large network, it is nearly zero. Remember this one too, that's what we'll discuss in Part 4.</li>
   </ul>
 
-  <p>Last week we talked about degree distributions and heavy tails. Above, I just told you that the random network has a short-tailed degree distribution. Let's be quantitative about the differences, we can play with that in the explorable below. It's set up so you can compare the degree distribution of the Marvel network like last time ... with one key difference. Now you can also compare to a random network of <em>the same number of nodes and links</em> as the Marvel network, just wired up randomly. That way you can see the differences directly.</p>
+  <div class="reading">
+    <p class="eyebrow">Read</p>
+    <p><a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Network Atlas</a>, Ch.&nbsp;16 on <em>Random Graphs</em> is nice. It tells you how to build them (16.1), about degree distribution (16.2), giant components (16.3), path lengths and clustering (16.4–16.5). It's a short chapter, all of it matters, so definitely worth your time in between those Tiktok videos and Insta-stories (or whatever it is you kids do nowadays).</p>
+  </div>
+
+  <p><strong>Degree distributions</strong>. Last week we talked about degree distributions and heavy tails. Above, I just told you that the random network has a narrow degree distribution.</p>
+
+  <p>You can build intuitions around this in the explorable below. It's set up so you can visualize the degree distribution of the Marvel network like last time ... with one key difference. Now you can also compare to a random network of <em>the same number of nodes and links as the Marvel network</em>, just wired up completely randomly. That way you can see the differences directly.</p>
 
   <iframe class="explorable-frame" src="../explorables/poisson-vs-marvel.html" height="550"
     title="Explorable: where chance gives up" loading="lazy"></iframe>
 
-  <p class="explorable-caption">The Marvel in-degree distribution from week 1, with one thing added: the Poisson distribution a random network with the same $\langle k\rangle$ would have. On log–log axes, find the degree where the Poisson line dies — that is where chance gives up and the hubs begin. Switch to <em>out</em>-degree: which of the two real distributions does the random network describe better, and why (think about who <em>makes</em> each kind of link)?</p>
+  <p class="explorable-caption">The Marvel degree distribution explorable from week 1, with one thing added: the Poisson distribution a random network with the same $\langle k\rangle$ would have. On log–log axes, find the degree where the Poisson line dies — that is where chance gives up and the hubs begin. Switch to <em>out</em>-degree: which of the two real distributions does the random network describe better, and why (think about who <em>creates</em> each kind of link)?</p>
 
-  <p>Moving along to more fun findings about random graphs, there is the one genuinely surprising thing the model does. The connected components do not grow gradually as you add links. Rather, the giant connected component appears in a pretty spectacular way. Below values of $\langle k\rangle = 1$ the network is composed of small fragments. At $\langle k\rangle = 1$, out of nowhere, a <strong>giant component</strong> appears and starts swallowing everything. This is a <em>phase transition</em> (the same mathematics as water freezing, for example). Play with this phenomenon below:</p>
+  <p><strong>Giant Connected Component</strong>. Moving along to more fun findings about random graphs, there is the one genuinely surprising thing the model does. The connected components do not appear and grow gradually as you add links. Rather, the giant connected component appears in a pretty spectacular way. Below values of $\langle k\rangle = 1$ the network is composed of small fragments. At $\langle k\rangle = 1$, out of nowhere, a <strong>giant component</strong> appears and starts swallowing everything. This is a <em>phase transition</em> (the same mathematics as water freezing, for example). Play with this phenomenon below:</p>
 
   <iframe class="explorable-frame" src="../explorables/er-phase-transition.html" height="500"
     title="Explorable: the random network's phase transition" loading="lazy"></iframe>
@@ -111,7 +115,7 @@
     <ol>
     <li>Why did the founders of the field study random networks when they had no data? Name two reasons. And why do we still keep the model around now that we have all the data in the world?</li>
     <li>The giant component appears at $\langle k\rangle = 1$. Explain the intuition: why exactly one? (Think about what happens to a fragment when its nodes have, on average, more than one link each versus less than one.) What does the network look like on either side of the transition, and at what $\langle k\rangle$ does the last isolated node typically vanish?</li>
-    <li>Sketch (pen, paper) the degree distribution of a random network with $\langle k\rangle = 10$ on linear axes and on log–log axes. Then sketch, on the same two pairs of axes, a distribution with a heavy tail. Label the features that let you tell the two apart at a glance — this is a read-the-figure item on the midterm.</li>
+    <li>Sketch (pen, paper) the degree distribution of a random network with $\langle k\rangle = 10$ on linear axes and on log–log axes. Then sketch, on the same two pairs of axes, a distribution with a heavy tail. Label the features that let you tell the two apart at a glance: this could be a read-the-figure item on the test.</li>
     <li>A random network with the Marvel network's $n$ and $m$ has, on average, essentially <em>no</em> isolated nodes (the expected number is $n\,e^{-\langle k\rangle} \approx 0.02$). The real network has 17. Which of the two facts is the more informative, and what does the real network's 17 isolates tell you that its $\langle k\rangle$ does not?</li>
     <li>$G(n,p)$ with $n = 6$ and $p = 0.2$: expected number of links? Expected degree? Probability that a given node is isolated? Now the expected number of links for $n = 300$, $p = 0.03$ — check it against the Marvel $m$.</li>
   </ol>
@@ -137,15 +141,15 @@
 
   <p class="explorable-caption">Late-night-edition Sune on the properties of real networks: clustering, short paths, the Watts–Strogatz model that reconciles them. Spoiler alert, I talk about the story that I also write about below. I think the best flow is first watch the video, then read the text. But it's OK to try it the other way too!</p>
 
-  <p>While the mathematicians were busy proving theorems about phase transitions, a crazy sociologist/social psychologist by the name of Stanley Milgram found out something deep about paths in real-world networks. In 1967 he ran a famous experiment where he handed letters to strangers in Nebraska, to be delivered to a Boston stockbroker. But with a twist. You couldn't send the letters by mail, participants had to hand-deliver their letter to someone they knew on a first-name basis. And then that person had to do the same thing. To everyone's surprise, the letters that made it took only about <em>six hand-offs</em>, much fewer than most researchers at that time expected.</p>
+  <p><strong>Small worlds</strong>. While the mathematicians were busy proving theorems about phase transitions, a crazy sociologist/social psychologist by the name of Stanley Milgram found out something deep about paths in real-world networks. In 1967 he ran a famous experiment where he handed letters to strangers in Nebraska, to be delivered to a Boston stockbroker. But with a twist. You couldn't send the letters by mail, participants had to hand-deliver their letter to someone they knew on a first-name basis. And then that person had to do the same thing. To everyone's surprise, the letters that made it took only about <em>six hand-offs</em>, much fewer than most researchers at that time expected.</p>
 
-  <p>This idea of <em>six degrees of separation</em> caught people's attention. It became a play, a movie, and part of the public consciousness. And this <strong>small world property</strong> is shared by many real-world networks: distances are often tiny compared to the network's size.</p>
+  <p>This idea of <em>six degrees of separation</em> caught people's attention. It became a play, a movie, and part of the public consciousness. And this <em>small world property</em> is shared by many real-world networks: distances are often tiny compared to the network's size.</p>
 
   <p>How do random networks stack up? They do have short paths, and the argument is simple. Stand on some node and take one step outward in the network. One step reaches about $\langle k\rangle$ nodes, two steps $\langle k\rangle^2$, $d$ steps $\langle k\rangle^d$. You'll cover the whole network when $\langle k\rangle^d \approx n$. That happens at $d \approx \ln n / \ln\langle k\rangle$.</p>
 
   <p>In other words, distances grow like $\log n$, and logarithms grow slowly: a million nodes at $\langle k\rangle = 10$ is six steps across. The Marvel network is a small world, and so is random Marvel (it is 2.8 hops wide).</p>
 
-  <p>So <strong>short paths are part of random networks.</strong></p>
+  <p>So <em>short paths are part of random networks.</em></p>
 
   <h2 id="something-is-missing-clustering">4 · Something is missing: clustering</h2>
 
@@ -154,9 +158,9 @@
     <p>Check out <a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Network Atlas</a>, Ch.&nbsp;12 <em>Density</em>, sections 12.1–12.2 for the textbook perspective. Density you know from last week; the <strong>clustering coefficient</strong> is new and worth your time. (12.3 on cliques is a nice extra; skip 12.4.)</p>
   </div>
 
-  <p>So the thing that makes the random network calculation above work is that for low $p$, random networks have very low clustering. In a real network my friends tend to be friends with one another and that creates lots of triangles in the network. Random networks are the opposite, they have almost no triangles. Two of your neighbors in a random graph are linked with probability $p$ (like any other pair) which, for a sparse network, is nearly zero.</p>
+  <p>So the thing that makes the random network calculation above work is that for low $p$, random networks have very low clustering. In a real network my friends tend to be friends with one another and that creates lots of triangles in the network. It also means that when I take steps outward in the network, I don't go 10 $\rightarrow$ 100, etc. Because a lot of the friends of the first 10 are <em>the same people</em>. So with triangles, the growth argument doesn't work.</p>
 
-  <p>Let's try to be more quantitative about how much clustering is missing from random networks. That's actually a calculation we can do on paper. Take a node $i$ with degree $k_i$. Its neighbors form $k_i(k_i-1)/2$ possible pairs. The <strong>local clustering coefficient</strong> enumerates how many of those possible pairs are actually linked — let's call that $e_i$. It is defined as</p>
+  <p>Let's get quantitative about how we measure clustering. Take a node $i$ with degree $k_i$. Its neighbors form $k_i(k_i-1)/2$ possible pairs. The <strong>local clustering coefficient</strong> enumerates how many of those possible pairs are actually linked, let's call that $e_i$. It is defined as</p>
 
   <p>$$C_i = \frac{e_i}{k_i(k_i-1)/2} = \frac{2e_i}{k_i(k_i-1)}.$$</p>
 
@@ -171,17 +175,15 @@
 
   <p class="explorable-caption">Click A's neighbors to attach or detach them, click the dashed lines to link two neighbors, and watch the fraction. Make $C_A$ exactly $1/3$ in two different ways. Then detach neighbors until A has one left and see what happens to the definition.</p>
 
-  <p>Now, let's compare the random network to our Marvel network. The Marvel network has $C \approx 0.31$. This means that if we pick a character and two of their neighbors at random, then one third of the time, those two are linked as well.</p>
-
-  <p>Now we can compare with a random network with the same $n$ and $m$. That network has $C = p \approx 0.03$. Ten times less!</p>
+  <p>With a measure for clustering, we can compare the random network to our Marvel network. The Marvel network has $C \approx 0.31$. This means that if we pick a character and two of their neighbors at random, then one third of the time, those two are linked as well. In a random network with the same $n$ and $m$ we have $C = p \approx 0.03$. Ten times less!</p>
 
   <p>So the real network has a huge surplus of triangles that pure chance cannot produce. And it's the fact that <em>many</em> real-world systems have a huge surplus of triangles that led to the next part of our story.</p>
 
-  <p>But that's in the next part. First a couple of exercises to work out that brain of yours.</p>
+  <p>But all will be revealed in the next part. First a couple of exercises to work out that brain of yours.</p>
 
   <div class="exercise">
     <h4>2.3 — The clustering coefficient, by hand <span class="mode learn">🧠 Learn</span></h4>
-    <p>Paper only. This is the shape of a midterm item.</p>
+    <p>Paper only. This is something that could be on the test.</p>
     <ol>
     <li>Node A's neighbors are {B, C, D}. Among them only B–C is linked. What is $C_A$? Now add the link C–D: what is $C_A$? Add B–D as well: what is it now?</li>
     <li>Take last week's edge list {A–B, A–C, A–D, B–C, C–D, D–E, E–F} (you drew it in exercise 1.5). Compute $C_i$ for all six nodes and the average $C$. Which nodes have $C_i = 0$ and why — is it the same reason for each?</li>
@@ -193,9 +195,9 @@
 
   <h2 id="watts-strogatz-perched-between-order-and-randomness">5 · Watts & Strogatz: perched between order and randomness</h2>
 
-  <p>In 1998, Duncan Watts and Steve Strogatz decided to work on a model that had both clustering <strong>and</strong> the small world property.</p>
+  <p>In 1998, Duncan Watts and Steve Strogatz decided to work on a model that had both clustering <em>and</em> the small world property.</p>
 
-  <p>So they went looking, and they decided to start somewhere with an ample supply of clustering and local order. They picked a <strong>lattice</strong> network, where every node is linked to its nearest neighbors. A lattice in one dimension is a straight line (or a ring if you wrap it), in 2D it's a grid. But for our purposes, a lattice is <em>all</em> clustering. By construction, a node's neighbors are also each other's neighbors. But on the flip side, they have <em>looooong</em> paths. Formally, distances grow like $n$ (not $\log n$ as in the random network).</p>
+  <p>So they went looking, and they decided to start somewhere with an ample supply of clustering and local order. They picked a <strong>lattice</strong> network, where every node is linked to its nearest neighbors. A lattice in one dimension is a straight line (or a ring if you wrap it), in 2D it's a grid. But for our purposes, the nice thing is that a lattice is <em>all</em> clustering. By construction, a node's neighbors are also each other's neighbors. But the downside is that they have <em>looooong</em> paths. Formally, distances grow like $n$ (not $\log n$ as in the random network).</p>
 
   <iframe class="explorable-frame" src="../explorables/ring-lattice.html" height="640"
     title="Explorable: the ring lattice" loading="lazy"></iframe>
@@ -204,25 +206,25 @@
 
   <p>If you pick a node on one side, the far side of a big ring is half the network away. Not the short paths of the random network.</p>
 
-  <p><strong>Brilliant insight 1</strong>: Watts and Strogatz realized something deep. It's easy to fix the lattice's issue with the long paths. If we rewire a small fraction $p$ of its links to random destinations, the path lengths collapse immediately. This is because each rewired link is a <strong>shortcut</strong>, and shortcuts are really efficient. A few of them can shrink the distances across the network while barely reducing the clustering, because the clustering arises from the 99% of links you didn't rewire.</p>
+  <p><strong>Brilliant insight 1</strong>: Watts and Strogatz realized something deep. It's easy to fix the lattice's issue with the long paths. If we rewire a small fraction $q$ of its links to random destinations, the path lengths collapse immediately. This is because each rewired link is a <strong>shortcut</strong>, and shortcuts are really efficient. A few shortcuts can shrink the distances across the network while barely reducing the clustering, because the clustering arises from the 99% of links you didn't rewire.</p>
 
   <iframe class="explorable-frame" src="../explorables/lattice-to-random.html" height="620"
     title="Explorable: how few shortcuts it takes" loading="lazy"></iframe>
 
   <p class="explorable-caption">Every node is colored by its distance from the start node. On the lattice the colors crawl around the ring — the far side is fifteen steps away. Add shortcuts <em>one at a time</em> and watch the far side snap closer; note how many it takes before the farthest node is within five steps, and what happened to $C$ meanwhile (almost nothing).</p>
 
-  <p><strong>Brilliant insight 2</strong> (this is where the paper gets extra beautiful): We can thing of the rewiring probability $p$ as a kind of <em>dial</em> that takes us from order to randomness. At $p = 0$ we have the lattice: total order. At $p = 1$, the has been converted into a random graph: full randomness. In between order and chaos is our own little world. A whole family of networks. And when  $p$ is small, they are simultaneously clustered <em>and</em> small worlds.</p>
+  <p><strong>Brilliant insight 2</strong> (this is where the paper gets extra beautiful): We can think of the rewiring probability $q$ as a kind of <em>dial</em> that takes us from order to randomness. At $q = 0$ we have the lattice: total order. At $q = 1$, the lattice has been converted into a random graph: full randomness. In between order and chaos is our own little world. A whole family of networks. And when $q$ is small, they are simultaneously clustered <em>and</em> small worlds.</p>
 
   <p>It is a lovely thought.</p>
 
-  <p>Now for an explorable that looks at how paths get shorter with small $p$ in a more systematic way.</p>
+  <p>Now for an explorable that looks at how paths get shorter with small $q$ in a more systematic way.</p>
 
   <iframe class="explorable-frame" src="../explorables/ws-rewiring.html" height="500"
     title="Explorable: Watts–Strogatz rewiring" loading="lazy"></iframe>
 
-  <p class="explorable-caption">Exploring the world of small $p$. The x-axis in this explorable is logarithmic on purpose: the interesting regime, where distance has collapsed but clustering hasn't, spans roughly $p \approx 0.001$ to $0.1$. Use this explorable to find it. Then press <em>Resample</em> a few times at the same $p$ and notice how much (or little) the two numbers move — that is what error bars are for.</p>
+  <p class="explorable-caption">Exploring the world of small $q$. The x-axis in this explorable is logarithmic on purpose: the interesting regime, where distance has collapsed but clustering hasn't, spans roughly $q \approx 0.001$ to $0.1$. Use this explorable to find it. Then press <em>Resample</em> a few times at the same $q$ and notice how much (or little) the two numbers move — that is what error bars are for.</p>
 
-  <p>Let's look at the Marvel numbers next our theory. Real: $C \approx 0.31$, average distance 2.7 (diameter 6 — the two most distant superheroes in the giant component are six links apart). Random with the same $n$ and $m$: $C \approx 0.03$, distance 2.8. The distances are indistinguishable from chance; the clustering is not. The Marvel network has the small-world signature.</p>
+  <p>And as always, let's look at the Marvel numbers next to our theory. Real: $C \approx 0.31$, average distance 2.7 (a <em>diameter</em> of 6, meaning that the two most distant superheroes in the giant component are six links apart). Now turn the dial on a Watts–Strogatz network with Marvel's $n$ and $\langle k\rangle$. There is a setting, $q \approx 0.2$, where the clustering lands right on Marvel's 0.31, and at that setting the average distance is 3.1 hops. Both numbers from one model. The random network could only ever do one of them ($C \approx 0.03$, distance 2.8). So on clustering and distances, the Marvel network is a small world in exactly Watts and Strogatz's sense.</p>
 
   <p>But there's still something missing. That is what we will talk about next.</p>
 
@@ -234,10 +236,10 @@
   <div class="exercise">
     <h4>2.4 — Small worlds, quantitatively <span class="mode learn">🧠 Learn</span> + <span class="mode builder">🚀 Builder</span></h4>
     <ol>
-    <li>🧠 Before touching code: for Watts–Strogatz networks with $p = 0$, $p = 0.01$ and $p = 1$, rank the three by clustering and by mean shortest path. Write the prediction down; you will check it in a minute.</li>
-    <li>🚀 Reproduce the classic figure. $n = 500$, $\langle k\rangle = 4$; for each $p \in \{0, 0.01, 0.03, 0.05, 0.1, 0.2\}$ generate 50 networks, compute the mean shortest path $\langle d\rangle$ and the clustering $C$, and plot both against $p$ (log x-axis) with error bars from the standard deviation over the 50 runs. Your agent can scaffold the loops; the deliverable is the figure, and it has to look like the explorable's right-hand panel.</li>
-    <li>🧠 Write the figure caption yourself — what is on the axes, what the error bars mean, what the reader should notice — and answer: around which $p$ does the network become "small"? Why does $C$ hold on so much longer than $\langle d\rangle$? Explain the mechanism in two sentences, without the word "shortcut" — then with it.</li>
-    <li>🧠 Describe what the network is at $p = 1$. Is it <em>exactly</em> a random network? What is still different about it (hint: think about the minimum degree)?</li>
+    <li>🧠 Before touching code: for Watts–Strogatz networks with $q = 0$, $q = 0.01$ and $q = 1$, rank the three by clustering and by mean shortest path. Write the prediction down; you will check it in a minute.</li>
+    <li>🚀 Reproduce the classic figure. $n = 500$, $\langle k\rangle = 4$; for each $q \in \{0, 0.01, 0.03, 0.05, 0.1, 0.2\}$ generate 50 networks, compute the mean shortest path $\langle d\rangle$ and the clustering $C$, and plot both against $q$ (log x-axis) with error bars from the standard deviation over the 50 runs. Your agent can scaffold the loops; the deliverable is the figure, and it has to look like the explorable's right-hand panel.</li>
+    <li>🧠 Write the figure caption yourself — what is on the axes, what the error bars mean, what the reader should notice — and answer: around which $q$ does the network become "small"? Why does $C$ hold on so much longer than $\langle d\rangle$? Explain the mechanism in two sentences, without the word "shortcut" — then with it.</li>
+    <li>🧠 Describe what the network is at $q = 1$. Is it <em>exactly</em> a random network? What is still different about it (hint: think about the minimum degree)?</li>
   </ol>
   </div>
 
@@ -245,15 +247,17 @@
 
   <p>Remember how I talked about how degree distributions spawned 1000 papers last week? Well, now I'll explain how and why.</p>
 
-  <p>Not long after Watts and Strogatz, Hungarian researcher (and my former advisor and mentor) László Barabási found a deep flaw in the beautiful image that their <em>small world</em> model had conjured up. And it has to do with degree distributions.</p>
+  <p><strong>Watts' regret</strong>. Not long after Watts and Strogatz, Hungarian researcher (and my former advisor and mentor) László Barabási found a deep flaw in the beautiful image that their <em>small world</em> model had conjured up. And it has to do with degree distributions.</p>
 
-  <p>The WS model assumes that the degree distribution of real-world networks is roughly Poissonian. In his book about complex networks (<em>Six Degrees</em>, great book), Watts regrets this mistake:</p>
+  <p>The WS model assumes that the degree distribution of real-world networks is roughly Poissonian. But they are not. And Watts and Strogatz missed it. Watts wasn't happy about it. In his book about complex networks (<em>Six Degrees</em>, great book btw!), Watts writes:</p>
 
-  <p>"<em>We didn't check</em>! We were so convinced that non-normal degree distributions weren't relevant that we never thought to look at which networks actually had normal degree distributions and which did not. We had the data sitting there staring at us for almost two years, and it would have taken all of half an hour to check it, but we never did."</p>
+  <blockquote>
+    <p>"<em>We didn't check</em>! We were so convinced that non-normal degree distributions weren't relevant that we never thought to look at which networks actually had normal degree distributions and which did not. We had the data sitting there staring at us for almost two years, and it would have taken all of half an hour to check it, but we never did."</p>
+  </blockquote>
 
-  <p>Both models we have considered so far have narrow distributions of node degree: in a random graph nearly everyone has a degree near the average, and in a Watts–Strogatz network every node has degree close to $\langle k\rangle$ by construction.</p>
+  <p>Both models we have considered so far have narrow distributions of node degree: in a random graph nearly everyone has a degree near the average, and in a Watts–Strogatz network every node has degree equal to $\langle k\rangle$ by construction (except the rewired ones, depending on the details of the rewiring).</p>
 
-  <p>When Barabási and the scientists that followed his discovery plotted the degree distribution of the World Wide Web, the internet, citation networks, protein interactions, film actors, etc. on log–log axes, they found an (approximately) straight line.</p>
+  <p><strong>The discovery of power laws</strong>: When Barabási and the scientists that followed his discovery plotted the degree distribution of the World Wide Web, the internet, citation networks, protein interactions, film actors, etc. on log–log axes, they found an (approximately) straight line.</p>
 
   <p>That's our old friend the <strong>power law</strong>, $P(k) \sim k^{-\gamma}$. The heavy tails are a sign of <strong>hubs</strong>, highly connected nodes that result in all kinds of interesting network properties (incl. short paths). In our example Marvel network, Spider-Man has 106 links in a network whose average is 9.5; the biggest hub a corresponding random network could produce is around 19.</p>
 
@@ -295,7 +299,7 @@
 
   <div class="exercise">
     <h4>2.5a — Preferential attachment on paper <span class="mode learn">🧠 Learn</span></h4>
-    <p>No AI, no computer. The mechanism is the point, and this is yet another kind of exercise that could appear on the midterm: a tiny network, a rule, and a probability.</p>
+    <p>No AI, no computer. The mechanism is the point, and this is yet another kind of exercise that could appear on the test: a tiny network, a rule, and a probability.</p>
     <ol>
     <li><strong>The endpoint-list trick.</strong> Take a four-node network with edges A–B, B–C, B–D, and C–D. Write down the flat list of all edge endpoints (every edge contributes both of its nodes). A newcomer picks one entry of that list uniformly at random (each list item with equal probability) and links to it. What is the probability that it links to B? To A? Now explain, in one sentence, why picking uniformly from this list is exactly the rule $\Pi(k_i) = k_i / \sum_j k_j$.</li>
     <li><strong>Rich get richer, one step.</strong> Suppose the newcomer-node E did link to B. Rewrite the list and compute B's probability of catching the <em>next</em> newcomer. Did it go up or down? Now suppose E had linked to A instead: what is A's share afterwards? Two sentences on why this feedback loop turns early luck into hubs.</li>
@@ -341,14 +345,14 @@
     <ol>
     <li>🧠 Compute the CCDF of the Marvel <em>in</em>-degree (from the week-1 snapshot; your agent can write the three lines) and plot it on log–log axes next to the binned $P(k)$ from week 1. Which is easier to read in the tail, and why does the CCDF need no binning at all? Read a rough slope off the CCDF and convert it to a $\gamma$.</li>
     <li>🧠 Overlay the CCDF of your 5,000-node BA network from 2.5b and of a same-size random network. Which does Marvel resemble — and in which range of $k$ does it <em>stop</em> resembling BA? (There are 303 nodes. Say something about what that does to the tail.)</li>
-    <li>🔬 Ask your favorite LLM, in a fresh chat: <em>"Here is a degree distribution [paste your CCDF values]. Is this network scale-free?"</em> Then ask it <em>"How would you test that properly?"</em> Grade both answers against what you have just read: did it demand a fit and an alternative, or did it eyeball a straight line? Did it confuse "heavy-tailed" with "power law"? Keep the best wrong sentence — spot-the-flaw items on the midterm are written in exactly this voice.</li>
+    <li>🔬 Ask your favorite LLM, in a fresh chat: <em>"Here is a degree distribution [paste your CCDF values]. Is this network scale-free?"</em> Then ask it <em>"How would you test that properly?"</em> Grade both answers against what you have just read: did it demand a fit and an alternative, or did it eyeball a straight line? Did it confuse "heavy-tailed" with "power law"? Keep the best wrong sentence. Spot-the-flaw items on the test are written in exactly this voice.</li>
     <li>🧠 In one paragraph: what is the <em>robust</em> claim you can make about the Marvel in-degree distribution, what is the claim you cannot make on this evidence, and what would it take to make it?</li>
   </ol>
   </div>
 
   <div class="exercise">
     <h4>2.7 — Models by hand <span class="mode learn">🧠 Learn</span></h4>
-    <p>Pen and paper, the whole thing. Every item here is a midterm archetype.</p>
+    <p>Pen and paper, the whole thing. Every item here is a typical test item.</p>
     <ol>
     <li>Current degrees in a growing network: A: 5, B: 3, C: 1, D: 1. A newcomer makes <em>one</em> preferential-attachment link. Probability it goes to A? To D? Now the newcomer makes $m = 2$ links (to two different nodes, first one preferentially, then again among the rest): probability that A gets one of them?</li>
     <li>After that newcomer has attached to A, the <em>next</em> newcomer arrives. Has A's chance of being chosen gone up or down, and by how much? Write one sentence connecting this to the phrase "rich get richer."</li>
@@ -524,7 +528,7 @@
     <dt>Small world</dt>
     <dd>clustering far above chance <em>and</em> distances at chance ($\sim \log n$). Real networks have both; the random graph and the lattice each have only one.</dd>
     <dt>Watts–Strogatz model</dt>
-    <dd>a lattice with a small fraction $p$ of links rewired into <strong>shortcuts</strong>. A handful of shortcuts collapse the distances while barely touching the clustering.</dd>
+    <dd>a lattice with a small fraction $q$ of links rewired into <strong>shortcuts</strong>. A handful of shortcuts collapse the distances while barely touching the clustering.</dd>
     <dt>Power law</dt>
     <dd>$P(k) \sim k^{-\gamma}$ — a straight line on log–log axes, no typical scale, and <strong>hubs</strong> neither chance nor shortcuts can make.</dd>
     <dt>Preferential attachment (Barabási–Albert)</dt>
@@ -564,7 +568,7 @@
 
   <h2 id="goodies">Goodies</h2>
 
-  <p>Everything above is the course. Everything below is for the student who finished the page and wants more. Nothing here is on the midterm; all of it is worth your time.</p>
+  <p>Everything above is the course. Everything below is for the student who finished the page and wants more. Nothing here is on the test; all of it is worth your time.</p>
 
   <div class="callout" id="er-math">
     <p class="eyebrow">For the one student who wants the random-graph mathematics</p>

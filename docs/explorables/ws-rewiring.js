@@ -131,7 +131,7 @@
       xTicks: [1e-4, 1e-3, 1e-2, 1e-1, 1],
       yTicks: [0, 0.5, 1],
       xFormat: (v) => (v >= 0.1 ? v : `10${sup(Math.round(Math.log10(v)))}`),
-      xTitle: "rewiring probability p (log)",
+      xTitle: "rewiring probability q (log)",
       yTitle: "relative to lattice",
     });
 

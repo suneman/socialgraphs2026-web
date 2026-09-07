@@ -137,6 +137,15 @@ table.plain td:first-child { white-space: nowrap; }
 .on-the-test p, .on-the-test li, .callout p { font-size: 15.5px; }
 .callout p:last-child { margin-bottom: 4px; }
 
+blockquote {
+  margin: 20px 0; padding: 2px 0 2px 20px;
+  border-left: 3px solid var(--baseline);
+  color: var(--text-secondary); font-style: italic;
+}
+blockquote p { margin: 0 0 10px; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote em { font-style: normal; }
+
 .video-embed { aspect-ratio: 16 / 9; width: 100%; border: 1px solid var(--grid); border-radius: 10px; margin: 12px 0 6px; }
 .figure { margin: 12px 0 6px; }
 .figure img { display: block; width: 100%; border: 1px solid var(--grid); border-radius: 10px; }
