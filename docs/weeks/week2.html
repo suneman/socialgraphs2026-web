@@ -224,7 +224,7 @@
 
   <p class="explorable-caption">Exploring the world of small $q$. The x-axis in this explorable is logarithmic on purpose: the interesting regime, where distance has collapsed but clustering hasn't, spans roughly $q \approx 0.001$ to $0.1$. Use this explorable to find it. Then press <em>Resample</em> a few times at the same $q$ and notice how much (or little) the two numbers move — that is what error bars are for.</p>
 
-  <p>And as always, let's look at the Marvel numbers next to our theory. Real: $C \approx 0.31$, average distance 2.7 (a <em>diameter</em> of 6, meaning that the two most distant superheroes in the giant component are six links apart). Now turn the dial on a Watts–Strogatz network with Marvel's $n$ and $\langle k\rangle$. There is a setting, $q \approx 0.2$, where the clustering lands right on Marvel's 0.31, and at that setting the average distance is 3.1 hops. Both numbers from one model. The random network could only ever do one of them ($C \approx 0.03$, distance 2.8). So on clustering and distances, the Marvel network is a small world in exactly Watts and Strogatz's sense.</p>
+  <p>And as always, let's look at the Marvel numbers next to our theory. Real: $C \approx 0.31$, average distance 2.7 (a <em>diameter</em> of 6, meaning that the two most distant superheroes in the giant component are six links apart). Let's see how far we can get with a Watts–Strogatz network with Marvel's $n$ and $\langle k\rangle$. There is a setting, $q \approx 0.2$, where the clustering lands right on Marvel's 0.31, and at that setting the average distance is 3.1 hops. Both numbers from one model. The random network could only ever match one of the real numbers ($C \approx 0.03$, distance 2.8). So on clustering and distances, the Marvel network is a small world in exactly Watts and Strogatz's sense.</p>
 
   <p>But there's still something missing. That is what we will talk about next.</p>
 
@@ -268,7 +268,7 @@
 
   <p>And Barabási and Albert's 1999 paper didn't just discover power laws, they also came up with an explanation of why they might be everywhere. Their model was based on two ingredients.</p>
 
-  <p>First, real networks <strong>grow</strong>: the web, the citation network, and Wikipedia were not born with all their nodes. They start small and gradually grow bigger as ever more nodes are added.</p>
+  <p><strong>The growing network model</strong>: First, real networks <strong>grow</strong>: the web, the citation network, and Wikipedia were not born with all their nodes. They start small and gradually grow bigger as ever more nodes are added.</p>
 
   <p>Second, newcomers do not connect to the existing nodes at random. They <strong>preferentially attach</strong> to nodes that are already well connected. In a citation network, you cite the papers you know about, and you know about the most cited papers, so they aggregate more and more citations and become even more well known. Meanwhile the unknown papers remain unknown. Barabási and Albert called that mechanism <em>preferential attachment</em>. And they formalized it like this: The probability that a newcomer links to node $i$ is proportional to its degree,</p>
 
@@ -276,7 +276,7 @@
 
   <p>Those two ingredients are enough. Run that model and the degree distribution comes out as a power law with $\gamma = 3$: a straight line on log–log axes.</p>
 
-  <p>Barabási called networks with power-law degree distributions <em>scale-free</em>, and with this amazing piece of PR, a whole lot of physicists went wild. It's too complicated to explain everything here, but power laws connect to deep results in statistical physics; you can get the full story here (<a href="#universality">Goodies</a>).</p>
+  <p>Barabási called networks with power-law degree distributions <em>scale-free</em>, and with this amazing piece of PR, hundreds, if not thousands (incl. young Sune), of physicists went wild. It's too complicated to explain everything here, but power laws connect to deep results in statistical physics; you can get the full story here (<a href="#universality">Goodies</a>).</p>
 
   <p>Now see the model in action. The explorable below is complicated. It's a big machine with five experiments in it (incl. controls in the top row). I recommend you do them in this order.</p>
 
@@ -293,7 +293,7 @@
 
   <p class="explorable-caption">One explorable, five experiments: grow, watch who becomes a hub, remove the preference, remove the growth, then the first-mover view. Work them in that order. The question to carry out of step 4 is which ingredient made the hubs. It's a complex explorable. See the main text above for a guided tour and to make the most of it.</p>
 
-  <p>Remember last week's discussion about the Marvel network, now we can return with more knowledge. We found that only the <em>in</em>-degree looked like a power law. The out-degree tail died at 28.</p>
+  <p><strong>Preferential attachment explains the Marvel in-degree</strong>: Remember last week's discussion about the Marvel network, now we can return with more knowledge. We found that only the <em>in</em>-degree looked like a power law. The out-degree tail died at 28.</p>
 
   <p>Preferential attachment gives you the mechanism. In-links exactly fit the preferential attachment idea. Every wiki editor of every other page decides whether this character is worth linking to, and the already-famous get chosen ever more. Out-links are authored. There's no preferential attachment mechanism. Someone has to write each page, and pages have a natural length. Growth and preference on the incoming links, effort and a budget on the outgoing side. Two different mechanisms, two different distributions.</p>
 
@@ -325,13 +325,13 @@
     <p><a href="https://www.networkatlas.eu/" target="_blank" rel="noopener">Network Atlas</a>, Ch.&nbsp;17, section 17.3 <em>Degree Distribution</em> — cumulative advantage, the power law and its exponent. Then Barabási's own telling, which is the story of the field: <a href="https://networksciencebook.com/" target="_blank" rel="noopener"><em>Network Science</em></a> Ch.&nbsp;5 sections 5.1–5.5 (the Barabási–Albert model), and Ch.&nbsp;4 sections 4.1–4.4 if you want the scale-free property straight from the horse's mouth.</p>
   </div>
 
-  <p><strong>A real network science debate: is it actually a power law?</strong> Last week I told you that whether the Marvel in-degree tail "is a power law" is a fight we pick this week.</p>
+  <p><strong>A real network science debate: is it actually a power law?</strong> Last week I told you that whether the Marvel in-degree tail "is a power law" was something we would discuss this week.</p>
 
-  <p>Here is what I meant. A straight-ish line on a log–log plot is <em>evidence of a heavy tail</em>. No doubt about that in the field. But since the initial excitement about power laws, there has been a serious debate about whether it really is evidence of a <strong>power law</strong>. Specifically: a log-normal distribution, or a power law with an exponential cut-off (and many other distributions) produces a line that looks pretty straight. Plus, binning (as you learned) can flatter a tail. The distinction matters for some arguments, exactly because the power law claim hints at an underlying order that is not necessarily supported by some of the other distributions. There's a recap of the power-law / not power-law discussion in <a href="#clauset">the Goodies</a>, it's really worth a read.</p>
+  <p>Here is what I meant. A straight-ish line on a log–log plot is <em>evidence of a heavy tail</em>. No doubt about that in the field. But since the initial excitement about power laws, there has been a serious debate about whether it really is evidence of a <strong>power law</strong>. Specifically: a log-normal distribution, or a power law with an exponential cut-off (and many other distributions) produces a line that looks pretty straight. Plus, binning (as you learned) can flatter a tail. The distinction matters for some arguments, exactly because the power law claim hints at an underlying order (remember <em>Universality</em>) that is not necessarily supported by some of the other distributions. There's a recap of the power-law / not power-law discussion in <a href="#clauset">the Goodies</a>, it's really worth a read ... there's a real academic fight in there.</p>
 
   <p>One approach that doesn't require binning is to plot the <strong>complementary cumulative distribution</strong>, $P(K \geq k)$, the fraction of nodes with degree <em>at least</em> $k$. It uses every data point, it is monotone by construction (no jagged tail), and for a power law it is itself a power law with exponent $\gamma - 1$ — so it stays straight on log–log axes while a log-normal curves down. (You have already seen one: the right-hand panel of the BA explorable above is a CCDF, which is why its tail is a clean staircase and not a scatter of lonely dots.)</p>
 
-  <p>If you ever want to <em>fit</em> an exponent (and I remind you again of the impressive fact that the entire field of network science fitted heavy tailed distributions wrong, by the hundred, for the better part of a decade) the CCDF is a good place to start, and <a href="#clauset">the Goodies</a> tell you how to finish. For now the takeaway is this: <em>heavy tails are everywhere and matter enormously; the specific claim "it is a power law with exponent $\gamma$" needs a fit, a test and an alternative. It is not enough to eyeball a log–log plot.</em></p>
+  <p>If you ever want to <em>fit</em> an exponent (and I remind you again of the impressive fact that the entire field of network science fitted heavy-tailed distributions wrong, by the hundred, for the better part of a decade) the CCDF is a good place to start, and <a href="#clauset">the Goodies</a> tell you how to finish. For now the takeaway is this: <em>heavy tails are everywhere and matter for many statistical measures; the specific claim "it is a power law with exponent $\gamma$" needs a fit, a test and an alternative. It is not enough to eyeball a log–log plot.</em></p>
 
   <p>Let's do an explorable to connect more viscerally to all this. Play around to see the various fits around data for the Marvel network. Try to decide for yourself what you think is the right distribution.</p>
 
@@ -364,13 +364,13 @@
 
   <h2 id="shuffling-the-model-becomes-a-test">7 · Shuffling: the model becomes a test</h2>
 
-  <p>Now for a new model. But while it shares the name "model" with the work presented above, what we will be discussing now is a completely different kind of thing. So far each model encoded a <em>hypothesis</em> about how a network came to be.</p>
+  <p>Now for a new model. But while it shares the name "model" with the work discussed above, what we will be discussing now is a completely different kind of thing. So far each model encoded a <em>hypothesis</em> about how a network came to be.</p>
 
-  <p>But notice what we did with the random graph in Part 4: we used the model as a <strong>baseline</strong>, a picture of what the network would be with "nothing interesting going on." So we looked at how much more clustering the <em>real network</em> had than the random network. So we realized that the real-world clustering surplus was a finding.</p>
+  <p>But notice what we did with the random graph in Part 4: we used the model as a <strong>baseline</strong>. As a picture of what the network would be with "nothing interesting going on." So we looked at how much more clustering the <em>real network</em> had than the random network. So we realized that the real-world clustering surplus was a finding.</p>
 
   <p>When we use a model in that way, we call it a <strong>null model</strong> (you probably know this concept from your other classes, but here we think about null models in the context of networks).</p>
 
-  <p>Here is a sentence from a report. An AI wrote it, and it sounds great:</p>
+  <p><strong>A null model with the right degree distribution</strong>: Here is a sentence from a report. An AI wrote it, and it sounds great:</p>
 
   <div class="callout">
     <p class="eyebrow">From an AI-drafted report</p>
@@ -379,9 +379,9 @@
 
   <p>Can you find the flaw? (Think for a moment before you proceed.)</p>
 
-  <p>The flaw is that the baseline answered the wrong question. It is true that the random network has no hubs. But when the real network out-clusters it, we cannot tell how much of the surplus comes from the <em>hubs</em>. It is true that a node with 106 links creates an enormous number of neighbor pairs, some of which will be linked just by volume, so hubs could increase clustering. But how do we know that hubs alone did it? The current null model can't tell us.</p>
+  <p>The flaw is that the baseline answered the wrong question. It is true that the random network has no hubs. But when the real network out-clusters it, we cannot tell how much of the surplus comes from the hubs. A node with 106 links does create an enormous number of neighbor pairs, some of which will be linked just by volume, so hubs <em>could</em> increase clustering. But how do we know that hubs alone did it? The random network null model can't tell us.</p>
 
-  <p>To figure out if hubs are the cause, it'd be nice to have a baseline that had the right degree distribution. This is also nice to have more generally because degree strongly impacts many network properties (Part 6).</p>
+  <p>To figure out if hubs are the cause of the clustering, we need a baseline that has the right degree distribution. This is also nice to have more generally because degree strongly impacts many network properties (recall our discussion of heavy tails in Part 6).</p>
 
   <p>There are two roads to that baseline.</p>
 
@@ -403,17 +403,17 @@
 
   <p>Notice what just happened: the choice of null model changed the <em>conclusion</em>, not just the number. This is a common way a network analysis goes wrong (and importantly a common way an AI-written analysis goes wrong), because the easiest null model to generate is not always the right one.</p>
 
-  <p>Let's kick it up a notch. We can make this a real statistical test.</p>
+  <p><strong>From a null model to the permutation test</strong>: Let's kick it up a notch. We can make this a real statistical test.</p>
 
   <p>If you shuffle once, you have <em>one</em> number.</p>
 
-  <p>But if you shuffle many times you have a <strong>distribution</strong>. You can look at how $C$ behaves when the degree distribution is all you keep. What's the mean $C$ for the null model, and how much does it fluctuate?</p>
+  <p>But if you shuffle many times you have a <strong>distribution</strong>. We can look at how $C$ behaves more generally when the degree distribution is all you keep. What's the mean $C$ for the null model, and how much does it fluctuate?</p>
 
   <p>That distribution is almost always a normal distribution (that's the central limit theorem at work: $C$ is an average over many nodes). In the case of Marvel, we find a mean of 0.155, and standard deviation 0.009.</p>
 
   <p>That means that the real network's 0.32 sits eighteen standard deviations out (a <strong>$z$-score</strong>), in a place that not one of the shuffles will ever reach (an empirical <strong>$p$-value</strong>).</p>
 
-  <p>If you have taken a statistics course, you will recognize that this is a kind of <strong>permutation test</strong>, and the Goodies say more about <a href="#permutation">that connection</a>. The general recipe is described in the Atlas under <em>network shuffling</em>:</p>
+  <p>If you have taken a statistics course, you will recognize that this is a kind of <em>permutation test</em>. The Goodies have more about <a href="#permutation">that connection</a>. The general recipe is described in the Atlas under <em>network shuffling</em>:</p>
 
   <ol>
     <li>Decide which properties of your network are <em>given</em> — the things you want the baseline to keep (usually $n$, $m$ and the degree sequence; sometimes more).</li>
@@ -458,17 +458,17 @@
 
   <h2 id="a-null-model-in-action-the-friendship-paradox">8 · A null model in action: the friendship paradox</h2>
 
-  <p>Now that we have a null model with an arbitrary degree distribution, there's a cool thing we can test.</p>
+  <p>Now that we have a null model with any degree distribution we like, there's a cool thing we can test.</p>
 
-  <p>You might sometimes feel like <em>your friends have more friends than you do</em>. And in a world of heavy-tailed degree distributions it's likely true! This is called <a href="https://en.wikipedia.org/wiki/Friendship_paradox" target="_blank" rel="noopener">the friendship paradox</a>.</p>
+  <p>You might sometimes feel like <em>your friends have more friends than you do</em>. And — as we will see below — it turns out that it is likely true! This finding is called <a href="https://en.wikipedia.org/wiki/Friendship_paradox" target="_blank" rel="noopener">the friendship paradox</a>.</p>
 
-  <p>The intuition is that you're likely to have a hub as your neighbor. And hubs have so many connections that they bias the average when we calculate the average-number-of-neighbor-friends.</p>
+  <p>The intuition in heavy-tailed networks is that you're likely to have a hub as your neighbor. And hubs have so many connections that they bias the average when we calculate the average-number-of-neighbor-friends.</p>
 
-  <p>But let's get practical about this. Another way to think about it is that it is a theorem about <em>sampling on networks</em>: picking a random friend of a random person is degree-biased sampling, since a hub is a friend to many and therefore gets picked much more often than a loner.</p>
+  <p>But let's get practical about this. Another way to think about it is that the friendship paradox is a theorem about <em>sampling on networks</em>: picking a random friend of a random person is degree-biased sampling, since a hub is a friend to many and therefore gets picked much more often than a loner.</p>
 
   <p>In the Marvel network, a random character has on average about 10 links; a random <em>neighbor</em> of a random character has about 25. In three out of four samples, the friend is at least as connected as the person.</p>
 
-  <p>We can also test by simply calculating the number. And we can phrase it as a null-model question. As you will see below, this time the degree-preserving shuffle does <em>not</em> kill the effect. Only a null that removes the hubs shrinks the effect. But even the random network, as you will see, does not kill the friendship paradox entirely.</p>
+  <p>We can also test that this is true by simply calculating the number. And when we do that, we can phrase it as a null-model question. As you will see below, this time the degree-preserving shuffle does <em>not</em> kill the effect. Only a null that removes the hubs shrinks the effect. But even the random network, as you will see, does not kill the friendship paradox entirely (hint about why in the caption).</p>
 
   <iframe class="explorable-frame" src="../explorables/friendship-paradox.html" height="500"
     title="Explorable: the friendship paradox" loading="lazy"></iframe>
