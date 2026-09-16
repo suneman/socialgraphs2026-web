@@ -101,3 +101,55 @@ const VK = (() => {
 })();
 
 if (typeof module !== "undefined") module.exports = VK;
+
+/* --- canvas size guard (added 2026-09-16) ---------------------------------
+   Every canvas explorable sizes its backing store once at boot
+   (canvas.width = clientWidth * dpr) and afterwards only re-fits on a window
+   "resize". Inside an <iframe loading="lazy"> that is not enough. The frame
+   starts loading while it is still below the fold, so a widget can finish
+   booting, measure a canvas that is zero-wide or still at the iframe's
+   default width, and then stay wrong forever — no resize event ever fires,
+   and only a reload clears it.
+
+   week 1's layouts.html is where a student hit this: it is the only canvas
+   widget on that page and has the slowest boot on it (two fetches plus
+   Louvain), so it is the most likely to still be offscreen when it measures.
+   Pausing to play with another widget on the way down is exactly the delay
+   that lets it finish booting blind. The other three week 1 explorables are
+   SVG, which re-lays out on its own, which is why only this one broke.
+
+   Fixed once here rather than in twelve widget files: watch every canvas and
+   re-dispatch a window resize when its box actually changes size. All twelve
+   already listen for that and respond by re-fitting and redrawing, and every
+   one of those handlers is a pure redraw — no state is reset. Setting
+   canvas.width/height changes the backing store, not the CSS box, so this
+   cannot feed back on itself. */
+(() => {
+  if (typeof window === "undefined" || typeof ResizeObserver === "undefined") return;
+
+  const start = () => {
+    const seen = new WeakMap();
+    const ro = new ResizeObserver((entries) => {
+      let changed = false;
+      for (const e of entries) {
+        const w = Math.round(e.contentRect.width);
+        const h = Math.round(e.contentRect.height);
+        const was = seen.get(e.target);
+        if (was && was.w === w && was.h === h) continue;  // box did not move
+        seen.set(e.target, { w, h });
+        if (!w || !h) continue;                           // never act on a zero box
+        if (was) changed = true;                          // real change, incl. 0 -> N
+        // A first sighting at a usable size needs nothing: the widget's own
+        // boot fit is about to measure the same number.
+      }
+      if (changed) window.dispatchEvent(new Event("resize"));
+    });
+    document.querySelectorAll("canvas").forEach((c) => ro.observe(c));
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
+  }
+})();
