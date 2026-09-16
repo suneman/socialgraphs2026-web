@@ -2,7 +2,7 @@
    six potential neighbors ring it. Attach or detach a neighbor and the
    denominator k(k−1)/2 changes; link two neighbors and the numerator e_A
    ticks up. Every number on the page follows from the picture, so a student
-   can rehearse exactly the hand computation the midterm asks for. Exact
+   can rehearse exactly the hand computation the test asks for. Exact
    values via graphlib.localClustering on the 7-node graph. */
 
 "use strict";

@@ -81,14 +81,17 @@
 
   <h2 id="nodes-edges-and-all-that">2 · Nodes, edges, and all that</h2>
 
-  <p>Ok. Now let's define the key terms. A network is a set of <strong>nodes</strong> (we also sometimes call them vertices, actors, sites) and a set of <strong>edges</strong> (links, ties, connections) between pairs of them. Sometimes the nodes and edges encode more information. Here are the key classes:</p>
+  <p>Ok. Now let's define the key terms. A network is a set of <strong>nodes</strong> (we also sometimes call them vertices, actors, sites) and a set of <strong>edges</strong> (links, ties, connections) between pairs of them. Sometimes the nodes and edges encode more information.</p>
+
+  <p>Here are some important definitions in a slightly messy list:</p>
 
   <ul>
-    <li><strong>Edges</strong>: <em>Undirected</em> edges don't have a direction. They are mutual by construction — a Facebook  friendship, a co-authorship, a physical cable. <em>Directed</em> edges have a direction: following on Instagram, citing a paper, one Wikipedia page linking to another. The distinction might seem small, but it completely changes how we think about the network. It changes how flows can unfold, and many other aspects. Starting with the simplest example, in a directed network every node has two degrees — how many edges come <em>in</em> and how many go <em>out</em> — and the two can tell completely different stories. (As we will see below, a page everyone links to is famous; a page that links to everyone is a list.) <em>Weighted</em> edges say something about the strength of connections. How many emails, how strong a friendship, how much traffic. Unweighted edges just exist. Most analyzes start unweighted and add weights if and when the question demands them.</li>
+    <li><strong>Degree</strong>: A node's <em>degree</em> is the number of edges that connect to it.</li>
+    <li><strong>Edges</strong>: <em>Undirected</em> edges don't have a direction. They are mutual by construction — a Facebook  friendship, a co-authorship, a physical cable. <em>Directed</em> edges have a direction: following on Instagram, citing a paper, one Wikipedia page linking to another. The distinction might seem small, but it completely changes how we think about the network. It changes how flows can unfold, and many other aspects. Starting with the simplest example, in a directed network every node has two degrees — how many edges come <em>in</em> and how many go <em>out</em> — and the two can tell completely different stories. (As we will see below, a page everyone links to is famous; a page that links to everyone is a list.) <em>Weighted</em> edges say something about the strength of connections. How many emails, how strong a friendship, how much traffic. Unweighted edges just exist. Most analyses start unweighted and add weights if and when the question demands them.</li>
     <li><strong>Networks</strong>. Networks inherit these names, so when we talk about undirected networks, unweighted networks,  weighted networks, and so on, we just mean networks with those kinds of edges. And there's one more distinction. When we collect data in the wild, weird things can happen. Nodes that link to themselves, more than one link between two nodes, etc. That's also difficult to deal with mathematically, so someone invented <em>simple networks</em>. That's where we allow only one edge per pair of nodes and no self-loops. Simple, unweighted, undirected networks are the default in this course ... and in most of network science. Read more about this in <em>Atlas</em> Ch. 7, if you're curious now.</li>
   </ul>
 
-  <p>Now for more important definitions. First: a node's <strong>degree</strong> is the number of edges that connect to it. We'll be spending a lot of time talking about degrees, so make sure you pay attention here.</p>
+  <p>Now for more important definitions.</p>
 
   <p>If you add up all the degrees in an undirected network you get exactly <em>twice the number of edges</em> (because every edge has two ends). It might sound trivial, but if you think about it, we just did some math. Because when you divide by the number of nodes you get the <strong>average degree</strong> $\langle k\rangle = 2m/n$ (in a network with $n$ nodes and $m$ edges). Pro tip: This is the kind of common-sense math I might ask about on the pen and paper exam.</p>
 
@@ -156,7 +159,7 @@
 
   <p>You need two things running before the rest of this page makes sense, and getting them running is this week's first builder exercise. You will need:</p>
 
-  <p><strong>Python + Jupyter + NetworkX.</strong> Notebooks are your workspace. Your analyzes, exercise answers and project experiments should take place in notebooks you keep in a dedicated folder on your computer. Any recent Python 3 works; install <code>jupyterlab</code> and <code>networkx</code> however you prefer. Your agent can help you (see next paragraph).</p>
+  <p><strong>Python + Jupyter + NetworkX.</strong> Notebooks are your workspace. Your analyses, exercise answers and project experiments should take place in notebooks you keep in a dedicated folder on your computer. Any recent Python 3 works; install <code>jupyterlab</code> and <code>networkx</code> however you prefer. Your agent can help you (see next paragraph).</p>
 
   <p><strong>An agentic coding tool.</strong> Any of the ones listed in the <a href="../the-new-way.html#agents">agents box on the read-this-first page</a> is fine; if in doubt, a terminal agent. Just pick one and start playing. In 🚀 exercises we assume you have one.</p>
 
@@ -245,7 +248,7 @@
   </div>
 
   <div class="exercise">
-    <h4>1.6 — The distribution, as code <span class="mode builder">🚀 Builder</span></h4>
+    <h4>1.6 — The distribution, as code <span class="mode instrument">🔬 Tool</span></h4>
     <p>Now rebuild the two explorables above in a Jupyter notebook. The idea is that your agent writes the code, you decide what to plot and check every number against what the page shows.</p>
     <ol>
     <li>Load the week-1 snapshot of the Marvel network from the <a href="../data/">course data page</a> — as a <em>directed</em> graph, and with every node added first so the 17 isolates survive (the page shows how). Confirm $n = 303$ and 1,784 directed edges. Then reconcile that with Part 2: collapse the edges to undirected pairs and check you get $m = 1{,}434$ and $\langle k\rangle \approx 9.5$ — and explain, in one sentence, why the two edge counts differ.</li>
@@ -310,7 +313,7 @@
 
   <h2 id="essentials" class="essentials">Essentials</h2>
 
-  <p>This is the 🧠 Learn core of the week, in one place: the definitions you must know cold, and what you should be able to do with them on paper. If a term below feels shaky, the section that teaches it is one click up the page — and if you can do everything here with a pen, you are ready for this week's share of Midterm 1.</p>
+  <p>This is the 🧠 Learn core of the week, in one place: the definitions you must know cold, and what you should be able to do with them on paper. If a term below feels shaky, the section that teaches it is one click up the page — and if you can do everything here with a pen, you are ready for this week's share of Test 1.</p>
 
   <dl class="defs">
     <dt>Network</dt>

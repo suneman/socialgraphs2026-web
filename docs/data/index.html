@@ -67,13 +67,21 @@
             and <code>subfields</code> (any of Wikipedia's subfield lists, e.g. ethicists or
             logicians, the philosopher is also on).</td>
       </tr>
-      <tr><td>raw text</td><td>week 5</td><td>full wiki-source per page, for the language half — served
-          from DTU storage (too big for this site); the download link appears here at release</td></tr>
+      <tr>
+        <td><a href="marvel_pages.zip">marvel_pages.zip</a></td>
+        <td>week 5 · out now</td>
+        <td><b>The text half of the same playground.</b> The full plain-text Wikipedia
+            article for every one of the 303 characters, one file per character — the same
+            303 nodes as <code>week1_nodes.tsv</code>, so the language joins straight onto
+            the network you already have. 1.8&nbsp;MB zipped, 4.4M characters of prose.
+            Pages run from 1,244 characters to 87,256, median 7,642 — a 70× spread that is
+            worth looking at before you average anything across documents.</td>
+      </tr>
     </tbody>
   </table>
 
   <h2>Loading it</h2>
-  <p>Both files are tab-separated with <code>#</code> comment headers; node ids are
+  <p>The network files are tab-separated with <code>#</code> comment headers; node ids are
     Wikipedia page titles with underscores. One thing to know: <strong>17 of the 303
     characters have no link in either direction</strong>, so if you build the graph from
     the edge list alone you get 286 nodes and silently lose the isolates — and the isolates
@@ -105,9 +113,28 @@ for s, t, w in edges.itertuples(index=False):
 giant = G.subgraph(max(nx.connected_components(G), key=len)).copy()
 # G: 1444 nodes, 9140 links; giant: 1374 nodes, 9139 links</code></pre>
 
+  <p>The text ships as one zip so it is a single download. Unzipping is optional —
+    Python reads it in place, and decoding the filenames gives you keys that are exactly
+    the <code>node_id</code>s from the network files:</p>
+  <pre><code>import zipfile, urllib.parse
+
+with zipfile.ZipFile("marvel_pages.zip") as z:
+    marvel_pages = {
+        urllib.parse.unquote(n.split("/")[-1][:-4]): z.read(n).decode("utf-8")
+        for n in z.namelist()
+        if n.endswith(".txt") and "README" not in n
+    }
+# marvel_pages: 303 pages, keyed by node_id — set(marvel_pages) == set(nodes.node_id)</code></pre>
+
+  <p>Why the decoding step: a filename cannot contain every character a Wikipedia title
+    can, so the titles are URL-encoded on disk — <code>Mark_Hazzard%3A_Merc</code> is
+    <code>Mark_Hazzard:_Merc</code>. Skip the <code>unquote</code> and that one page will
+    quietly fail to join against the network.</p>
+
   <h2>Where it comes from</h2>
   <p>The Marvel snapshot was built 26 August 2026 from the live English Wikipedia (the
-    philosophers on 15 September, with the same pipeline), and two
+    philosophers on 15 September, with the same pipeline) — network and text come from the
+    same crawl on the same day, so they describe the same 303 articles. Three
     decisions in the pipeline are worth knowing about, because they are exactly the kind
     of decision §3 of week 1 is on about:</p>
   <ul>
@@ -119,6 +146,12 @@ giant = G.subgraph(max(nx.connected_components(G), key=len)).copy()
     <li><strong>Redirects are resolved on both ends</strong>, so
       <code>[[Spidey]]</code> and <code>[[Spider-Man]]</code> are one node, and a link
       to any alias still lands on the character.</li>
+    <li><strong>The text is the rendered prose, not the wiki markup.</strong> Templates,
+      infoboxes, reference markers and navigation furniture are gone; what is left is what
+      a reader sees. That is a preprocessing decision made for you, and week 5 §2 is about
+      exactly this kind of decision — so it is fair game to ask what it removed. The
+      section headings are still in there, and so is a good deal of Wikipedia's house
+      phrasing.</li>
   </ul>
   <p>Could you have made those choices differently? Yes — and you would have gotten a
     different network. That is the point of week 1, and when your project crawls a domain

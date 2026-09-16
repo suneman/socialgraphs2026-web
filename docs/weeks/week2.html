@@ -84,7 +84,7 @@
     <li><strong>Expected number of links.</strong> Every pair is connected with probability $p$, so on average we have $\langle m\rangle = p \cdot n(n-1)/2$ edges. You can reverse this idea, thus to build a random network that matches a real one you simply invert the equation. In the case of the Marvel network (303 nodes, 1,434 links) we need to connect them with $p = 0.031$ to create the corresponding random network. And maybe you remember that number, it's its density. And that is a general result. In a random network, <em>density and $p$ are the same number.</em></li>
     <li><strong>Average degree.</strong> Each node connects to each of the $n-1$ other nodes with probability $p$, so $\langle k\rangle = p(n-1)$.</li>
     <li><strong>Degree distribution.</strong> A node's degree is the number of heads in $n-1$ coin flips with a biased coin. That process results in a <em>binomial</em> degree distribution. For large sparse networks the binomial is well approximated by a <strong>Poisson</strong> distribution with mean $\langle k\rangle$. <em>And</em>, when $\langle k\rangle$ itself is large, that in turn is well approximated by the <em>normal distribution</em>. No matter how you model it, the degree distribution of a random network has short tails: the variance is low and nearly everyone has a degree close to the average. The most connected node in a Marvel-sized random network has $k \approx 19$, while the real Spider-Man has degree 106. More on this below. (And the derivation + the limits of all this can be found in the <a href="#er-math">Goodies</a>.)</li>
-    <li><strong>Distances.</strong> Paths in a random network are short, growing only like $\log n$: a random Marvel has an average distance of 2.8 hops. Remember this number, we get back to path length in Part 3.</li>
+    <li><strong>Distances.</strong> Paths in a random network are short, growing only like $\log n$: a randomized Marvel network has an average distance of 2.8 hops. Remember this number, we get back to path length in Part 3.</li>
     <li><strong>Clustering.</strong> Two of your neighbors are linked with the same probability as any other pair: $p$. So in a sparse large network, it is nearly zero. Remember this one too, that's what we'll discuss in Part 4.</li>
   </ul>
 
@@ -122,7 +122,7 @@
   </div>
 
   <div class="exercise">
-    <h4>2.2 — The random network, as code <span class="mode builder">🚀 Builder</span></h4>
+    <h4>2.2 — The random network, as code <span class="mode instrument">🔬 Tool</span></h4>
     <p>The explorable is code in disguise. Rebuild it — the agent writes the loops, you decide what to plot and check every number against the page.</p>
     <ol>
     <li>Generate $G(n,p)$ networks with $n = 5{,}000$ and $\langle k\rangle = 10$ (work out $p$ yourself first). Plot the degree distribution as a bar chart and overlay the Poisson distribution with the same mean. Check the maximum degree against what the Poisson predicts. Then raise $\langle k\rangle$ to 100 and overlay a normal distribution with mean and variance $\langle k\rangle$ — does it fit?</li>
@@ -147,7 +147,7 @@
 
   <p>How do random networks stack up? They do have short paths, and the argument is simple. Stand on some node and take one step outward in the network. One step reaches about $\langle k\rangle$ nodes, two steps $\langle k\rangle^2$, $d$ steps $\langle k\rangle^d$. You'll cover the whole network when $\langle k\rangle^d \approx n$. That happens at $d \approx \ln n / \ln\langle k\rangle$.</p>
 
-  <p>In other words, distances grow like $\log n$, and logarithms grow slowly: a million nodes at $\langle k\rangle = 10$ is six steps across. The Marvel network is a small world, and so is random Marvel (it is 2.8 hops wide).</p>
+  <p>In other words, distances grow like $\log n$, and logarithms grow slowly: a million nodes at $\langle k\rangle = 10$ is six steps across. The Marvel network is a small world, and so is the randomized Marvel network (it is 2.8 hops wide).</p>
 
   <p>So <em>short paths are part of random networks.</em></p>
 
@@ -234,7 +234,7 @@
   </div>
 
   <div class="exercise">
-    <h4>2.4 — Small worlds, quantitatively <span class="mode learn">🧠 Learn</span> + <span class="mode builder">🚀 Builder</span></h4>
+    <h4>2.4 — Small worlds, quantitatively <span class="mode learn">🧠 Learn</span> + <span class="mode instrument">🔬 Tool</span></h4>
     <ol>
     <li>🧠 Before touching code: for Watts–Strogatz networks with $q = 0$, $q = 0.01$ and $q = 1$, rank the three by clustering and by mean shortest path. Write the prediction down; you will check it in a minute.</li>
     <li>🚀 Reproduce the classic figure. $n = 500$, $\langle k\rangle = 4$; for each $q \in \{0, 0.01, 0.03, 0.05, 0.1, 0.2\}$ generate 50 networks, compute the mean shortest path $\langle d\rangle$ and the clustering $C$, and plot both against $q$ (log x-axis) with error bars from the standard deviation over the 50 runs. Your agent can scaffold the loops; the deliverable is the figure, and it has to look like the explorable's right-hand panel.</li>
@@ -443,8 +443,8 @@
   </div>
 
   <div class="exercise">
-    <h4>2.8 — Compared to what — properly <span class="mode learn">🧠 Learn</span> + <span class="mode builder">🚀 Builder</span></h4>
-    <p>Three short analyzes first, each with a flaw in the choice of baseline. For each, name the flaw and the null model that would fix it:</p>
+    <h4>2.8 — Compared to what — properly <span class="mode learn">🧠 Learn</span> + <span class="mode instrument">🔬 Tool</span></h4>
+    <p>Three short analyses first, each with a flaw in the choice of baseline. For each, name the flaw and the null model that would fix it:</p>
     <ol>
     <li>🧠 <em>"The Marvel network's average distance (2.7) is no shorter than a random network's (2.8), so it is not a small world."</em></li>
     <li>🧠 <em>"39% of links in the directed Marvel network are reciprocated (A links to B and B to A). In a random directed network with the same density only 3% would be, so reciprocity is 13× higher than chance."</em> — what is a better null here, and would the effect survive it? (Think about what the hubs do to reciprocity.)</li>
