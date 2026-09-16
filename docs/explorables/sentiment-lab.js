@@ -1,21 +1,23 @@
 "use strict";
 (function(){
   const $=id=>document.getElementById(id);
-  const lex={good:1,wonderful:2,love:2,bad:-1,terrible:-2,stuck:-1,traffic:-1};
-  const weights={good:1.25,wonderful:1.55,love:1.0,bad:-1.15,terrible:-1.7,stuck:-.7,traffic:-.65,acting:.25,ending:-.2};
+  const lex={good:1,wonderful:2,love:2,bad:-1,terrible:-2,stuck:-1,traffic:-1,died:-1,saved:1};
+  const weights={good:1.25,wonderful:1.55,love:1.0,bad:-1.15,terrible:-1.7,stuck:-.7,traffic:-.65,acting:.25,ending:-.2,died:-.9,saved:.95,everyone:.15};
   const sentences={
     good:"The movie was good.",
     notgood:"The movie was not good.",
     traffic:"I just love being stuck in traffic.",
-    terrible:"The ending was terrible but the acting was wonderful."
+    terrible:"The ending was terrible but the acting was wonderful.",
+    hero:"The hero died, but saved everyone in the city."
   };
   // Static teaching values in the normal Hugging Face pipeline output format.
   // Students run the actual model in the notebook and record the exact scores there.
   const contextual={
-    good:{label:"POSITIVE",score:0.999,notes:["good is interpreted in the full sentence","the model was fine-tuned on labeled movie-review sentiment"]},
+    good:{label:"POSITIVE",score:0.999,notes:["good is interpreted in the full sentence","the model was fine-tuned on labelled movie-review sentiment"]},
     notgood:{label:"NEGATIVE",score:0.998,notes:["not changes the context around good","the sequence representation can use the negation cue"]},
     traffic:{label:"POSITIVE",score:0.944,notes:["love is a strong positive cue","sarcasm can still fool a contextual model, so inspect disagreements"]},
-    terrible:{label:"POSITIVE",score:0.918,notes:["terrible and wonderful pull in different directions","the final label compresses a mixed sentence into one class"]}
+    terrible:{label:"POSITIVE",score:0.918,notes:["terrible and wonderful pull in different directions","the final label compresses a mixed sentence into one class"]},
+    hero:{label:"POSITIVE",score:0.873,notes:["died is a strong negative cue, but the but clause reweights it","one label still hides that this is a bittersweet sentence, not a purely happy one"]}
   };
   function toks(text){return text.toLowerCase().match(/[a-z']+/g)||[];}
   function chip(w,cls=""){return `<span class="sent-token ${cls}">${w}</span>`;}
@@ -33,7 +35,7 @@
     $("logit").textContent=(logit>0?"+":"")+logit.toFixed(2)+(logit>0?"  → positive":"  → negative");
 
     const c=contextual[key];
-    $("ctx-tokens").innerHTML=ts.map(w=>chip(w,(key==="notgood"&&(w==="not"||w==="good"))||(key==="traffic"&&(w==="love"||w==="stuck"||w==="traffic"))?"cue":"")).join("");
+    $("ctx-tokens").innerHTML=ts.map(w=>chip(w,(key==="notgood"&&(w==="not"||w==="good"))||(key==="traffic"&&(w==="love"||w==="stuck"||w==="traffic"))||(key==="hero"&&(w==="died"||w==="but"||w==="saved"))?"cue":"")).join("");
     $("ctx-output").textContent=`[{'label': '${c.label}', 'score': ${c.score.toFixed(3)}}]`;
     $("ctx-links").innerHTML=c.notes.map(s=>`<div class="context-link">${s}</div>`).join("");
   }

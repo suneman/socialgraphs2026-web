@@ -16,22 +16,24 @@
       <option value="notgood">The movie was not good.</option>
       <option value="traffic">I just love being stuck in traffic.</option>
       <option value="terrible">The ending was terrible but the acting was wonderful.</option>
+      <option value="hero">The hero died, but saved everyone in the city.</option>
     </select>
   </label>
 </div>
 
 <div class="sent-grid">
-  <section class="instrument">
+  <section class="instrument instrument-lex">
     <h2>1 · Lexicon</h2>
     <div class="sub">A supplied dictionary. Every matched word contributes a fixed score.</div>
     <div id="lex-tokens" class="token-row"></div>
     <div class="mini-k">sum of matched word scores</div>
     <div class="scorebar"><span class="zero"></span><span class="fill" id="lex-fill"></span></div>
+    <div class="scorebar-scale"><span>very negative</span><span>neutral</span><span>very positive</span></div>
     <div id="lex-score" style="font-size:19px;font-weight:650"></div>
     <div class="instrument-foot">Easy to inspect. Word order and most context are absent unless we add rules.</div>
   </section>
 
-  <section class="instrument">
+  <section class="instrument instrument-clf">
     <h2>2 · TF-IDF + logistic regression</h2>
     <div class="sub">A linear classifier. TF-IDF features push the prediction up or down.</div>
     <div id="clf-tokens" class="token-row"></div>
@@ -39,10 +41,10 @@
     <div id="contrib" class="contrib-list"></div>
     <div class="mini-k" style="margin-top:8px">logit</div>
     <div id="logit" style="font-size:19px;font-weight:650"></div>
-    <div class="instrument-foot">The weights are learned from labeled examples, but the representation still ignores word order.</div>
+    <div class="instrument-foot">The weights are learned from labelled examples, but the representation still ignores word order.</div>
   </section>
 
-  <section class="instrument">
+  <section class="instrument instrument-ctx">
     <h2>3 · Contextual model</h2>
     <div class="sub">The model sees the sentence as a sequence and returns a label with a confidence score.</div>
     <div id="ctx-tokens" class="token-row"></div>

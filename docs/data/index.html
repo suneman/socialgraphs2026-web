@@ -30,7 +30,9 @@
     <a href="https://en.wikipedia.org/wiki/Category:Marvel_Comics_superheroes" target="_blank"
     rel="noopener">Category:Marvel Comics superheroes</a> — first the network of links
     between their pages, later the pages themselves. Released in frozen stages that follow the
-    syllabus, so every group computes on identical data while Wikipedia moves on.</p>
+    syllabus, so every group computes on identical data while Wikipedia moves on.
+    <strong>Week 4 is the one exception</strong>: communities need a network with lots of
+    them, so that week runs on a second snapshot, the philosophers born before 1900.</p>
 
   <h2>Releases</h2>
   <table class="plain">
@@ -52,6 +54,18 @@
             B's. Most links happen once; a few characters link to each other a dozen times.
             Sum the two directions for an undirected weighted network. Same node file as
             week 1.</td>
+      </tr>
+      <tr>
+        <td><a href="week4_philosophers_edges.tsv">week4_philosophers_edges.tsv</a><br>
+            <a href="week4_philosophers_nodes.tsv">week4_philosophers_nodes.tsv</a></td>
+        <td>week 4 · out now</td>
+        <td><b>Week 4's own network: philosophers.</b> Everyone on Wikipedia's seven lists of
+            philosophers born before the 20th century (<i>List of philosophers born in the
+            centuries BC</i> … <i>born in the 19th century</i>): 1,444 nodes, 11,135 directed
+            edges, each with a <b>weight</b> (how many times A's article links to B's). The
+            node file adds two list-membership columns: <code>era</code> (which century list)
+            and <code>subfields</code> (any of Wikipedia's subfield lists, e.g. ethicists or
+            logicians, the philosopher is also on).</td>
       </tr>
       <tr><td>raw text</td><td>week 5</td><td>full wiki-source per page, for the language half — served
           from DTU storage (too big for this site); the download link appears here at release</td></tr>
@@ -76,8 +90,24 @@ G.add_nodes_from(nodes.node_id)
 G.add_edges_from(edges.itertuples(index=False))
 # G: 303 nodes, 1784 edges</code></pre>
 
+  <p>The philosophers network (week 4) loads the same way; sum the two directions to get the
+    undirected weighted network the week works with:</p>
+  <pre><code>nodes = pd.read_csv("week4_philosophers_nodes.tsv", sep="\t", comment="#", quoting=3)
+edges = pd.read_csv("week4_philosophers_edges.tsv", sep="\t", comment="#")
+
+G = nx.Graph()
+G.add_nodes_from(nodes.node_id)
+for s, t, w in edges.itertuples(index=False):
+    if G.has_edge(s, t):
+        G[s][t]["weight"] += w
+    else:
+        G.add_edge(s, t, weight=w)
+giant = G.subgraph(max(nx.connected_components(G), key=len)).copy()
+# G: 1444 nodes, 9140 links; giant: 1374 nodes, 9139 links</code></pre>
+
   <h2>Where it comes from</h2>
-  <p>The snapshot was built 26 August 2026 from the live English Wikipedia, and two
+  <p>The Marvel snapshot was built 26 August 2026 from the live English Wikipedia (the
+    philosophers on 15 September, with the same pipeline), and two
     decisions in the pipeline are worth knowing about, because they are exactly the kind
     of decision §3 of week 1 is on about:</p>
   <ul>

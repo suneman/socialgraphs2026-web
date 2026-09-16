@@ -1,39 +1,48 @@
 /* Week 7 explorables. Keep wide views inside the course's 832px content column. */
-.atlas-layout { display:grid; grid-template-columns:minmax(0, 1fr) 240px; gap:14px; align-items:start; }
+.atlas-layout { display:grid; grid-template-columns:1fr; gap:12px; align-items:start; }
 .atlas-stage { position:relative; min-width:0; border:1px solid var(--grid); border-radius:9px; background:var(--page); overflow:hidden; }
 .atlas-svg { width:100%; height:500px; display:block; touch-action:none; }
-.atlas-point { cursor:pointer; opacity:.7; transition:opacity .12s, r .12s; }
+.atlas-point { cursor:pointer; opacity:.78; stroke:var(--page); stroke-width:1; transition:opacity .12s, r .12s; }
 .atlas-point:hover { opacity:1; }
-.atlas-point.active { stroke:var(--text-primary); stroke-width:2.1; opacity:1; }
-.atlas-point.near { stroke:var(--accent); stroke-width:1.7; opacity:1; }
+.atlas-point.active { stroke:var(--text-primary); stroke-width:2.3; opacity:1; }
+.atlas-point.near { stroke:var(--accent); stroke-width:1.8; opacity:1; }
+.atlas-link { stroke:var(--accent); stroke-width:1.1; opacity:.4; pointer-events:none; }
+.atlas-hub-label {
+  font:600 9.5px/1 system-ui,-apple-system,sans-serif; fill:var(--text-secondary);
+  paint-order:stroke fill; stroke:var(--page); stroke-width:3px; stroke-linejoin:round;
+  pointer-events:none;
+}
+.legend-inline .size-note { color:var(--text-muted); margin-left:auto; }
 .atlas-side { min-width:0; }
 .atlas-side h2 { margin-top:0; }
 .detail-card { border:1px solid var(--grid); border-radius:9px; padding:11px 12px; background:var(--page); }
-.detail-name { font-size:16px; font-weight:650; color:var(--text-primary); margin-bottom:5px; line-height:1.2; }
-.detail-desc { color:var(--text-secondary); font-size:12.5px; line-height:1.45; margin:0 0 9px; }
-.detail-meta { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin:9px 0; }
+.detail-header { border-bottom:1px solid var(--grid); padding-bottom:9px; margin-bottom:10px; }
+.detail-name { font-size:16px; font-weight:650; color:var(--text-primary); margin:2px 0 4px; line-height:1.2; }
+.detail-desc { color:var(--text-secondary); font-size:12.5px; line-height:1.45; margin:0; }
+.detail-columns { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1fr) minmax(0,1fr); gap:14px; align-items:start; }
+.detail-summary { min-width:0; }
+.detail-meta { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:0 0 10px; }
 .detail-meta > div { border-top:1px solid var(--grid); padding-top:6px; }
 .detail-meta .k, .mini-k { color:var(--text-muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; }
 .detail-meta .v { color:var(--text-primary); font-size:13px; margin-top:2px; }
-.neighbor-list { margin:7px 0 0; padding:0; list-style:none; }
-.neighbor-list li { display:grid; grid-template-columns:1fr auto; gap:8px; padding:4px 0; border-bottom:1px solid var(--grid); font-size:11.8px; }
-.neighbor-list button { padding:0; border:0; text-align:left; color:var(--text-secondary); font-size:inherit; }
-.neighbor-list .score { color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.cluster-summary { border-top:1px solid var(--grid); padding-top:7px; }
+.cluster-name { color:var(--text-primary); font-size:12.5px; font-weight:600; margin-top:3px; }
+.cluster-words { color:var(--text-secondary); font-size:11.5px; line-height:1.4; margin-top:2px; }
+.neighbour-list { margin:7px 0 0; padding:0; list-style:none; }
+.neighbour-list li { display:grid; grid-template-columns:1fr auto; gap:8px; padding:4px 0; border-bottom:1px solid var(--grid); font-size:11.8px; }
+.neighbour-list button { padding:0; border:0; text-align:left; color:var(--text-secondary); font-size:inherit; }
+.neighbour-list .score { color:var(--text-muted); font-variant-numeric:tabular-nums; }
 .atlas-note { position:absolute; left:9px; bottom:8px; padding:4px 7px; border-radius:6px; background:color-mix(in srgb, var(--surface-1) 90%, transparent); color:var(--text-muted); font-size:10.5px; pointer-events:none; }
 .legend-inline { display:flex; flex-wrap:wrap; gap:5px 11px; margin:5px 0 8px; font-size:11px; color:var(--text-muted); }
 .legend-inline .key { display:flex; align-items:center; gap:5px; }
 .legend-inline .dot { width:8px; height:8px; border-radius:50%; }
-.compare-strip { margin-top:12px; border-top:1px solid var(--grid); padding-top:10px; }
-.compare-strip h2 { margin:0 0 5px; }
-.heat-wrap { display:grid; grid-template-columns:110px 1fr; gap:8px; align-items:start; }
-.heat-terms { font-size:10.8px; color:var(--text-muted); line-height:1.35; }
-.heat-grid { display:grid; gap:2px; align-items:center; }
-.heat-cell { min-height:20px; border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--text-secondary); }
-.heat-label { font-size:10px; color:var(--text-muted); text-align:center; align-self:center; }
 .tooltip.wide { max-width:300px; }
 
 .sent-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
-.instrument { border:1px solid var(--grid); border-radius:9px; background:var(--page); padding:11px; min-width:0; }
+.instrument { border:1px solid var(--grid); border-top-width:3px; border-radius:9px; background:var(--page); padding:11px; min-width:0; transition:box-shadow .15s; }
+.instrument-lex { border-top-color:var(--series-1); }
+.instrument-clf { border-top-color:var(--series-2); }
+.instrument-ctx { border-top-color:var(--accent); }
 .instrument h2 { margin:0 0 4px; }
 .instrument .sub { color:var(--text-muted); font-size:11px; margin-bottom:9px; min-height:31px; }
 .token-row { display:flex; gap:4px; flex-wrap:wrap; margin:8px 0; }
@@ -43,7 +52,9 @@
 .sent-token.cue { border-color:var(--accent); background:var(--accent-wash); color:var(--text-primary); }
 .scorebar { height:10px; background:var(--grid); border-radius:8px; overflow:hidden; margin:6px 0 3px; position:relative; }
 .scorebar .zero { position:absolute; left:50%; top:0; bottom:0; width:1px; background:var(--baseline); z-index:2; }
-.scorebar .fill { position:absolute; top:0; bottom:0; border-radius:8px; background:var(--series-1); }
+.scorebar .fill { position:absolute; top:0; bottom:0; border-radius:8px; background:var(--series-1); transition:left .25s, width .25s, background .25s; }
+.scorebar-scale { display:flex; justify-content:space-between; color:var(--text-muted); font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; margin:0 0 7px; }
+.scorebar-scale span:nth-child(2) { color:var(--baseline); }
 .contrib-list { display:grid; gap:4px; margin-top:7px; }
 .contrib { display:grid; grid-template-columns:58px 1fr 38px; gap:5px; align-items:center; font-size:10.8px; }
 .contrib .track { height:7px; border-radius:6px; background:var(--grid); overflow:hidden; }
@@ -71,9 +82,9 @@
 @media (max-width:700px) {
   .atlas-layout { grid-template-columns:1fr; }
   .atlas-svg { height:440px; }
+  .detail-columns { grid-template-columns:1fr; }
   .sent-grid, .search-layout { grid-template-columns:1fr; }
   .instrument .sub { min-height:0; }
-  .heat-wrap { grid-template-columns:1fr; }
 }
 
 /* Week 7 NER */
@@ -88,7 +99,28 @@
 .ner-stage-arrow { color:var(--baseline); }
 .ner-note { margin: 0 0 9px; }
 .ner-token-grid { display:grid; gap:8px; }
-.ner-row { min-height:0; }
+.ner-row { min-height:0; row-gap:8px; }
+.ner-chip {
+  border:1px solid var(--grid); border-radius:6px; padding:5px 7px;
+  background:var(--page); color:var(--text-secondary);
+  font:12.5px/1.25 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  position:relative; transition:transform .1s, box-shadow .1s;
+}
+.ner-chip:hover { transform:translateY(-1px); box-shadow:0 2px 6px var(--border); }
+.ner-chip .tag { display:block; margin-top:3px; font:9.5px/1.1 system-ui,-apple-system,sans-serif; color:var(--text-muted); text-align:center; }
+.ner-chip.person { border-color:var(--cat-1); background:color-mix(in srgb, var(--cat-1) 12%, var(--page)); color:var(--text-primary); }
+.ner-chip.org    { border-color:var(--cat-6); background:color-mix(in srgb, var(--cat-6) 12%, var(--page)); color:var(--text-primary); }
+.ner-chip.place  { border-color:var(--cat-4); background:color-mix(in srgb, var(--cat-4) 12%, var(--page)); color:var(--text-primary); }
+.ner-chip.date   { border-color:var(--cat-7); background:color-mix(in srgb, var(--cat-7) 12%, var(--page)); color:var(--text-primary); }
+.ner-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+.ner-dot.person { background:var(--cat-1); }
+.ner-dot.org    { background:var(--cat-6); }
+.ner-dot.place  { background:var(--cat-4); }
+.ner-dot.date   { background:var(--cat-7); }
+.ner-not-yet {
+  display:inline-block; border:1px solid var(--baseline); border-radius:999px;
+  padding:2px 8px; font-size:11px; color:var(--text-muted); background:var(--surface-1);
+}
 
 /* Week 7 bias flow: static, two-column and kept inside the course iframe. */
 .bias-static-wrap { width:100%; max-width:100%; margin:0; overflow:hidden; }
@@ -190,3 +222,7 @@
 .entity-rule-readout strong { color:var(--text-primary); }
 .entity-build-net { height:390px; }
 @media (max-width:700px) { .entity-build-layout { grid-template-columns:1fr; } }
+
+/* NER teaching view: token predictions first, structured spans second. */
+.ner-page .text-panels { grid-template-columns: 1fr; }
+.ner-page .text-panels .panel + .panel { margin-top: 0; }

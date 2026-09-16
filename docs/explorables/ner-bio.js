@@ -42,31 +42,16 @@
     return out;
   }
 
-  function chunkIntoRows(rows, nRows) {
-    const total = rows.length;
-    const base = Math.floor(total / nRows);
-    const rem = total % nRows;
-    const out = [];
-    let idx = 0;
-    for (let r = 0; r < nRows; r += 1) {
-      const size = base + (r < rem ? 1 : 0);
-      out.push(rows.slice(idx, idx + size));
-      idx += size;
-    }
-    return out.filter((row) => row.length);
-  }
-
   function tokenChip([word, type, bio]) {
     const tag = mode === "bio" ? bio : type;
-    return `<span class="token-chip ${cls[type]}">${word}<span class="tag">${tag}</span></span>`;
+    return `<span class="ner-chip ${cls[type]}">${word}<span class="tag">${tag}</span></span>`;
   }
 
   function render() {
     const rows = data[$("example").value];
-    const chunks = chunkIntoRows(rows, 3);
-    $("tokens").innerHTML = chunks.map((chunk) => `<div class="token-row ner-row">${chunk.map(tokenChip).join("")}</div>`).join("");
+    $("tokens").innerHTML = `<div class="token-row ner-row">${rows.map(tokenChip).join("")}</div>`;
     const entities = spans(rows);
-    $("entities").innerHTML = entities.map((e) => `<tr><td>${e.words.join(" ")}</td><td>${e.type}</td><td>${e.words.length}</td></tr>`).join("");
+    $("entities").innerHTML = entities.map((e) => `<tr><td><span class="ner-dot ${cls[e.type]}"></span>${e.words.join(" ")}</td><td>${e.type}</td><td>${e.words.length}</td></tr>`).join("");
     $("n-tokens").textContent = String(rows.filter((d) => !/^[-.,;:!?()]+$/.test(d[0])).length);
     $("n-entities").textContent = String(entities.length);
   }

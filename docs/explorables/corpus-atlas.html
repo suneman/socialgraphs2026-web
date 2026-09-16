@@ -15,11 +15,11 @@
     <button data-projection="svd" class="on">SVD map</button>
     <button data-projection="tsne">t-SNE map</button>
   </span>
-  <label>Color
-    <select id="color">
+  <label>Colour
+    <select id="colour">
       <option value="none">none</option>
       <option value="community">network community</option>
-      <option value="cluster">description cluster</option>
+      <option value="cluster" selected>description cluster</option>
     </select>
   </label>
   <label style="flex:1;min-width:210px">Find
@@ -33,28 +33,36 @@
   <div class="atlas-stage">
     <svg id="atlas" class="atlas-svg" viewBox="0 0 560 500" role="img" aria-label="Map of 303 Marvel character descriptions"></svg>
     <div class="tooltip wide" id="tip"></div>
-    <div class="atlas-note">scroll to zoom · drag to pan · click a point</div>
+    <div class="atlas-note">scroll to zoom · drag to pan · click a point · labelled dots are the most-linked characters</div>
   </div>
+
   <div class="atlas-side">
     <div class="detail-card" id="detail">
-      <div class="mini-k">selected document</div>
-      <div class="detail-name" id="detail-name">Choose a point</div>
-      <p class="detail-desc" id="detail-desc">The map is a projection. Click any character to compare neighbors in the original high-dimensional preview space with neighbors in the two-dimensional drawing.</p>
-      <div class="detail-meta" id="detail-meta"></div>
-      <div class="mini-k">nearest in original preview space</div>
-      <ul class="neighbor-list" id="high-neighbors"></ul>
-      <div class="mini-k" style="margin-top:9px">nearest in this 2D map</div>
-      <ul class="neighbor-list" id="map-neighbors"></ul>
-    </div>
-  </div>
-</div>
+      <div class="detail-header">
+        <div class="mini-k">selected document</div>
+        <div class="detail-name" id="detail-name">Choose a point</div>
+        <p class="detail-desc" id="detail-desc">Click any character to compare neighbours in the original high-dimensional preview space with neighbours in the two-dimensional drawing.</p>
+      </div>
 
-<div class="compare-strip">
-  <h2>Two partitions of the same 303 nodes</h2>
-  <div class="note">Rows are description clusters; columns are the seven largest network communities. A dark cell means many characters land in both groups.</div>
-  <div class="heat-wrap" style="margin-top:8px">
-    <div class="heat-terms" id="cluster-terms"></div>
-    <div id="heatmap"></div>
+      <div class="detail-columns">
+        <div class="detail-summary">
+          <div class="detail-meta" id="detail-meta"></div>
+          <div class="cluster-summary">
+            <div class="mini-k">description cluster</div>
+            <div class="cluster-name" id="detail-cluster-name">text cluster</div>
+            <div class="cluster-words" id="detail-cluster-terms"></div>
+          </div>
+        </div>
+        <div>
+          <div class="mini-k">nearest in original preview space</div>
+          <ul class="neighbour-list" id="high-neighbours"></ul>
+        </div>
+        <div>
+          <div class="mini-k">nearest in this 2D map</div>
+          <ul class="neighbour-list" id="map-neighbours"></ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

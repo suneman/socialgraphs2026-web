@@ -123,6 +123,19 @@ const MV = (() => {
     ]).then(([et, nt]) => buildWeighted(et, nt));
   }
 
+  /* Philosophers edition (week 4 v2, added 2026-09-15): the pre-1900 philosophers
+     network (docs/data/week4_philosophers_*.tsv; 1,444 nodes, 11,135 weighted
+     directed edges). Same file shape as the weighted Marvel edition, so it is
+     buildWeighted() on different files: gcc.undirected (1,374 nodes, 9,139 links),
+     gcc.weighted and gcc.strength. Node indexing follows the node file's row order
+     (sorted by node_id), restricted to the giant component. */
+  function loadPhilosophers() {
+    return Promise.all([
+      fetch("../data/week4_philosophers_edges.tsv").then((r) => r.text()),
+      fetch("../data/week4_philosophers_nodes.tsv").then((r) => r.text()),
+    ]).then(([et, nt]) => buildWeighted(et, nt));
+  }
+
   // Browser entry point: fetch the frozen week-1 snapshot
   function load() {
     return Promise.all([
@@ -137,6 +150,6 @@ const MV = (() => {
     return () => ((s = (1664525 * s + 1013904223) >>> 0) / 4294967296);
   }
 
-  return { parseEdges, parseNodes, indexEdges, giantComponent, build, buildWeighted, toGraph, load, loadWeighted, lcg };
+  return { parseEdges, parseNodes, indexEdges, giantComponent, build, buildWeighted, toGraph, load, loadWeighted, loadPhilosophers, lcg };
 })();
 if (typeof module !== "undefined") module.exports = MV;

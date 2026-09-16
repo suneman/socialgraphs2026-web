@@ -427,14 +427,14 @@
 
   <div class="on-the-test">
     <p class="eyebrow">On Test 1</p>
-    <p>From this week, you should be able to do the following <strong>on paper, closed book</strong>:</p>
+    <p>From this week, you should be able to do the following <strong>on paper, closed book</strong>. Any formula you need is printed on the test paper — you are never asked to write one from memory:</p>
     <ul>
-    <li>define walk, path, shortest path, and distance; run BFS on a small drawn network and write the nodes ring by ring; read off eccentricities, the diameter, the radius, and the center;</li>
+    <li>define walk, path, shortest path, and distance; run BFS on a small drawn network and write the nodes ring by ring; read off the distance from a node to the one farthest from it (its <em>eccentricity</em>), the diameter, the radius, and the center;</li>
     <li>handle direction: recompute distances when some links become arrows, identify unreachable pairs, and say what weakly and strongly connected mean;</li>
-    <li>compute closeness and harmonic centrality for a node from its distance list, and say why harmonic is preferred on directed or disconnected networks;</li>
+    <li>compute closeness centrality for a node from its distance list, and say what goes wrong with it when part of the network is unreachable — and what harmonic centrality does about it;</li>
     <li>compute betweenness for a node in a small network by counting the shortest paths that pass through it (including cases with two shortest paths between a pair); explain why betweenness can be high at low degree and low at high degree;</li>
-    <li>state the eigenvector-centrality equation and explain the iteration that solves it;</li>
-    <li>write the PageRank equation, apply one iteration by hand on a four-node directed network, explain what a node with no out-links does to the walk and what teleportation fixes, and say what happens as $\alpha \to 1$;</li>
+    <li>explain the idea behind eigenvector centrality — a node is important if its neighbors are — and the iteration that computes it;</li>
+    <li>apply the PageRank equation for one iteration by hand on a four-node directed network, explain what a node with no out-links does to the walk and what teleportation fixes, and say what happens as $\alpha \to 1$;</li>
     <li>match a question to a measure (popularity / reach / control / prestige) and defend the choice; given two rankings, explain a disagreement;</li>
     <li>spot the flaw in a short (possibly AI-written) claim about a node's importance: a misread definition, a measure that does not answer the question asked, or a "finding" that is only what the node's degree predicts under the degree-preserving null;</li>
     <li>read the sign of degree assortativity off a small drawn network or a $k_{nn}(k)$ plot, say what assortative and disassortative mean, and explain why a heavy-tailed network is disassortative under the degree-preserving null even with no mixing at all;</li>

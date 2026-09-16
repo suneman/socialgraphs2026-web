@@ -8,6 +8,7 @@ listings) — file table, loading snippet, provenance. Keep the two in sync.
 |---|---|---|
 | `week1_edges.tsv` + `week1_nodes.tsv` | week 1 ✅ | unweighted directed edge list + full node roster (303 nodes, 1,784 edges; snapshot 2026-08-26) |
 | `week4_edges_weighted.tsv` | week 4 ✅ | the week-1 edges + weight = repeat count of the link (snapshot 2026-09-06, same crawl; 1,288 of 1,784 have weight 1, max 11; summed both ways max 16) |
+| `week4_philosophers_edges.tsv` + `week4_philosophers_nodes.tsv` | week 4 ✅ | **week 4's own network** (Sune, 2026-09-15: Marvel's communities are too weak to see): everyone on Wikipedia's seven by-century lists of philosophers born before 1900; 1,444 nodes, 11,135 weighted directed edges (weight = repeat count; 8,186 weight 1, max 18; summed both ways max 24); undirected GCC 1,374 / 9,139. Node file adds `era` (the century list) and `subfields` (other lists the philosopher is on) — list membership, not statistics. Snapshot 2026-09-15, crawl `philosophers` (14 lists) in wiki-crawl |
 | (bipartite edition) | dropped from week 4 (Sune, 2026-09-06) — possible extra lecture / project-period option | pages × people; not in the crawl pipeline yet |
 | (raw text) | week 5 | **NOT in git** — hosted on DTU storage, only the link goes on `index.html` |
 

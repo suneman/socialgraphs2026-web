@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Explorable · The backbone of the weighted Marvel network</title>
+<title>Explorable · The backbone of the weighted philosophers network</title>
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="explore.css">
 <style>
@@ -25,7 +25,7 @@
     <span class="val" id="alpha-val">0.20</span>
   </label>
   <label id="w-ctl">w ≥
-    <input type="range" id="wmin" min="1" max="8" value="3" style="width: 90px">
+    <input type="range" id="wmin" min="1" max="10" value="3" style="width: 100px">
     <span class="val" id="w-val">3</span>
   </label>
   <label>Dropped links
@@ -44,9 +44,9 @@
   <div class="panel">
     <h2>How much is left, across the whole range</h2>
     <div class="legend" id="chart-legend" style="flex-wrap: wrap; gap: 4px 12px">
-      <span class="key"><span class="swatch" style="background: var(--series-1)"></span>links kept (of 1,421)</span>
-      <span class="key"><span class="swatch" style="background: var(--series-2)"></span>nodes with a link (of 277)</span>
-      <span class="key"><span class="swatch dashed"></span>giant component (of 277)</span>
+      <span class="key"><span class="swatch" style="background: var(--series-1)"></span>links kept (of 9,139)</span>
+      <span class="key"><span class="swatch" style="background: var(--series-2)"></span>nodes with a link (of 1,374)</span>
+      <span class="key"><span class="swatch dashed"></span>giant component (of 1,374)</span>
     </div>
     <svg class="chart" id="chart" style="height: 360px"></svg>
   </div>
@@ -58,7 +58,7 @@
   <div class="tile"><div class="label">Giant component</div><div class="value" id="r-giant">–</div></div>
   <div class="tile"><div class="label">Strongest tie dropped</div><div class="value" id="r-dropped">–</div></div>
   <div class="tile"><div class="label">Weakest tie kept</div><div class="value" id="r-kept">–</div></div>
-  <div class="tile"><div class="label">Hover a character</div><div class="value" id="r-hover">–</div></div>
+  <div class="tile"><div class="label">Hover a philosopher</div><div class="value" id="r-hover">–</div></div>
 </div>
 
 <script src="../vendor/d3.v7.min.js"></script>

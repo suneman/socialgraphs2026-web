@@ -1,13 +1,18 @@
-/* Seeing a weighted network honestly. The weighted Marvel giant component
-   (277 characters, 1,421 links; a tie's weight = how many times the two
-   articles link to each other, 1…16) thinned two ways: a naive global
+/* Seeing a weighted network honestly. The weighted philosophers giant component
+   (week 4 v2, 2026-09-15; it was weighted Marvel until then): 1,374 philosophers
+   born before 1900, 9,139 links, a tie's weight = how many times the two articles
+   link to each other, 1…24. Thinned two ways: a naive global
    threshold (keep every link with w ≥ some value) and the disparity filter
    (Serrano, Boguñá & Vespignani 2009: keep a tie if it is statistically
    significant for AT LEAST ONE of its endpoints, so a weak node's strongest
    tie survives while a hub's routine ties go). Nodes are sized by strength and
    colored by the unweighted Louvain community from community.js — the same
-   partition week 1's layouts explorable paints. Positions are computed once
-   and never move; the sliders change only what is drawn. */
+   partition the louvain-steps explorable ends on (8 communities; the eighth
+   has no color of its own but keeps a named legend entry). Positions come from
+   the precomputed data/philosophers-layout.json shared with louvain-steps and
+   never move; the sliders change only what is drawn. Must reproduce the
+   ground-truth table (tools/groundtruth/week4_philosophers.py) at every α and
+   threshold. */
 
 "use strict";
 
@@ -76,7 +81,8 @@ if (typeof document !== "undefined") (function () {
   const ctx = canvas.getContext("2d");
   const chartNode = $("chart");
   const N_CATS = 7;
-  const N_LABELS = 6;
+  const N_LABELS = 7;
+  const NAMED_MIN = 40;         // gray communities this large still get a named legend entry
   const R = 1;
 
   let nodes, W, U, n, strength, degs, comm, nComm, adjIdx, pos = [];
@@ -89,39 +95,12 @@ if (typeof document !== "undefined") (function () {
   let labelNodes = [];
   let CURVE_A = [], CURVE_W = [];
   const ALPHAS = Array.from({ length: 101 }, (_, v) => BB.alphaFromSlider(v));
-  const WS = [1, 2, 3, 4, 5, 6, 7, 8];
+  const WS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const catColor = (c) => (c < N_CATS ? VK.cssVar(`--cat-${c + 1}`) : VK.cssVar("--text-muted"));
   const alpha = () => BB.alphaFromSlider(sliderA);
   const fmtA = (a) => (a >= 0.1 ? a.toFixed(2) : String(+a.toPrecision(2)));
   const pct = (v, of) => (100 * v) / of;
-
-  /* --- layout (copied from layouts.js: same forces, same normalization) --- */
-  function normalize(pts) {
-    const rs = pts.map(([x, y]) => Math.hypot(x, y)).sort((a, b) => a - b);
-    const ref = rs[Math.floor(rs.length * 0.96)] || 1e-9;
-    const s = (0.92 * R) / ref;
-    return pts.map(([x, y]) => {
-      let px = x * s, py = y * s;
-      const r = Math.hypot(px, py);
-      if (r > R) { px *= R / r; py *= R / r; }
-      return [px, py];
-    });
-  }
-
-  function forceLayout() {
-    const ns = nodes.map((_, i) => ({ index: i }));
-    const ls = U.map(([a, b]) => ({ source: a, target: b }));
-    const sim = d3.forceSimulation(ns)
-      .force("link", d3.forceLink(ls).id((d) => d.index).distance(30).strength(0.18))
-      .force("charge", d3.forceManyBody().strength(-58))
-      .force("center", d3.forceCenter(0, 0))
-      .force("x", d3.forceX().strength(0.045))
-      .force("y", d3.forceY().strength(0.045))
-      .stop();
-    sim.tick(380);
-    return normalize(ns.map((d) => [d.x, d.y]));
-  }
 
   /* --- the filter state --- */
   function recompute() {
@@ -146,7 +125,7 @@ if (typeof document !== "undefined") (function () {
   }
 
   function radius(i, maxS) {
-    return 1.4 + 3.8 * Math.sqrt(strength[i] / maxS);
+    return 1.2 + 4.3 * Math.sqrt(strength[i] / maxS);
   }
 
   function drawNet() {
@@ -166,13 +145,13 @@ if (typeof document !== "undefined") (function () {
     ctx.translate(Wd / 2, H / 2);
     const P = pos.map(([x, y]) => [x * s, y * s]);
     const seg = (a, b) => { ctx.moveTo(P[a][0], P[a][1]); ctx.lineTo(P[b][0], P[b][1]); };
-    const lw = (w) => Math.min(2.6, 0.6 + 0.12 * w);
+    const lw = (w) => Math.min(2.6, 0.5 + 0.1 * w);
 
     // dropped links, faint (or not at all)
     if (dropped === "faint") {
       ctx.strokeStyle = muted;
-      ctx.globalAlpha = 0.06;
-      ctx.lineWidth = 0.8;
+      ctx.globalAlpha = 0.035;
+      ctx.lineWidth = 0.6;
       ctx.beginPath();
       W.forEach(([a, b], i) => { if (!keep[i]) seg(a, b); });
       ctx.stroke();
@@ -188,10 +167,10 @@ if (typeof document !== "undefined") (function () {
         buckets.get(comm[a]).push([a, b, w]);
       } else cross.push([a, b, w]);
     });
-    ctx.globalAlpha = 0.35;
+    ctx.globalAlpha = 0.25;
     ctx.strokeStyle = muted;
     for (const [a, b, w] of cross) { ctx.lineWidth = lw(w); ctx.beginPath(); seg(a, b); ctx.stroke(); }
-    ctx.globalAlpha = 0.55;
+    ctx.globalAlpha = 0.45;
     for (const [c, es] of buckets) {
       ctx.strokeStyle = catColor(c);
       for (const [a, b, w] of es) { ctx.lineWidth = lw(w); ctx.beginPath(); seg(a, b); ctx.stroke(); }
@@ -200,7 +179,7 @@ if (typeof document !== "undefined") (function () {
 
     // nodes: sized by strength, colored by community, faded when nothing kept
     P.forEach(([x, y], i) => {
-      ctx.globalAlpha = keptCount[i] ? 1 : 0.25;
+      ctx.globalAlpha = keptCount[i] ? 1 : 0.18;
       ctx.beginPath();
       ctx.arc(x, y, radius(i, maxS), 0, 2 * Math.PI);
       ctx.fillStyle = catColor(comm[i]);
@@ -238,27 +217,30 @@ if (typeof document !== "undefined") (function () {
       labels.push(i);
     }
     if (hovered !== null && !labels.includes(hovered)) labels.push(hovered);
-    const boxes = labels.map((i) => {
+    // place each label right, left, above or below its node — whichever is free
+    // of the labels already placed — else slide it down until it is (the
+    // louvain-steps recipe; coordinates here are centered on the canvas)
+    const placed = [];
+    const x0 = -Wd / 2, x1 = Wd / 2, y0 = -H / 2, y1 = H / 2;
+    for (const i of labels) {
       const text = names[i];
       const tw = ctx.measureText(text).width;
-      const r = radius(i, maxS);
-      let lx = P[i][0] + r + 5;
-      if (lx + tw + 6 > Wd / 2) lx = P[i][0] - r - 5 - tw;   // flip to the left near the right edge
-      return { i, text, tw, x: lx, y: P[i][1] - 8 };
-    }).sort((a, b) => a.y - b.y);
-    for (let j = 1; j < boxes.length; j++) {
-      const a = boxes[j - 1], b = boxes[j];
-      const overlapX = a.x < b.x + b.tw + 6 && b.x < a.x + a.tw + 6;
-      if (overlapX && b.y - a.y < 15) b.y = a.y + 15;
-    }
-    for (const b of boxes) {
-      const y = Math.max(-H / 2 + 2, Math.min(H / 2 - 16, b.y));
+      const r = radius(i, maxS) + 5, [hx, hy] = P[i];
+      const cands = [[hx + r, hy], [hx - r - tw, hy], [hx - tw / 2, hy - r - 7], [hx - tw / 2, hy + r + 7]];
+      const free = (x, y) => x >= x0 + 3 && x + tw + 3 <= x1 && y >= y0 + 9 && y <= y1 - 9 &&
+        placed.every(([px, py, pw]) => Math.abs(y - py) >= 16 || x >= px + pw + 7 || x + tw + 7 <= px);
+      let lx = cands[0][0], ly = cands[0][1], ok = false;
+      for (const [x, y] of cands) if (free(x, y)) { lx = x; ly = y; ok = true; break; }
+      if (!ok) { lx = Math.min(Math.max(x0 + 3, hx + r), x1 - tw - 3); let guard = 0; while (!free(lx, ly) && guard++ < 30) ly += 16; }
+      ly = Math.max(y0 + 9, Math.min(y1 - 9, ly));
       ctx.fillStyle = surface;
       ctx.globalAlpha = 0.85;
-      ctx.fillRect(b.x - 3, y - 1, b.tw + 6, 16);
+      ctx.fillRect(lx - 3, ly - 8, tw + 6, 16);
       ctx.globalAlpha = 1;
-      ctx.fillStyle = b.i === hovered ? accent : ink;
-      ctx.fillText(b.text, b.x, y + 11);
+      ctx.fillStyle = i === hovered ? accent : ink;
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, lx, ly);
+      placed.push([lx, ly, tw]);
     }
     ctx.restore();
   }
@@ -267,13 +249,15 @@ if (typeof document !== "undefined") (function () {
     const counts = new Map();
     for (const c of comm) counts.set(c, (counts.get(c) || 0) + 1);
     const items = [];
-    for (let c = 0; c < Math.min(nComm, N_CATS); c++) {
+    let rest = 0;
+    for (let c = 0; c < nComm; c++) {
+      if (c >= N_CATS && counts.get(c) < NAMED_MIN) { rest += counts.get(c); continue; }
       let top = -1;
       for (let i = 0; i < n; i++) if (comm[i] === c && (top === -1 || degs[i] > degs[top])) top = i;
-      items.push(`<span class="key"><span class="swatch dot" style="background: var(--cat-${c + 1})"></span>${names[top]} &amp; co. (${counts.get(c)})</span>`);
+      const sw = c < N_CATS ? `background: var(--cat-${c + 1})` : "background: var(--text-muted)";
+      items.push(`<span class="key"><span class="swatch dot" style="${sw}"></span>${names[top]} &amp; co. (${counts.get(c)})</span>`);
     }
-    if (nComm > N_CATS) {
-      const rest = comm.filter((c) => c >= N_CATS).length;
+    if (rest) {
       items.push(`<span class="key"><span class="swatch dot" style="background: var(--text-muted)"></span>smaller communities (${rest})</span>`);
     }
     $("legend").innerHTML = items.join("");
@@ -289,7 +273,7 @@ if (typeof document !== "undefined") (function () {
     const curve = isA ? CURVE_A : CURVE_W;
     const x = isA
       ? d3.scaleLog().domain([0.01, 0.5]).range([0, c.w])
-      : d3.scaleLinear().domain([1, 8]).range([0, c.w]);
+      : d3.scaleLinear().domain([1, 10]).range([0, c.w]);
     const y = d3.scaleLinear().domain([0, 100]).range([c.h, 0]);
     VK.axes(c, x, y, {
       xTicks: isA ? [0.01, 0.02, 0.05, 0.1, 0.2, 0.5] : WS,
@@ -362,8 +346,8 @@ if (typeof document !== "undefined") (function () {
   function updateReadout() {
     const sm = currentSummary();
     $("r-links").textContent = `${sm.links.toLocaleString("en-US")} of ${W.length.toLocaleString("en-US")} · ${Math.round(pct(sm.links, W.length))}%`;
-    $("r-nodes").textContent = `${sm.nodesWithLink} of ${n}`;
-    $("r-giant").textContent = `${sm.giant}`;
+    $("r-nodes").textContent = `${sm.nodesWithLink.toLocaleString("en-US")} of ${n.toLocaleString("en-US")}`;
+    $("r-giant").textContent = `${sm.giant.toLocaleString("en-US")}`;
     let strongestDropped = null, weakestKept = null;
     W.forEach((e, i) => {
       const load = strength[e[0]] + strength[e[1]];
@@ -435,7 +419,10 @@ if (typeof document !== "undefined") (function () {
   $("wmin").addEventListener("input", () => { wmin = +$("wmin").value; if (mode !== "threshold") mode = "threshold"; render(); });
 
   /* --- boot --- */
-  MV.loadWeighted().then((d) => {
+  Promise.all([
+    MV.loadPhilosophers(),
+    fetch("data/philosophers-layout.json").then((r) => r.json()),
+  ]).then(([d, lay]) => {
     nodes = d.gcc.nodes;
     n = nodes.length;
     W = d.gcc.weighted;
@@ -446,7 +433,7 @@ if (typeof document !== "undefined") (function () {
     W.forEach(([a, b], i) => { degs[a]++; degs[b]++; adjIdx[a].push([b, i]); adjIdx[b].push([a, i]); });
 
     // display names: drop a trailing Wikipedia disambiguator unless that
-    // would make two characters look the same
+    // would make two philosophers look the same
     const bare = nodes.map((nd) => nd.name.replace(/\s*\([^)]*\)\s*$/, ""));
     const seen = new Map();
     for (const b of bare) seen.set(b, (seen.get(b) || 0) + 1);
@@ -462,7 +449,7 @@ if (typeof document !== "undefined") (function () {
     // ?mode=threshold&w=3&alpha=0.2 for screenshots and deep links
     const qs = new URLSearchParams(location.search);
     if (qs.get("mode") === "threshold") mode = "threshold";
-    if (qs.get("w")) wmin = Math.max(1, Math.min(8, +qs.get("w") || 3));
+    if (qs.get("w")) wmin = Math.max(1, Math.min(10, +qs.get("w") || 3));
     if (qs.get("alpha")) {
       const target = +qs.get("alpha");
       let bi = 0;
@@ -473,7 +460,8 @@ if (typeof document !== "undefined") (function () {
 
     drawLegend();
     fitCanvas();
-    pos = forceLayout();
+    const at = new Map(lay.ids.map((id, i) => [id, lay.pos[i]]));
+    pos = nodes.map((nd) => at.get(nd.id) || [0, 0]);
     render();
   }).catch(() => {
     canvas.outerHTML = '<p style="color: var(--text-muted)">Could not load the shared dataset — is the site running from its server?</p>';
