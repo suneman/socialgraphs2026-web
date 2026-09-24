@@ -2,13 +2,13 @@
 
 (function () {
   const $ = (id) => document.getElementById(id);
-  const initial = "Apple's runners weren't running quickly in New York. Apple runners run, too.";
+  const initial = "Marvel's heroes weren't fighting in New York. Fans marvel at heroes who fight, too.";
 
   // A compact teaching approximation of spaCy's English token attributes.
   // The split rules below are chosen to match the examples on the course page.
   const stopwords = new Set([
     "a", "an", "the", "in", "on", "of", "to", "and", "or", "is", "are",
-    "was", "were", "be", "been", "being", "too", "'s", "n't", "'re", "'ve",
+    "was", "were", "be", "been", "being", "too", "at", "who", "'s", "n't", "'re", "'ve",
     "'m", "'ll", "'d"
   ]);
 
@@ -60,12 +60,18 @@
       "was": "be",
       "is": "be",
       "are": "be",
-      "'s": "be",
       "n't": "not",
       "apples": "apple",
-      "apple": "apple"
+      "apple": "apple",
+      "heroes": "hero",
+      "hero": "hero",
+      "fighting": "fight",
+      "fights": "fight",
+      "fans": "fan"
     };
     if (Object.prototype.hasOwnProperty.call(known, l)) return known[l];
+    // spaCy keeps capitalised proper nouns as they are (Marvel, New, York).
+    if (/^\p{Lu}/u.test(text)) return text;
     if (l.endsWith("ies") && l.length > 4) return `${l.slice(0, -3)}y`;
     if (l.endsWith("s") && l.length > 3 && !l.endsWith("ss")) return l.slice(0, -1);
     return l;

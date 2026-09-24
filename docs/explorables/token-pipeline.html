@@ -20,7 +20,7 @@
 <div class="text-panels">
   <div class="panel">
     <h2>Raw text</h2>
-    <textarea class="textbox" id="text">Apple's runners weren't running quickly in New York. Apple runners run, too.</textarea>
+    <textarea class="textbox" id="text">Marvel's heroes weren't fighting in New York. Fans marvel at heroes who fight, too.</textarea>
     <p class="note">Tokenization happens first. The controls above are applied afterwards. The browser version mirrors the spaCy splits used in the Python example below.</p>
   </div>
   <div class="panel">
@@ -38,7 +38,7 @@
   <div class="tile"><div class="label">Sentences</div><div class="value" id="r-sentences">-</div></div>
 </div>
 
-<p class="note token-help">Hover over a token to inspect <code>is_stop</code>, <code>is_punct</code>, <code>lemma_</code>, and its sentence number. <code>New</code> and <code>York</code> remain separate tokens. Recognising the span as a place is named-entity recognition, which comes later.</p>
+<p class="note token-help">Hover over a token to inspect <code>is_stop</code>, <code>is_punct</code>, <code>lemma_</code>, and its sentence number. <code>New</code> and <code>York</code> remain separate tokens. Deciding that together they name one place is a job for a later step, not for the tokenizer.</p>
 
 <script src="token-pipeline.js"></script>
 </body>
