@@ -34,7 +34,31 @@
   const axes = data.presets.map((p, k) => ({ a: p.a, b: p.b, preset: k, z: zScores(axisFrom(p.aWords, p.bWords)) }));
   const custom = { a: "custom", b: "custom", preset: null, z: null };
   axes.push(custom);
-  let ax = 0, ay = 1, selected = null;
+  let ax = 0, ay = 1, selected = null, color = "none";
+
+  // colors: week 7's network communities, or two Wikidata properties (frozen 1 Oct 2026)
+  const cat = k => `var(--cat-${k + 1})`, gray = "var(--text-muted)";
+  const schemes = {
+    community: { key: d => d.community, groups: [0, 1, 2, 3, 4, 5, 6].map(k => [k, cat(k), `community ${k + 1}`]), rest: "small communities" },
+    gender: { key: d => d.gender, groups: [["female", cat(0)], ["male", cat(2)], ["agender", cat(4)]], rest: "not recorded in Wikidata" },
+    team: { key: d => d.team, groups: [["X-Men", cat(0)], ["Avengers", cat(2)], ["other team", cat(4)]], rest: "no team listed" },
+  };
+  function fill(d) {
+    const s = schemes[color];
+    if (!s) return "var(--series-1)";
+    const g = s.groups.find(g => g[0] === s.key(d));
+    return g ? g[1] : gray;
+  }
+  function legend() {
+    const s = schemes[color];
+    if (!s) { $("legend").innerHTML = ""; return; }
+    const n = k => pages.filter(d => s.key(d) === k).length;
+    const known = new Set(s.groups.map(g => g[0]));
+    const rest = pages.filter(d => !known.has(s.key(d))).length;
+    $("legend").innerHTML = s.groups.map(([k, c, label]) =>
+      `<span class="key"><span class="dot" style="background:${c}"></span>${esc(label || k)} (${n(k)})</span>`).join("") +
+      `<span class="key"><span class="dot" style="background:${gray}"></span>${s.rest} (${rest})</span>`;
+  }
 
   function fillSelects() {
     for (const id of ["ax-x", "ax-y"]) {
@@ -70,7 +94,7 @@
     end(`← ${axes[ax].b}`, 42, y(0) - 6, "start"); end(`${axes[ax].a} →`, 540, y(0) - 6, "end");
     end(`↑ ${axes[ay].a}`, x(0) + 6, 18, "start"); end(`↓ ${axes[ay].b}`, x(0) + 6, 494, "start");
     const p = animate ? points.transition().duration(500) : points;
-    p.attr("cx", d => x(zx[d.i])).attr("cy", d => y(zy[d.i]));
+    p.attr("cx", d => x(zx[d.i])).attr("cy", d => y(zy[d.i])).style("fill", fill);
     const lab = pages.filter(d => hubs.has(d.i) || d === selected).map(d => {
       const px = x(zx[d.i]), left = px > 440;
       return { d, left, x: px + (left ? -1 : 1) * (r(d.in) + 3), y: y(zy[d.i]) + 3 };
@@ -127,6 +151,7 @@
     ay = axes.length - 1; fillSelects(); draw(true);
   }
 
+  $("color").addEventListener("change", () => { color = $("color").value; legend(); draw(false); });
   $("ax-x").addEventListener("change", () => { ax = +$("ax-x").value; draw(true); });
   $("ax-y").addEventListener("change", () => { ay = +$("ax-y").value; draw(true); });
   $("cust-go").addEventListener("click", useCustom);
@@ -139,7 +164,13 @@
     if (m) select(m);
   });
 
+  // optional deep link: universe-map.html?x=0&y=3&color=gender
+  const qs = new URLSearchParams(location.search);
+  if (qs.has("x") && axes[+qs.get("x")]?.z) ax = +qs.get("x");
+  if (qs.has("y") && axes[+qs.get("y")]?.z) ay = +qs.get("y");
+  if (schemes[qs.get("color")]) { color = qs.get("color"); $("color").value = color; }
   fillSelects();
+  legend();
   draw(false);
   select(pages.find(d => d.name === "Doctor Strange") || pages[0]);
 })();

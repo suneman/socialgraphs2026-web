@@ -33,6 +33,14 @@
 <div class="controls">
   <label>Horizontal <select id="ax-x"></select></label>
   <label>Vertical <select id="ax-y"></select></label>
+  <label>Color
+    <select id="color">
+      <option value="none">none</option>
+      <option value="community">network community</option>
+      <option value="gender">gender (Wikidata)</option>
+      <option value="team">team (Wikidata)</option>
+    </select>
+  </label>
   <label style="flex:1;min-width:190px">Find
     <input id="search" class="query-box" type="search" placeholder="Doctor Strange, Storm, Blade…">
   </label>
@@ -46,6 +54,8 @@
   <button id="cust-go">use it</button>
   <span class="custom-msg" id="cust-msg"></span>
 </div>
+
+<div id="legend" class="legend-inline"></div>
 
 <div class="atlas-layout">
   <div class="atlas-stage">
