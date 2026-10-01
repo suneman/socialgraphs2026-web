@@ -1,14 +1,14 @@
 "use strict";
 (function(){
 const docs = [
-  { id: "D1", text: "The punk guitar was fast and loud." },
-  { id: "D2", text: "The guitar riffs were loud and fast." },
-  { id: "D3", text: "The orchestra tuned before the concert." }
+  { id: "D1", text: "The mutant superpower was wild and dangerous." },
+  { id: "D2", text: "The superpower felt wild and very dangerous." },
+  { id: "D3", text: "The Avengers assembled before the battle." }
 ];
-const tracked = ["the", "guitar", "punk"];
+const tracked = ["the", "superpower", "mutant"];
 const queries = {
-  stress: { terms: ["the", "guitar"] },
-  focus: { terms: ["punk", "guitar"] }
+  stress: { terms: ["the", "superpower"] },
+  focus: { terms: ["mutant", "superpower"] }
 };
 let stage = "count";
 let queryKey = "stress";

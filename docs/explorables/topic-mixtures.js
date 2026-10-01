@@ -2,15 +2,15 @@
 (function () {
   const $ = (id) => document.getElementById(id);
   const topics = [
-    { name: "Politics", cls: "topic-1", words: [["election",.16],["government",.14],["vote",.12],["minister",.10],["parliament",.09]] },
-    { name: "Music", cls: "topic-2", words: [["album",.16],["band",.14],["song",.12],["guitar",.09],["concert",.08]] },
-    { name: "Sport", cls: "topic-3", words: [["match",.15],["team",.14],["league",.11],["season",.10],["goal",.09]] }
+    { name: "Crime", cls: "topic-1", words: [["crime",.16],["gang",.14],["police",.12],["lawyer",.10],["street",.09]] },
+    { name: "Mutants", cls: "topic-2", words: [["mutant",.16],["school",.14],["gene",.12],["telepath",.09],["sentinel",.08]] },
+    { name: "Space", cls: "topic-3", words: [["planet",.15],["empire",.14],["galaxy",.11],["alien",.10],["ship",.09]] }
   ];
   const docs = [
-    { name:"Election night", text:"The party won seats after a close election and formed a new government.", mix:[.78,.08,.14] },
-    { name:"Festival review", text:"The band closed the festival with songs from its new album.", mix:[.05,.88,.07] },
-    { name:"Club finances", text:"The club board discussed the season budget and a public funding vote.", mix:[.26,.05,.69] },
-    { name:"Benefit concert", text:"Musicians played a charity concert supporting a local election campaign.", mix:[.38,.57,.05] }
+    { name:"Hell's Kitchen", text:"A blind lawyer fought the gangs that ran crime in Hell's Kitchen.", mix:[.78,.08,.14] },
+    { name:"Mutant school", text:"Young mutants trained at the school while Sentinels hunted their kind.", mix:[.05,.88,.07] },
+    { name:"Stranded soldier", text:"A soldier from an alien empire crash-landed on Earth and hid from the police in New York.", mix:[.26,.05,.69] },
+    { name:"Mutant vigilante", text:"A mutant vigilante patrolled the streets, hunting the gang that killed his family.", mix:[.38,.57,.05] }
   ];
   function init() {
     $("doc").innerHTML = docs.map((d,i)=>`<option value="${i}">${d.name}</option>`).join("");

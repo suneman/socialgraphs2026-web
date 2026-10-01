@@ -1,9 +1,9 @@
 "use strict";
 (function(){
 const docs = [
-  { id: "D1", label: "punk guitar", text: "The punk guitar was fast and loud." },
-  { id: "D2", label: "guitar riffs", text: "The guitar riffs were loud and fast." },
-  { id: "D3", label: "orchestra", text: "The orchestra tuned before the concert." }
+  { id: "D1", label: "mutant superpower", text: "The mutant superpower was wild and dangerous." },
+  { id: "D2", label: "superpower felt", text: "The superpower felt wild and very dangerous." },
+  { id: "D3", label: "Avengers", text: "The Avengers assembled before the battle." }
 ];
 const tokenize = s => s.toLowerCase().match(/[a-z]+/g) || [];
 docs.forEach(d => d.tokens = tokenize(d.text));

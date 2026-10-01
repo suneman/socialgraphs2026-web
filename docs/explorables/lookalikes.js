@@ -1,12 +1,13 @@
 "use strict";
 
 // Marvel lookalikes: Bag-of-Words cosine between the 303 full Marvel pages, raw or without stopwords,
-// checked against the week 1 link network. All numbers are precomputed by
+// checked against the week 1 link network. lookalikes-tfidf.html (week 6) adds a TF-IDF button and sets
+// window.LK_DEFAULTS.mode; week 5's page has neither. All numbers are precomputed by
 // tools/groundtruth/week5_lookalikes.py into lookalikes.json; nothing is fitted in the browser.
 (function () {
   const $ = (id) => document.getElementById(id);
   let D = null;
-  let view = "one", mode = "raw", who = 0;
+  let view = "one", mode = (window.LK_DEFAULTS && window.LK_DEFAULTS.mode) || "raw", who = 0;
 
   const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const linkCell = (l) => l ? '<span class="link yes">linked</span>' : '<span class="link no">not linked</span>';
@@ -71,6 +72,7 @@
     $("pick").innerHTML = order.map(([n, i]) => `<option value="${i}">${esc(n)}</option>`).join("");
     who = Math.max(0, D.ids.indexOf("Wolverine_(character)"));
     $("pick").value = who;
+    syncSeg("mode-seg", "mode", mode);
     draw();
   }).catch((e) => { $("list").innerHTML = `<p class="note">Could not load the Marvel data: ${String(e)}</p>`; });
 })();
