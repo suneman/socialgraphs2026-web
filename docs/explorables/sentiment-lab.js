@@ -10,14 +10,14 @@
     terrible:"The ending was terrible but the acting was wonderful.",
     hero:"The hero died, but saved everyone in the city."
   };
-  // Static teaching values in the normal Hugging Face pipeline output format.
-  // Students run the actual model in the notebook and record the exact scores there.
+  // Real outputs of distilbert-base-uncased-finetuned-sst-2-english (transformers 5.19, Oct 2026), rounded to 3 decimals;
+  // see tools/groundtruth/week7_examples.py.
   const contextual={
-    good:{label:"POSITIVE",score:0.999,notes:["good is interpreted in the full sentence","the model was fine-tuned on labelled movie-review sentiment"]},
-    notgood:{label:"NEGATIVE",score:0.998,notes:["not changes the context around good","the sequence representation can use the negation cue"]},
-    traffic:{label:"POSITIVE",score:0.944,notes:["love is a strong positive cue","sarcasm can still fool a contextual model, so inspect disagreements"]},
-    terrible:{label:"POSITIVE",score:0.918,notes:["terrible and wonderful pull in different directions","the final label compresses a mixed sentence into one class"]},
-    hero:{label:"POSITIVE",score:0.873,notes:["died is a strong negative cue, but the but clause reweights it","one label still hides that this is a bittersweet sentence, not a purely happy one"]}
+    good:{label:"POSITIVE",score:1.000,notes:["good is read in the full sentence","the model was fine-tuned on labeled movie-review sentiment"]},
+    notgood:{label:"NEGATIVE",score:1.000,notes:["not changes the context around good","the sequence representation can use the negation cue"]},
+    traffic:{label:"POSITIVE",score:0.998,notes:["love is a strong positive cue","the sarcasm fools the model completely, and the confidence does not drop"]},
+    terrible:{label:"POSITIVE",score:1.000,notes:["terrible and wonderful pull in different directions","one label compresses a mixed sentence into one class, and the confidence hides the mix"]},
+    hero:{label:"POSITIVE",score:0.999,notes:["died is a strong negative cue, but the but clause reweights it","one label still hides that this is a bittersweet sentence, not a purely happy one"]}
   };
   function toks(text){return text.toLowerCase().match(/[a-z']+/g)||[];}
   function chip(w,cls=""){return `<span class="sent-token ${cls}">${w}</span>`;}

@@ -15,8 +15,8 @@
     <button data-projection="svd" class="on">SVD map</button>
     <button data-projection="tsne">t-SNE map</button>
   </span>
-  <label>Colour
-    <select id="topic-colour">
+  <label>Color
+    <select id="topic-color">
       <option value="macro">larger topic cluster</option>
       <option value="none">none</option>
     </select>
@@ -25,7 +25,7 @@
     <input id="topic-search" class="query-box" type="search" placeholder="Spider-Man, Hulk, Wolverine…">
   </label>
 </div>
-<div class="topic-preview-note">Local preview: the site uses the short Week 1 descriptions so it can ship without the raw pages or a model download. Some topics will therefore be rough. In your notebook, run BERTopic on the raw Marvel pages and pretrained embeddings.</div>
+<div class="topic-preview-note">A preview, not the real thing: this map groups the one-line descriptions from week 1 with TF-IDF and k-means so it runs in the browser. The real BERTopic run on the full pages is on the course page and in your notebook, and it finds far fewer topics.</div>
 
 <div class="topic-layout">
   <div class="topic-stage">
@@ -42,8 +42,8 @@
       <div class="topic-terms" id="topic-terms"></div>
       <div class="mini-k" style="margin-top:12px">representative documents</div>
       <ul class="topic-docs" id="topic-docs"></ul>
-      <div class="mini-k" style="margin-top:12px">nearest topics in original preview space</div>
-      <ul class="neighbour-list" id="topic-neighbours"></ul>
+      <div class="mini-k" style="margin-top:12px">nearest topics in the preview space</div>
+      <ul class="neighbor-list" id="topic-neighbors"></ul>
     </div>
   </aside>
 </div>

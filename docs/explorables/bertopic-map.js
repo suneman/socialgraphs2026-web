@@ -9,7 +9,7 @@
   const root = svg.append("g");
   const tip = $("topic-tip");
   let projection = "svd";
-  let colour = "macro";
+  let color = "macro";
   let selected = 0;
 
   const palette = ["var(--cat-1)","var(--cat-2)","var(--cat-3)","var(--cat-4)","var(--cat-5)","var(--cat-6)","var(--cat-7)"];
@@ -32,7 +32,7 @@
     const words=(d.terms||[]).slice(0,2).join(" · ");
     return words.length>22 ? words.slice(0,21)+"…" : words;
   }
-  function fill(d){ return colour === "macro" ? palette[d.macro % palette.length] : "var(--series-1)"; }
+  function fill(d){ return color === "macro" ? palette[d.macro % palette.length] : "var(--series-1)"; }
   function update(animate=true){
     const g=animate?groups.transition().duration(450):groups;
     g.attr("transform",d=>{const [cx,cy]=coord(d);return `translate(${cx},${cy})`;});
@@ -58,7 +58,7 @@
     $("topic-count").textContent=`${d.count} of ${data.meta.nDocuments} documents` + (foundDoc ? ` · ${foundDoc.name} belongs here` : "");
     $("topic-terms").innerHTML=d.terms.map(t=>`<span>${escapeHtml(t)}</span>`).join("");
     $("topic-docs").innerHTML=d.representatives.map(r=>`<li><button data-doc="${r.i}">${escapeHtml(r.name)}</button><p>${escapeHtml(r.description)}</p></li>`).join("");
-    $("topic-neighbours").innerHTML=d.nearestTopics.map(n=>`<li><button data-topic="${n.topic}">Topic ${n.topic}</button><span class="score">${n.sim.toFixed(2)}</span></li>`).join("");
+    $("topic-neighbors").innerHTML=d.nearestTopics.map(n=>`<li><button data-topic="${n.topic}">Topic ${n.topic}</button><span class="score">${n.sim.toFixed(2)}</span></li>`).join("");
     document.querySelectorAll("[data-topic]").forEach(b=>b.addEventListener("click",()=>selectTopic(+b.dataset.topic)));
   }
 
@@ -67,7 +67,7 @@
     document.querySelectorAll("#topic-projection button").forEach(x=>x.classList.toggle("on",x===b));
     update();
   }));
-  $("topic-colour").addEventListener("change",()=>{colour=$("topic-colour").value;update(false);});
+  $("topic-color").addEventListener("change",()=>{color=$("topic-color").value;update(false);});
   $("topic-search").addEventListener("input",()=>{
     const q=$("topic-search").value.trim().toLowerCase();
     if(!q) return;
