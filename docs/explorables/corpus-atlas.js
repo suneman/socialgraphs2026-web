@@ -42,6 +42,7 @@
   function fill(d) {
     if (color === "community") return d.community < 7 ? palette[d.community] : "var(--text-muted)";
     if (color === "cluster") return palette[d.textCluster % 7];
+    if (color === "bertopic") return d.bertopic < 0 ? "var(--text-muted)" : palette[d.bertopic % 7];
     return "var(--series-1)";
   }
   function labelSpot(d) {
@@ -76,6 +77,11 @@
   function updateLegend() {
     const sizeNote = '<span class="key size-note">dot size = Wikipedia in-links (how connected the character is)</span>';
     if (color === "none") { $("legend").innerHTML = '<span class="key">Every point is one Marvel character page</span>' + sizeNote; return; }
+    if (color === "bertopic") {
+      const T = data.meta.bertopicTerms, keys = Object.keys(T).sort((a,b)=>+a-+b);
+      $("legend").innerHTML = keys.map(k=>`<span class="key"><span class="dot" style="background:${palette[+k % 7]}"></span>topic ${k} · ${escapeHtml(T[k].slice(0,2).join(", "))}</span>`).join("") + '<span class="key"><span class="dot" style="background:var(--text-muted)"></span>topic −1 (outlier)</span>' + sizeNote;
+      return;
+    }
     const label = color === "community" ? "network community" : "text cluster";
     $("legend").innerHTML = palette.map((c,i)=>`<span class="key"><span class="dot" style="background:${c}"></span>${label} ${i+1}</span>`).join("") + (color === "community" ? '<span class="key"><span class="dot" style="background:var(--text-muted)"></span>small communities</span>' : '') + sizeNote;
   }
@@ -114,6 +120,9 @@
     const terms=(data.meta.clusterTerms[String(d.textCluster)]||[]).slice(0,4);
     $("detail-cluster-name").textContent=`text ${d.textCluster+1}`;
     $("detail-cluster-terms").textContent=terms.join(", ");
+    const bt=(data.meta.bertopicTerms[String(d.bertopic)]||[]).slice(0,4);
+    $("detail-bertopic-name").textContent=d.bertopic<0 ? "outlier (topic −1)" : `topic ${d.bertopic}`;
+    $("detail-bertopic-terms").textContent=d.bertopic<0 ? "not dense enough for HDBSCAN" : bt.join(", ");
     $("high-neighbors").innerHTML=d.nearest.slice(0,5).map(n=>linkButton(nodes[n.i], n.sim.toFixed(2))).join("");
     const mapNeighs = mapNeighbors(d);
     $("map-neighbors").innerHTML=mapNeighs.slice(0,5).map(n=>linkButton(n.node, "2D")).join("");

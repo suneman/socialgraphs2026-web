@@ -7,29 +7,46 @@
 <link rel="stylesheet" href="../css/tokens.css">
 <link rel="stylesheet" href="explore.css">
 <link rel="stylesheet" href="week7-explore.css">
+<style>
+  .search-pane h2 { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .search-pane h2 .seg { text-transform:none; letter-spacing:0; font-weight:500; }
+  .search-pane h2 .seg button { padding:1px 8px; font-size:11px; }
+  .search-result .matched { font-size:10.5px; color:var(--text-muted); margin-top:2px; }
+  .search-result .matched b { color:var(--text-secondary); font-weight:500; }
+  .search-result .desc.passage { font-style:normal; }
+  .mode-tag { font-size:10.5px; color:var(--text-muted); text-transform:none; letter-spacing:0; font-weight:400; }
+  .mode-tag.live { color:var(--accent); }
+  .search-result.target .name { color:var(--accent); }
+  .search-result.target .name::after { content:" ← the answer"; font-weight:400; font-size:10.5px; color:var(--text-muted); }
+  .scoreboard { color:var(--text-muted); font-size:11px; margin:-4px 0 10px; line-height:1.45; }
+  .scoreboard b { color:var(--text-primary); font-weight:600; }
+</style>
 </head>
 <body>
 <div class="controls">
-  <label style="flex:1;min-width:260px">Query
-    <input id="query" class="query-box" value="mutant superhero">
+  <label>Preset query
+    <select id="preset"></select>
+  </label>
+  <label style="flex:1;min-width:220px">or your own words
+    <input id="query" class="query-box" value="" placeholder="sparse only">
   </label>
   <button class="primary" id="run">search</button>
-  <span class="seg" id="presets">
-    <button data-q="spider woman">spider woman</button>
-    <button data-q="captain america">captain america</button>
-    <button data-q="venom">venom</button>
-  </span>
 </div>
+
+<div class="scoreboard" id="scoreboard"></div>
 
 <div class="search-layout">
   <section class="search-pane">
-    <h2>Sparse retrieval</h2>
-    <div class="sub">TF-IDF query vector · exact vocabulary overlap matters</div>
+    <h2>Sparse retrieval <span class="mode-tag" id="sparse-tag"></span></h2>
+    <div class="sub" id="sparse-sub"></div>
     <div class="result-list" id="sparse-results"></div>
   </section>
   <section class="search-pane">
-    <h2>Dense preview</h2>
-    <div class="sub">40D SVD of TF-IDF · a local stand-in for the dense encoder you will use in the notebook</div>
+    <h2>Dense retrieval
+      <span class="seg" id="dense-mode"><button data-v="passage" class="on">best passage</button><button data-v="mean">page mean</button></span>
+      <span class="mode-tag" id="dense-tag"></span>
+    </h2>
+    <div class="sub" id="dense-sub"></div>
     <div class="result-list" id="dense-results"></div>
   </section>
 </div>
@@ -37,7 +54,7 @@
 <div class="pipeline-mini">
   <span class="step">query</span><span class="arrow">→</span><span class="step">vector</span><span class="arrow">→</span><span class="step">similarity</span><span class="arrow">→</span><span class="step">ranked documents</span>
 </div>
-<div class="note" style="margin-top:8px">The demo runs on the 303 one-line descriptions from week 1, and its dense column is a local stand-in, so the page works without a model download. In the exercise, use the full pages from the data page and a pretrained text encoder.</div>
+<div class="note" style="margin-top:8px" id="foot"></div>
 <script src="semantic-search.js"></script>
 </body>
 </html>
